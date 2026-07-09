@@ -1,0 +1,14 @@
+F:\Martin\Programacion\C#\Engine2Dpoint&click\bin\Debug\net8.0\Engine2Dpoint&click.exe
+F:\Martin\Programacion\C#\Engine2Dpoint&click\bin\Debug\net8.0\Engine2Dpoint&click.deps.json
+F:\Martin\Programacion\C#\Engine2Dpoint&click\bin\Debug\net8.0\Engine2Dpoint&click.runtimeconfig.json
+F:\Martin\Programacion\C#\Engine2Dpoint&click\bin\Debug\net8.0\Engine2Dpoint&click.dll
+F:\Martin\Programacion\C#\Engine2Dpoint&click\bin\Debug\net8.0\Engine2Dpoint&click.pdb
+F:\Martin\Programacion\C#\Engine2Dpoint&click\obj\Debug\net8.0\Engine2Dpoint&click.GeneratedMSBuildEditorConfig.editorconfig
+F:\Martin\Programacion\C#\Engine2Dpoint&click\obj\Debug\net8.0\Engine2Dpoint&click.AssemblyInfoInputs.cache
+F:\Martin\Programacion\C#\Engine2Dpoint&click\obj\Debug\net8.0\Engine2Dpoint&click.AssemblyInfo.cs
+F:\Martin\Programacion\C#\Engine2Dpoint&click\obj\Debug\net8.0\Engine2Dpoint&click.csproj.CoreCompileInputs.cache
+F:\Martin\Programacion\C#\Engine2Dpoint&click\obj\Debug\net8.0\Engine2Dpoint&click.dll
+F:\Martin\Programacion\C#\Engine2Dpoint&click\obj\Debug\net8.0\refint\Engine2Dpoint&click.dll
+F:\Martin\Programacion\C#\Engine2Dpoint&click\obj\Debug\net8.0\Engine2Dpoint&click.pdb
+F:\Martin\Programacion\C#\Engine2Dpoint&click\obj\Debug\net8.0\Engine2Dpoint&click.genruntimeconfig.cache
+F:\Martin\Programacion\C#\Engine2Dpoint&click\obj\Debug\net8.0\ref\Engine2Dpoint&click.dll
