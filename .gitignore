@@ -1,0 +1,14 @@
+# Compilación
+bin/
+obj/
+
+# Visual Studio Code
+.vscode/
+
+# Archivos temporales
+*.user
+*.suo
+
+# Sistema
+.DS_Store
+Thumbs.db
