@@ -1,0 +1,116 @@
+{
+  "version": 3,
+  "targets": {
+    "net8.0": {
+      "Engine.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/Engine.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Engine.Core.dll": {}
+        }
+      },
+      "Engine.Entities/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Engine.Core": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Engine.Entities.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Engine.Entities.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Engine.Core/1.0.0": {
+      "type": "project",
+      "path": "../Engine.Core/Engine.Core.csproj",
+      "msbuildProject": "../Engine.Core/Engine.Core.csproj"
+    },
+    "Engine.Entities/1.0.0": {
+      "type": "project",
+      "path": "../Engine.Entities/Engine.Entities.csproj",
+      "msbuildProject": "../Engine.Entities/Engine.Entities.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net8.0": [
+      "Engine.Core >= 1.0.0",
+      "Engine.Entities >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "F:\\Users\\MadManes\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "F:\\Martin\\Programacion\\C#\\Engine2Dpoint&click\\src\\Engine.Scene\\Engine.Scene.csproj",
+      "projectName": "Engine.Scene",
+      "projectPath": "F:\\Martin\\Programacion\\C#\\Engine2Dpoint&click\\src\\Engine.Scene\\Engine.Scene.csproj",
+      "packagesPath": "F:\\Users\\MadManes\\.nuget\\packages\\",
+      "outputPath": "F:\\Martin\\Programacion\\C#\\Engine2Dpoint&click\\src\\Engine.Scene\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "F:\\Users\\MadManes\\AppData\\Roaming\\NuGet\\NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "net8.0"
+      ],
+      "sources": {
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "projectReferences": {
+            "F:\\Martin\\Programacion\\C#\\Engine2Dpoint&click\\src\\Engine.Core\\Engine.Core.csproj": {
+              "projectPath": "F:\\Martin\\Programacion\\C#\\Engine2Dpoint&click\\src\\Engine.Core\\Engine.Core.csproj"
+            },
+            "F:\\Martin\\Programacion\\C#\\Engine2Dpoint&click\\src\\Engine.Entities\\Engine.Entities.csproj": {
+              "projectPath": "F:\\Martin\\Programacion\\C#\\Engine2Dpoint&click\\src\\Engine.Entities\\Engine.Entities.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      }
+    },
+    "frameworks": {
+      "net8.0": {
+        "targetAlias": "net8.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "F:\\Program Files\\dotnet\\sdk\\8.0.422/PortableRuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

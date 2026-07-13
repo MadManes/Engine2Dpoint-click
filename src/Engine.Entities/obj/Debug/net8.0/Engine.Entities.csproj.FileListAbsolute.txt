@@ -1,0 +1,16 @@
+F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Entities\bin\Debug\net8.0\Engine.Entities.deps.json
+F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Entities\bin\Debug\net8.0\Engine.Entities.dll
+F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Entities\bin\Debug\net8.0\Engine.Entities.pdb
+F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Entities\bin\Debug\net8.0\Engine.Core.dll
+F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Entities\bin\Debug\net8.0\Engine.Core.pdb
+F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Entities\obj\Debug\net8.0\Engine.Entities.csproj.AssemblyReference.cache
+F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Entities\obj\Debug\net8.0\Engine.Entities.GeneratedMSBuildEditorConfig.editorconfig
+F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Entities\obj\Debug\net8.0\Engine.Entities.AssemblyInfoInputs.cache
+F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Entities\obj\Debug\net8.0\Engine.Entities.AssemblyInfo.cs
+F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Entities\obj\Debug\net8.0\Engine.Entities.csproj.CoreCompileInputs.cache
+F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Entities\obj\Debug\net8.0\Engine.Entities.sourcelink.json
+F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Entities\obj\Debug\net8.0\Engine.E.59F9DC69.Up2Date
+F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Entities\obj\Debug\net8.0\Engine.Entities.dll
+F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Entities\obj\Debug\net8.0\refint\Engine.Entities.dll
+F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Entities\obj\Debug\net8.0\Engine.Entities.pdb
+F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Entities\obj\Debug\net8.0\ref\Engine.Entities.dll
