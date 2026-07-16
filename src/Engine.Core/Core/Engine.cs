@@ -1,12 +1,12 @@
 namespace Engine.Core;
 
-public class Engine
+public class GameEngine
 {
     private readonly IGameLoop _gameLoop;
 
-    private bool _running;
+    private bool _running = true;    
 
-    public Engine(IGameLoop gameLoop)
+    public GameEngine(IGameLoop gameLoop)
     {
         _gameLoop = gameLoop;
     }

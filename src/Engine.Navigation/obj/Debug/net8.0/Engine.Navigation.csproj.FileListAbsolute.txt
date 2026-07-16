@@ -18,3 +18,5 @@ F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Navigation\obj\Debug\ne
 F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Navigation\obj\Debug\net8.0\refint\Engine.Navigation.dll
 F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Navigation\obj\Debug\net8.0\Engine.Navigation.pdb
 F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Navigation\obj\Debug\net8.0\ref\Engine.Navigation.dll
+F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Navigation\bin\Debug\net8.0\Engine.Math.dll
+F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Navigation\bin\Debug\net8.0\Engine.Math.pdb

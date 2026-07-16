@@ -23,3 +23,5 @@ F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Runtime\obj\Debug\net8.
 F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Runtime\obj\Debug\net8.0\Engine.Runtime.pdb
 F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Runtime\obj\Debug\net8.0\Engine.Runtime.genruntimeconfig.cache
 F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Runtime\obj\Debug\net8.0\ref\Engine.Runtime.dll
+F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Runtime\bin\Debug\net8.0\Engine.Math.dll
+F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Runtime\bin\Debug\net8.0\Engine.Math.pdb

@@ -14,3 +14,5 @@ F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Entities\obj\Debug\net8
 F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Entities\obj\Debug\net8.0\refint\Engine.Entities.dll
 F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Entities\obj\Debug\net8.0\Engine.Entities.pdb
 F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Entities\obj\Debug\net8.0\ref\Engine.Entities.dll
+F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Entities\bin\Debug\net8.0\Engine.Math.dll
+F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Entities\bin\Debug\net8.0\Engine.Math.pdb
