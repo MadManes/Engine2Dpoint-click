@@ -331,3 +331,202 @@ Scene
 └── World
       │
       └── WalkableArea
+
+-- HASTA ACA --
+# DEV LOG
+
+## Etapa 1 - Arquitectura base
+
+- Creación de la solución (.sln).
+- Separación del engine en módulos independientes.
+- Configuración de referencias entre proyectos.
+- Limpieza de la estructura generada por las plantillas de .NET.
+
+Dependencias actuales:
+
+Engine.Core
+↓
+
+Engine.Math
+
+↓
+
+Engine.Entities
+
+↓
+
+Engine.Scene
+
+↓
+
+Engine.Navigation
+
+↓
+
+Engine.Runtime
+
+---
+
+## Etapa 2 - Runtime
+
+Se implementó el ciclo principal del engine:
+
+- IGame
+- IGameLoop
+- Engine
+- Primer GameLoop de prueba
+
+Objetivo:
+
+Establecer la estructura principal del motor antes de agregar renderizado y lógica.
+
+---
+
+## Etapa 3 - Sistema matemático (Engine.Math)
+
+Se creó el primer módulo reutilizable del engine.
+
+### Vector2
+
+Implementado:
+
+- Suma
+- Resta
+- Multiplicación por escalar
+- División por escalar
+- Magnitud (Length)
+- Normalización
+- Producto escalar (Dot)
+- Distancia entre vectores (Distance)
+
+Conceptos aprendidos:
+
+- Sobrecarga de operadores.
+- Métodos de instancia.
+- Encapsulación de operaciones matemáticas.
+
+---
+
+### MathHelper
+
+Se creó una clase estática para centralizar utilidades matemáticas del engine.
+
+Actualmente implementa:
+
+- Clamp()
+
+Objetivo:
+
+Evitar depender directamente de utilidades dispersas y mantener una API matemática propia del motor.
+
+---
+
+### LineSegment
+
+Nueva abstracción geométrica.
+
+Representa un segmento entre dos puntos.
+
+Implementado:
+
+- Length()
+- Direction()
+- MidPoint()
+- ClosestPoint()
+
+Conceptos aprendidos:
+
+- Proyección de un punto sobre un segmento.
+- Uso del producto escalar.
+- Clamping del parámetro t.
+- Validación de segmentos degenerados.
+
+---
+
+### Polygon
+
+Representación de polígonos arbitrarios.
+
+Implementado:
+
+- Containment mediante Ray Casting.
+- Construcción automática de bordes (Edges).
+- GetClosestPoint()
+
+Conceptos aprendidos:
+
+- Ray Casting.
+- Recorrido de vértices.
+- Uso del operador módulo (%) para cerrar polígonos.
+- Delegación de responsabilidades hacia LineSegment.
+
+---
+
+## Etapa 4 - Mundo y navegación
+
+Se comenzó la separación entre geometría y navegación.
+
+### IWalkableArea
+
+Define la interfaz para cualquier región caminable.
+
+Implementa:
+
+- Contains()
+- GetClosestPoint()
+- NavigationType
+
+---
+
+### WalkableArea
+
+Representa una región caminable individual.
+
+Delega la geometría al Polygon.
+
+---
+
+### NavigationArea
+
+Nueva clase que representa la navegación completa de una habitación.
+
+Implementa:
+
+- Colección de múltiples WalkableArea.
+- Contains()
+- GetClosestPoint()
+
+Conceptos aprendidos:
+
+- IReadOnlyList
+- foreach
+- Delegación entre capas
+- Principio de Responsabilidad Única (SRP)
+
+---
+
+### Arquitectura alcanzada
+
+World
+
+↓
+
+NavigationArea
+
+↓
+
+WalkableArea
+
+↓
+
+Polygon
+
+↓
+
+LineSegment
+
+↓
+
+Vector2
+
+Cada nivel conoce únicamente la capa inmediatamente inferior.
