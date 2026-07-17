@@ -202,3 +202,132 @@ Engine.Runtime
 - Sistema de entidades iniciado.
 - Primer módulo matemático implementado.
 - Transform preparado para futuras operaciones de navegación.
+
+-------------------------------------------------------------------------------------
+# Etapa 4 - Scene y representación del mundo
+
+## Objetivo
+
+Se comenzó la implementación del modelo del mundo del engine.
+
+Se tomó la decisión arquitectónica de separar el concepto de **Scene** del concepto de **World**.
+
+Una escena representa el estado completo de una habitación del juego, mientras que el mundo contiene la información física necesaria para recorrerla.
+
+Esta separación permitirá soportar distintos tipos de escenarios sin modificar el sistema de navegación.
+
+---
+
+## Engine.Scene
+
+Se implementaron:
+
+- `IScene`
+- `Scene`
+- `SceneManager`
+
+### Responsabilidades
+
+**Scene**
+
+- Mantiene la colección de entidades existentes.
+- Posee un nombre.
+- Contiene un objeto `World`.
+
+**SceneManager**
+
+- Mantiene la escena actualmente activa.
+- Será el responsable futuro de cargar y cambiar escenas.
+
+---
+
+## World
+
+Se creó la clase:
+
+- `World`
+
+Actualmente contiene:
+
+- `WalkableArea`
+
+En el futuro contendrá además:
+
+- mapas de profundidad
+- obstáculos
+- zonas de sonido
+- luces
+- clima
+- scripts
+- datos de navegación
+- cámaras
+
+---
+
+## WalkableArea
+
+Se introdujo una nueva abstracción:
+
+- `IWalkableArea`
+
+Responsabilidad:
+
+Determinar si una posición pertenece o no a una zona caminable.
+
+Todavía no calcula caminos.
+
+Su única responsabilidad es representar las zonas por las cuales una entidad puede desplazarse.
+
+---
+
+## NavigationType
+
+Se creó el enum:
+
+- Grid
+- Polygon
+- Path
+- Hybrid
+
+Este enum permitirá que cada habitación indique qué sistema de navegación utilizará.
+
+La decisión del algoritmo deja de pertenecer al personaje y pasa a pertenecer al mundo.
+
+---
+
+## Decisión arquitectónica importante
+
+El motor no estará diseñado alrededor del personaje.
+
+Estará diseñado alrededor del mundo.
+
+La navegación siempre preguntará primero cómo es la habitación y luego decidirá qué algoritmo utilizar.
+
+Esto permitirá implementar distintos motores de navegación sin modificar el resto del engine.
+
+---
+
+## Estado actual del engine
+
+Engine.Runtime
+│
+├── inicia el motor
+│
+▼
+
+GameEngine
+│
+├── controla el ciclo principal
+│
+▼
+
+SceneManager
+│
+▼
+
+Scene
+│
+├── Entities
+└── World
+      │
+      └── WalkableArea

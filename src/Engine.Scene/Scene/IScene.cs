@@ -1,6 +1,6 @@
 using Engine.Entities;
 
-namespace Engine.Scene;
+namespace Engine.Scene.World;
 
 public interface IScene
 {

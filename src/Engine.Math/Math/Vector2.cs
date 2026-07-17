@@ -76,8 +76,16 @@ public struct Vector2
         );
     }
 
+    public float Dot(Vector2 other)
+    {
+        return X * other.X + Y * other.Y;
+    }
 
-
+    public float Distance(Vector2 other)
+    {
+        return (this - other).Length();
+    }
+    
     public override string ToString()
     {
         return $"({X}, {Y})";

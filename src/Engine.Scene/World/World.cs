@@ -1,4 +1,4 @@
-namespace Engine.Scene;
+namespace Engine.Scene.World;
 
 public class World
 {
