@@ -120,4 +120,85 @@ Crear las clases iniciales comenzando por Engine.Core.
 
 ------------------------------------------
 
+# Etapa 3 - Núcleo inicial del engine
 
+## Engine.Core
+
+Se implementó el ciclo de vida básico del motor mediante:
+
+- `IGameLoop`: interfaz que define el contrato del ciclo principal.
+- `Time`: calcula el tiempo transcurrido entre frames (`deltaTime`).
+- `GameEngine`: controla la ejecución del motor (`Initialize → Update → Render → Shutdown`).
+
+Se utilizó **inyección de dependencias**, permitiendo que el motor reciba cualquier implementación de `IGameLoop` sin conocer el juego concreto.
+
+---
+
+## Engine.Runtime
+
+Se creó el proyecto ejecutable del motor.
+
+Contiene:
+
+- `Program.cs`: punto de entrada de la aplicación.
+- `Game`: implementación temporal de `IGameLoop` utilizada para probar el funcionamiento del motor.
+
+Se verificó correctamente el ciclo de ejecución completo del engine.
+
+---
+
+## Engine.Math
+
+Se creó un módulo independiente para centralizar todas las estructuras matemáticas del motor.
+
+Primera implementación:
+
+- `Vector2`
+
+Se decidió crear un `Vector2` propio para mantener el engine desacoplado de bibliotecas gráficas como Raylib.
+
+`Vector2` fue implementado como `struct`, ya que representa un tipo de valor pequeño e inmutable conceptualmente.
+
+---
+
+## Engine.Entities
+
+Se modificó `Transform`.
+
+Antes:
+
+- X
+- Y
+
+Ahora:
+
+- Position (`Vector2`)
+- Z
+- Scale
+
+La posición del mundo deja de representarse mediante coordenadas independientes y pasa a utilizar un vector bidimensional.
+
+Esta decisión simplificará el desarrollo del sistema de navegación y del renderizado.
+
+---
+
+## Arquitectura actual
+
+Engine.Runtime
+│
+├── Engine.Navigation
+├── Engine.Scene
+├── Engine.Entities
+├── Engine.Math
+└── Engine.Core
+
+---
+
+## Estado del proyecto
+
+- Arquitectura modular creada.
+- Ciclo principal del engine funcionando.
+- Primer ejecutable del motor operativo.
+- Sistema de entidades iniciado.
+- Primer módulo matemático implementado.
+- Transform preparado para futuras operaciones de navegación.
