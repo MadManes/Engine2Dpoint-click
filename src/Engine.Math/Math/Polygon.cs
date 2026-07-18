@@ -70,6 +70,7 @@ public class Polygon
     public void AddVertex(Vector2 vertex)
     {
         _vertices.Add(vertex);
+        BuildEdges();
     }
 
     private void BuildEdges()
