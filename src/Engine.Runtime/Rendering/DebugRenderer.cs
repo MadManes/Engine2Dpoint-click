@@ -1,5 +1,6 @@
 using Engine.Math;
 using Engine.Scene.World;
+using Engine.Runtime.Debug;
 using Raylib_cs;
 
 namespace Engine.Runtime.Rendering;
@@ -11,10 +12,14 @@ public class DebugRenderer : IRenderer
     private const string WindowTitle = "Engine 2D Point & Click - Debug Viewer";
 
     private readonly PrimitiveRenderer _primitiveRenderer;
+    private readonly DebugSettings _settings;
+    private readonly DebugOverlay _overlay;
 
-    public DebugRenderer()
+    public DebugRenderer(DebugSettings settings)
     {
         _primitiveRenderer = new PrimitiveRenderer();
+        _settings = settings;
+        _overlay = new DebugOverlay(settings);
     }
 
     public void Initialize()
@@ -29,17 +34,37 @@ public class DebugRenderer : IRenderer
 
         Raylib.ClearBackground(Color.DarkBlue);
 
-        DrawWorld(context.World);
+        if (_settings.DrawWorld)
+        {
+            DrawWorld(context.World);
+        }
 
-        DrawPlayer(context);
-        
-        DrawMouse(context);
+        if (_settings.DrawPlayer)
+        {
+            DrawPlayer(context);
+        }
 
-        DrawCorrectedPoint(context);
+        if (_settings.DrawMouse)
+        {
+            DrawMouse(context);
+        }
 
-        DrawNavigationCorrection(context);
+        if (_settings.DrawCorrectedPoint)
+        {
+            DrawCorrectedPoint(context);
+        }
 
-        Raylib.DrawFPS(10, 10);
+        if (_settings.DrawNavigationCorrection)
+        {
+            DrawNavigationCorrection(context);
+        }
+
+        if (_settings.DrawFPS)
+        {
+            Raylib.DrawFPS(1120, 10);
+        }
+
+        _overlay.Draw();
 
         Raylib.EndDrawing();
     }

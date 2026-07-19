@@ -8,10 +8,10 @@ public static class DebugWorldFactory
     public static World CreateTestWorld()
     {
         Polygon polygon = new(
-            new Vector2(2, 2),
-            new Vector2(800, 2),
-            new Vector2(800, 600),
-            new Vector2(2, 600)
+            new Vector2(240, 10),
+            new Vector2(1100, 10),
+            new Vector2(1100, 600),
+            new Vector2(240, 600)
         );
 
         WalkableArea walkableArea = new(
