@@ -30,6 +30,8 @@ public class DebugRenderer : IRenderer
         Raylib.ClearBackground(Color.DarkBlue);
 
         DrawWorld(context.World);
+
+        DrawPlayer(context);
         
         DrawMouse(context);
 
@@ -47,6 +49,15 @@ public class DebugRenderer : IRenderer
         WalkableArea area = (WalkableArea)world.WalkableArea;
 
         DrawPolygon(area.Polygon);        
+    }
+
+    private void DrawPlayer(RenderContext context)
+    {
+        _primitiveRenderer.DrawCircle(
+            context.Player.Transform.Position,
+            10,
+            Color.SkyBlue
+        );
     }
 
     private void DrawPolygon(Polygon polygon)
@@ -116,7 +127,7 @@ public class DebugRenderer : IRenderer
             );
         }
     }
-    
+
     public void Shutdown()
     {
         Raylib.CloseWindow();
