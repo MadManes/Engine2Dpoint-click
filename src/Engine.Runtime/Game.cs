@@ -1,9 +1,10 @@
 using Engine.Core;
 using Engine.Scene.World;
+using Engine.Runtime.Systems;
 using Engine.Runtime.Rendering;
+using Engine.Runtime.Debug;
 using Engine.Entities;
 using Engine.Math;
-using Engine.Runtime.Debug;
 using Raylib_cs;
 
 namespace Engine.Runtime;
@@ -11,20 +12,26 @@ namespace Engine.Runtime;
 public class Game : IGameLoop
 {
     private readonly IRenderer _renderer;
+    private readonly MovementSystem _movementSystem;
     private readonly World _world;
     private readonly Entity _player;
+    
     private Vector2? _mousePosition;
     private Vector2? _correctedPosition;
 
     public Game()
     {
         _renderer = new DebugRenderer();
-        _world = DebugWorldFactory.CreateTestWorld();
+        _movementSystem = new MovementSystem();
+        _world = DebugWorldFactory.CreateTestWorld();        
         _player = new Entity("Guybrush");
 
         _player.Transform.SetPosition(
             new Vector2(200, 100)
         );
+
+        _world.AddEntity(_player);
+        
     }
 
     public void Run()
@@ -77,26 +84,8 @@ public class Game : IGameLoop
             }
         }
 
-        if (_player.Movement.Destination.HasValue)
-        {
-            Vector2 currentPosition = _player.Transform.Position;
-            Vector2 destination = _player.Movement.Destination.Value;
-
-            float distance = currentPosition.Distance(destination);
-
-            if (distance > 1f)
-            {
-                Vector2 direction =
-                    (destination - currentPosition).Normalize();
-
-                Vector2 displacement =
-                    direction *
-                    _player.Movement.Speed *
-                    deltaTime;
-
-                _player.Transform.Translate(displacement);
-            }
-        }
+        _movementSystem.Update(_world, deltaTime);
+        
     }
 
     public void Render()
