@@ -14,11 +14,15 @@ public class DebugRenderer : IRenderer
     private readonly PrimitiveRenderer _primitiveRenderer;
     private readonly DebugSettings _settings;
     private readonly DebugOverlay _overlay;
+    private readonly Camera _camera;
 
-    public DebugRenderer(DebugSettings settings)
+    public DebugRenderer(
+        DebugSettings settings,
+        Camera camera)
     {
         _primitiveRenderer = new PrimitiveRenderer();
         _settings = settings;
+        _camera = camera;        
         _overlay = new DebugOverlay(settings);
     }
 
@@ -33,6 +37,8 @@ public class DebugRenderer : IRenderer
         Raylib.BeginDrawing();
 
         Raylib.ClearBackground(Color.DarkBlue);
+
+        Raylib.BeginMode2D(_camera.NativeCamera);
 
         if (_settings.DrawWorld)
         {
@@ -57,7 +63,9 @@ public class DebugRenderer : IRenderer
         if (_settings.DrawNavigationCorrection)
         {
             DrawNavigationCorrection(context);
-        }
+        }       
+
+        Raylib.EndMode2D();
 
         if (_settings.DrawFPS)
         {

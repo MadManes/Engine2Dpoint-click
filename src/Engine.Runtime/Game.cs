@@ -19,6 +19,7 @@ public class Game : IGameLoop
     private readonly DebugSettings _debugSettings;
     private readonly World _world;
     private readonly Entity _player;
+    private readonly Camera _camera;
     
     
     private Vector2? _mousePosition;
@@ -27,8 +28,10 @@ public class Game : IGameLoop
     public Game()
     {
         _debugSettings = new DebugSettings();
-        _debugController = new DebugController(_debugSettings); 
-        _renderer = new DebugRenderer(_debugSettings);
+        _camera = new Camera();
+        _camera.SetZoom(1.5f);
+        _debugController = new DebugController(_debugSettings, _camera); 
+        _renderer = new DebugRenderer(_debugSettings, _camera);
         _movementSystem = new MovementSystem();
         _navigationController = new NavigationController();        
         _world = DebugWorldFactory.CreateTestWorld();        
@@ -70,8 +73,8 @@ public class Game : IGameLoop
         {
             System.Numerics.Vector2 mouse = Raylib.GetMousePosition();
 
-            Vector2 clickPosition = new(
-                mouse.X, 
+            Vector2 clickPosition = _camera.ScreenToWorld(
+                mouse.X,
                 mouse.Y
             );
 
