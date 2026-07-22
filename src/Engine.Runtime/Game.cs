@@ -35,7 +35,7 @@ public class Game : IGameLoop
         _renderer = new DebugRenderer(_debugSettings, _camera);
         _movementSystem = new MovementSystem();
         _navigationController = new NavigationController(
-            new DirectPathFinder()
+            new ZigZagPathFinder()
         );
         _world = DebugWorldFactory.CreateTestWorld();        
         _player = new Entity("Guybrush");
