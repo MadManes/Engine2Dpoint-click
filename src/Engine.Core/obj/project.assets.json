@@ -1,11 +1,30 @@
 {
   "version": 3,
   "targets": {
-    "net8.0": {}
+    "net8.0": {
+      "Engine.Math/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/Engine.Math.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Engine.Math.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "Engine.Math/1.0.0": {
+      "type": "project",
+      "path": "../Engine.Math/Engine.Math.csproj",
+      "msbuildProject": "../Engine.Math/Engine.Math.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    "net8.0": []
+    "net8.0": [
+      "Engine.Math >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "F:\\Users\\MadManes\\.nuget\\packages\\": {}
@@ -31,7 +50,11 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "F:\\Martin\\Programacion\\C#\\Engine2Dpoint&click\\src\\Engine.Math\\Engine.Math.csproj": {
+              "projectPath": "F:\\Martin\\Programacion\\C#\\Engine2Dpoint&click\\src\\Engine.Math\\Engine.Math.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

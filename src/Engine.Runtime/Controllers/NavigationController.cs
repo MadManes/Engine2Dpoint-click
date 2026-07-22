@@ -1,19 +1,32 @@
 using Engine.Math;
+using Engine.Core;
 using Engine.Scene.World;
+using Engine.Navigation;
 
 namespace Engine.Runtime.Controllers;
 
 public class NavigationController
 {
-    public Vector2 GetDestination(
-        World world,
-        Vector2 clickPosition)
-    {
-        if (world.WalkableArea.Contains(clickPosition))
-        {
-            return clickPosition;
-        }
+    private readonly IPathFinder _pathFinder;
 
-        return world.WalkableArea.GetClosestPoint(clickPosition);
-    }    
+    public NavigationController(
+        IPathFinder pathFinder)
+    {
+        _pathFinder = pathFinder;
+    }
+
+
+    public NavigationPath GetPath(
+        World world,
+        Vector2 start,
+        Vector2 destination)
+    {
+        NavigationRequest request = new(
+            world,
+            start,
+            destination
+        );
+
+        return _pathFinder.FindPath(request);
+    }
 }

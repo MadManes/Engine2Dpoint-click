@@ -4,6 +4,7 @@ using Engine.Runtime.Systems;
 using Engine.Runtime.Controllers;
 using Engine.Runtime.Rendering;
 using Engine.Runtime.Debug;
+using Engine.Navigation;
 using Engine.Entities;
 using Engine.Math;
 using Raylib_cs;
@@ -19,12 +20,12 @@ public class Game : IGameLoop
     private readonly DebugSettings _debugSettings;
     private readonly World _world;
     private readonly Entity _player;
-    private readonly Camera _camera;
+    private readonly Camera _camera;    
     
     
     private Vector2? _mousePosition;
     private Vector2? _correctedPosition;
-
+    
     public Game()
     {
         _debugSettings = new DebugSettings();
@@ -33,7 +34,9 @@ public class Game : IGameLoop
         _debugController = new DebugController(_debugSettings, _camera); 
         _renderer = new DebugRenderer(_debugSettings, _camera);
         _movementSystem = new MovementSystem();
-        _navigationController = new NavigationController();        
+        _navigationController = new NavigationController(
+            new DirectPathFinder()
+        );
         _world = DebugWorldFactory.CreateTestWorld();        
         _player = new Entity("Guybrush");
 
@@ -80,12 +83,19 @@ public class Game : IGameLoop
 
             _mousePosition = clickPosition;            
         
-            _correctedPosition = _navigationController.GetDestination(
+            NavigationPath path = _navigationController.GetPath(
                 _world,
+                _player.Transform.Position,
                 clickPosition
             );
 
-            _player.Movement.SetDestination(_correctedPosition.Value);
+    
+            if (!path.IsEmpty)
+            {
+                Vector2 destination = path.Points[0];
+                _correctedPosition = destination;                
+                _player.Movement.SetPath(path);
+            }
         }
 
         _movementSystem.Update(_world, deltaTime);
@@ -98,7 +108,7 @@ public class Game : IGameLoop
             _world,
             _player,
             _mousePosition,
-            _correctedPosition
+            _correctedPosition            
         );
         _renderer.Render(context);
     }

@@ -16,6 +16,9 @@
         }
       },
       "Engine.Core/1.0.0": {
+        "dependencies": {
+          "Engine.Math": "1.0.0"
+        },
         "runtime": {
           "Engine.Core.dll": {
             "assemblyVersion": "1.0.0",

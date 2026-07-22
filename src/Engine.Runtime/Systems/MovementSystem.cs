@@ -10,32 +10,53 @@ public class MovementSystem
     {
         foreach (var entity in world.Entities)
         {
-            if (!entity.Movement.Destination.HasValue)
-                return;
+            if (entity.Movement.Path == null ||
+                entity.Movement.Path.IsEmpty)
+            {
+                continue;
+            }
 
-            Vector2 currentPosition = entity.Transform.Position;
-            Vector2 destination = entity.Movement.Destination.Value;
+
+            Vector2 currentPosition =
+                entity.Transform.Position;
+
+
+            Vector2 destination =
+                entity.Movement.CurrentTarget;
+
 
             float distance =
                 currentPosition.Distance(destination);
 
+
             float step =
                 entity.Movement.Speed * deltaTime;
+
 
             if (step >= distance)
             {
                 entity.Transform.SetPosition(destination);
-                entity.Movement.ClearDestination();
+
+
+                bool hasNextPoint =
+                    entity.Movement.AdvancePath();
+
+
+                if (!hasNextPoint)
+                {
+                    entity.Movement.ClearPath();
+                }
             }
             else
             {
                 Vector2 direction =
-                    (destination - currentPosition).Normalize();
+                    (destination - currentPosition)
+                    .Normalize();
 
-                Vector2 displacement =
-                    direction * step;
 
-                entity.Transform.Translate(displacement);
+                entity.Transform.Translate(
+                    direction * step
+                );
             }
         }
     }

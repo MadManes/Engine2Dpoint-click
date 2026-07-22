@@ -7,14 +7,30 @@
   "targets": {
     ".NETCoreApp,Version=v8.0": {
       "Engine.Core/1.0.0": {
+        "dependencies": {
+          "Engine.Math": "1.0.0"
+        },
         "runtime": {
           "Engine.Core.dll": {}
+        }
+      },
+      "Engine.Math/1.0.0": {
+        "runtime": {
+          "Engine.Math.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }
   },
   "libraries": {
     "Engine.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Engine.Math/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

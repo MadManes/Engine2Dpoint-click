@@ -1,26 +1,38 @@
 using Engine.Math;
+using Engine.Core;
 
 namespace Engine.Entities.Components;
 
 public class Movement : Component
 {
-    public Vector2? Destination { get; private set; }
+    public NavigationPath? Path { get; private set; }
 
     public float Speed { get; set; }
 
     public Movement()
     {
-        Destination = null;
-        Speed = 120f;
+        Path = null;
+        Speed = 150f;
     }
 
-    public void SetDestination(Vector2 destination)
-    {
-        Destination = destination;
-    }
+    public Vector2 CurrentTarget => Path!.CurrentPoint;
 
-    public void ClearDestination()
+    public void SetPath(NavigationPath path)
     {
-        Destination = null;
+        Path = path;
+    }    
+
+    public bool AdvancePath()
+    {
+        if (Path == null)
+        {
+            return false;
+        }        
+
+        return Path.MoveNext();
+    }
+    public void ClearPath()
+    {
+        Path = null;
     }
 }

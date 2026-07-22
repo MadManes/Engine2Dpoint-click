@@ -10,3 +10,7 @@ F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Core\obj\Debug\net8.0\E
 F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Core\obj\Debug\net8.0\refint\Engine.Core.dll
 F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Core\obj\Debug\net8.0\Engine.Core.pdb
 F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Core\obj\Debug\net8.0\ref\Engine.Core.dll
+F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Core\bin\Debug\net8.0\Engine.Math.dll
+F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Core\bin\Debug\net8.0\Engine.Math.pdb
+F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Core\obj\Debug\net8.0\Engine.Core.csproj.AssemblyReference.cache
+F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Core\obj\Debug\net8.0\Engine.C.91E6C2CF.Up2Date

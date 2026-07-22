@@ -14,6 +14,8 @@ public class DebugSettings
 
     public bool DrawFPS { get; set; } = true;
 
+    public NavigationDebugSettings Navigation { get; } = new();
+
     public void ToggleWorld()
     {
         DrawWorld = !DrawWorld;
