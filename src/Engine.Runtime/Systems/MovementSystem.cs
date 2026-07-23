@@ -6,7 +6,7 @@ namespace Engine.Runtime.Systems;
 
 public class MovementSystem
 {
-    public void Update(World world, float deltaTime)
+    public void Update(SceneWorld world, float deltaTime)
     {
         foreach (var entity in world.Entities)
         {

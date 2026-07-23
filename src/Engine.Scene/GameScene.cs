@@ -1,17 +1,18 @@
 using Engine.Entities;
+using Engine.Scene.World;
 
-namespace Engine.Scene.World;
+namespace Engine.Scene;
 
-public class Scene : IScene
+public class GameScene : IScene
 {
     private readonly List<Entity> _entities = new();
-    public World World { get; }
+    public SceneWorld World { get; }
 
     public string Name { get; }
 
     public IReadOnlyList<Entity> Entities => _entities;
 
-    public Scene(string name, World world)
+    public GameScene(string name, SceneWorld world)
     {
         Name = name;
         World = world;

@@ -1,11 +1,19 @@
 using Engine.Math;
 using Engine.Scene.World;
 
-namespace Engine.Runtime.Debug;
+namespace Engine.Scene.Scenes;
 
-public static class DebugWorldFactory
+public class TestRoomScene : GameScene
 {
-    public static World CreateTestWorld()
+    public TestRoomScene()
+        : base(
+            "Test Room",
+            CreateWorld()
+        )
+    {        
+    }
+
+    private static SceneWorld CreateWorld()
     {
         Polygon polygon = new(
             new Vector2(240, 10),
@@ -19,6 +27,6 @@ public static class DebugWorldFactory
             polygon
         );
 
-        return new World(walkableArea);
+        return new SceneWorld(walkableArea);
     }
 }

@@ -17,7 +17,7 @@ public class NavigationController
 
 
     public NavigationPath GetPath(
-        World world,
+        SceneWorld world,
         Vector2 start,
         Vector2 destination)
     {

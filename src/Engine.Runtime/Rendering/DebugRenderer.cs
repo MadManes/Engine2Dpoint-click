@@ -1,5 +1,6 @@
 using Engine.Runtime.Debug;
 using Engine.Runtime.Rendering.DebugRenderers;
+using Engine.Scene.World;
 using Raylib_cs;
 
 namespace Engine.Runtime.Rendering;
@@ -55,7 +56,7 @@ public class DebugRenderer : IRenderer
 
         if (_settings.DrawWorld)
         {
-            _worldRenderer.Draw(context.World);
+            _worldRenderer.Draw(context.Scene.World);
         }
 
         if (_settings.DrawPlayer)

@@ -6,14 +6,14 @@ namespace Engine.Navigation;
 
 public class NavigationRequest
 {
-    public World World { get; }
+    public SceneWorld World { get; }
 
     public Vector2 Start { get; }
 
     public Vector2 Destination { get; }
 
     public NavigationRequest(
-        World world,
+        SceneWorld world,
         Vector2 start,
         Vector2 destination)
     {

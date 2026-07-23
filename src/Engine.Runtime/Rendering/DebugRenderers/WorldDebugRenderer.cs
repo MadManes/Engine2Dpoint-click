@@ -15,7 +15,7 @@ public class WorldDebugRenderer
     }
 
 
-    public void Draw(World world)
+    public void Draw(SceneWorld world)
     {
         WalkableArea area = (WalkableArea)world.WalkableArea;
 

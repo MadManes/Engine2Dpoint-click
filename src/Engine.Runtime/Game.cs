@@ -1,4 +1,6 @@
 using Engine.Core;
+using Engine.Scene;
+using Engine.Scene.Scenes;
 using Engine.Scene.World;
 using Engine.Runtime.Systems;
 using Engine.Runtime.Controllers;
@@ -18,7 +20,7 @@ public class Game : IGameLoop
     private readonly NavigationController _navigationController;
     private readonly DebugController _debugController;
     private readonly DebugSettings _debugSettings;
-    private readonly World _world;
+    private readonly SceneManager _sceneManager;
     private readonly Entity _player;
     private readonly Camera _camera;    
     
@@ -37,14 +39,17 @@ public class Game : IGameLoop
         _navigationController = new NavigationController(
             new ZigZagPathFinder()
         );
-        _world = DebugWorldFactory.CreateTestWorld();        
+        _sceneManager = new SceneManager();
+        _sceneManager.LoadScene(
+            new TestRoomScene()
+        );
         _player = new Entity("Guybrush");
 
         _player.Transform.SetPosition(
             new Vector2(600, 100)
         );
 
-        _world.AddEntity(_player);
+        _sceneManager.CurrentScene!.World.AddEntity(_player);
         
     }
 
@@ -84,7 +89,7 @@ public class Game : IGameLoop
             _mousePosition = clickPosition;            
         
             NavigationPath path = _navigationController.GetPath(
-                _world,
+                _sceneManager.CurrentScene!.World,
                 _player.Transform.Position,
                 clickPosition
             );
@@ -98,14 +103,14 @@ public class Game : IGameLoop
             }
         }
 
-        _movementSystem.Update(_world, deltaTime);
+        _movementSystem.Update(_sceneManager.CurrentScene!.World, deltaTime);
         
     }
 
     public void Render()
     {
         RenderContext context = new(
-            _world,
+            _sceneManager.CurrentScene!,
             _player,
             _mousePosition,
             _correctedPosition            
