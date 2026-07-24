@@ -20,6 +20,7 @@ public class Game : IGameLoop
     private readonly NavigationController _navigationController;
     private readonly DebugController _debugController;
     private readonly DebugSettings _debugSettings;
+    private readonly SceneDebugController _sceneDebugController;
     private readonly SceneManager _sceneManager;
     private readonly Entity _player;
     private readonly Camera _camera;    
@@ -32,22 +33,31 @@ public class Game : IGameLoop
     {
         _debugSettings = new DebugSettings();
         _camera = new Camera();
-        _camera.SetZoom(1.5f);
+        _camera.SetZoom(1.0f);
         _debugController = new DebugController(_debugSettings, _camera); 
         _renderer = new DebugRenderer(_debugSettings, _camera);
         _movementSystem = new MovementSystem();
         _navigationController = new NavigationController(
             new ZigZagPathFinder()
         );
+        _player = new Entity("Guybrush");        
+
         _sceneManager = new SceneManager();
         _sceneManager.LoadScene(
-            new TestRoomScene()
+            SceneRegistry.Create("TestRoom")
         );
-        _player = new Entity("Guybrush");
 
         _player.Transform.SetPosition(
-            new Vector2(600, 100)
+            _sceneManager.CurrentScene!
+                .Data
+                .PlayerSpawn
         );
+
+        _sceneDebugController = new SceneDebugController(
+            _sceneManager,
+            _player,
+            _sceneManager.CurrentScene!.Name
+        );        
 
         _sceneManager.CurrentScene!.World.AddEntity(_player);
         
@@ -76,6 +86,7 @@ public class Game : IGameLoop
     public void Update(float deltaTime)    
     {
         _debugController.Update();
+        _sceneDebugController.Update();
 
         if (Raylib.IsMouseButtonPressed(MouseButton.Left))
         {
@@ -111,6 +122,7 @@ public class Game : IGameLoop
     {
         RenderContext context = new(
             _sceneManager.CurrentScene!,
+            _sceneManager.CurrentScene!.Name,
             _player,
             _mousePosition,
             _correctedPosition            
