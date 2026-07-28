@@ -19,24 +19,27 @@ public class DebugRenderer : IRenderer
     private readonly DebugSettings _settings;    
     private readonly DebugOverlay _overlay;
     private readonly Camera _camera;
-
     private readonly WorldDebugRenderer _worldRenderer;
     private readonly AssetManager _assetManager;
     private readonly PlayerDebugRenderer _playerRenderer;
     private readonly SpriteRenderer _spriteRenderer;
+    private readonly EntityRenderSorter _entitySorter;
     private readonly NavigationDebugRenderer _navigationRenderer;
     private readonly NavigationInteractionDebugRenderer _navigationInteractionRenderer;
 
     public DebugRenderer(
         DebugSettings settings,
         Camera camera,
-        AssetManager assetManager)
+        AssetManager assetManager
+        )
     {
         _primitiveRenderer = new PrimitiveRenderer();
 
         _settings = settings;
         _camera = camera;   
         _assetManager = assetManager;
+
+        _entitySorter = new EntityRenderSorter();
 
         _overlay = new DebugOverlay(settings);
         _worldRenderer = new WorldDebugRenderer(_primitiveRenderer);
@@ -74,6 +77,11 @@ public class DebugRenderer : IRenderer
             _worldRenderer.Draw(context.Scene.World);
         }
 
+        foreach (Entity entity in _entitySorter.Sort(
+            context.Scene.World.Entities))
+        {
+            _spriteRenderer.Draw(entity);
+        }
         
         Entity? player = GetPlayer(context.Scene);
 
@@ -98,12 +106,7 @@ public class DebugRenderer : IRenderer
                 context.MousePosition,
                 context.CorrectedPosition
             );
-        }
-
-        foreach (Entity entity in context.Scene.World.Entities)
-        {
-            _spriteRenderer.Draw(entity);
-        }
+        }        
 
         Raylib.EndMode2D();
 

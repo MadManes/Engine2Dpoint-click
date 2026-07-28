@@ -9,12 +9,12 @@ public class Entity
     public Transform Transform { get; }
     public Movement Movement { get; }
     public EntityType Type { get; }
-    public Sprite Sprite { get; }
+    public SpriteComponent Sprite { get; }
     
     public Entity(
         string name, 
         EntityType type,
-        Sprite sprite        
+        SpriteComponent sprite        
         )
     {
         Id = Guid.NewGuid();

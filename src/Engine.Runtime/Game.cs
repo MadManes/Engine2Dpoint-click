@@ -11,6 +11,7 @@ using Engine.Entities;
 using Engine.Entities.Components;
 using Engine.Math;
 using Raylib_cs;
+using Engine.Entities.Sprites;
 
 namespace Engine.Runtime;
 
@@ -49,12 +50,20 @@ public class Game : IGameLoop
 
         _movementSystem = new MovementSystem();
         _navigationController = new NavigationController(
-            new ZigZagPathFinder()
+            new DirectPathFinder()
         );
         Entity player = new(
             "Guybrush",
             EntityType.Player,
-            new Sprite("guybrush_idle")           
+            new SpriteComponent(
+                new SpriteSet(
+                    "guybrush_idle"
+                ),
+                new SpritePivot(
+                    16,
+                    32
+                )
+            )
         );
 
         _gameState = new GameState(player);  

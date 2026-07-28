@@ -1,5 +1,6 @@
 using Engine.Entities;
 using Engine.Entities.Components;
+using Engine.Entities.Sprites;
 using Engine.Scene.Definitions;
 
 namespace Engine.Scene.Factories;
@@ -8,8 +9,18 @@ public static class EntityFactory
 {
     public static Entity Create(EntityData data)
     {
-        Sprite sprite = new(
+        SpriteSet spriteSet = new(
             data.Sprite.AssetName
+        );
+        
+        SpritePivot spritePivot = new(
+            16,
+            32
+        );
+
+        SpriteComponent sprite = new(
+            spriteSet,
+            spritePivot
         );
         
         Entity entity = new(

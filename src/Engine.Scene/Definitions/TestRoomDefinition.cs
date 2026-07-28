@@ -28,8 +28,24 @@ public static class TestRoomDefinition
         
         EntityCollectionData entityCollection =
         new(
-            new List<EntityData>()
-        );
+            new List<EntityData>
+            {
+                new EntityData(
+                    "NPC_Test_1",
+                    new Vector2(600,200),
+                    new SpriteData("npc_test"),
+                    EntityType.Generic
+                ),
+
+                new EntityData(
+                    "NPC_Test_2",
+                    new Vector2(600,250),
+                    new SpriteData("npc_test"),
+                    EntityType.Generic
+                ),
+
+            }
+        );        
 
         return new SceneData(
             "Test Room",

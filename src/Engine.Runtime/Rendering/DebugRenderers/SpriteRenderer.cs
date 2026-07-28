@@ -20,21 +20,22 @@ public class SpriteRenderer
     {
         Texture2D texture =
             _assetManager.LoadSprite(
-                entity.Sprite.AssetName + ".png"
+                entity.Sprite.Set.Idle + ".png"
             );
 
-        Vector2 position = entity.Transform.Position;
-        int x = (int)(
-            position.X - texture.Width / 2
-        );
-        int y = (int)(
-            position.Y - texture.Height
-        );
-
+        float drawX =
+            entity.Transform.Position.X
+            - entity.Sprite.Pivot.X;
+        
+        float drawY =
+            entity.Transform.Position.Y
+            - entity.Sprite.Pivot.Y;
+        
+        
         Raylib.DrawTexture(
             texture,
-            x,
-            y,
+            (int)drawX,
+            (int)drawY,
             Color.White
         );
     }
