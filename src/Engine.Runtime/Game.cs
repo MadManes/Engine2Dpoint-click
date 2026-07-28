@@ -1,13 +1,14 @@
 using Engine.Core;
 using Engine.Scene;
 using Engine.Scene.Scenes;
-using Engine.Scene.World;
+using Engine.Runtime.Assets;
 using Engine.Runtime.Systems;
 using Engine.Runtime.Controllers;
 using Engine.Runtime.Rendering;
 using Engine.Runtime.Debug;
 using Engine.Navigation;
 using Engine.Entities;
+using Engine.Entities.Components;
 using Engine.Math;
 using Raylib_cs;
 
@@ -22,32 +23,48 @@ public class Game : IGameLoop
     private readonly DebugSettings _debugSettings;
     private readonly SceneDebugController _sceneDebugController;
     private readonly SceneManager _sceneManager;
-    private readonly Entity _player;
-    private readonly Camera _camera;    
-    
-    
+    private readonly AssetManager _assetManager;
+    private readonly GameState _gameState;    
+    private readonly Camera _camera;
     private Vector2? _mousePosition;
     private Vector2? _correctedPosition;
     
     public Game()
     {
         _debugSettings = new DebugSettings();
+
         _camera = new Camera();
         _camera.SetZoom(1.0f);
+
+        _assetManager = new AssetManager(
+            "assets"
+        );
+
         _debugController = new DebugController(_debugSettings, _camera); 
-        _renderer = new DebugRenderer(_debugSettings, _camera);
+        _renderer = new DebugRenderer(
+            _debugSettings,
+            _camera,
+            _assetManager
+        );
+
         _movementSystem = new MovementSystem();
         _navigationController = new NavigationController(
             new ZigZagPathFinder()
         );
-        _player = new Entity("Guybrush");        
+        Entity player = new(
+            "Guybrush",
+            EntityType.Player,
+            new Sprite("guybrush_idle")           
+        );
+
+        _gameState = new GameState(player);  
 
         _sceneManager = new SceneManager();
         _sceneManager.LoadScene(
             SceneRegistry.Create("TestRoom")
-        );
+        );        
 
-        _player.Transform.SetPosition(
+        _gameState.Player.Transform.SetPosition(
             _sceneManager.CurrentScene!
                 .Data
                 .PlayerSpawn
@@ -55,11 +72,13 @@ public class Game : IGameLoop
 
         _sceneDebugController = new SceneDebugController(
             _sceneManager,
-            _player,
+            _gameState.Player,
             _sceneManager.CurrentScene!.Name
         );        
 
-        _sceneManager.CurrentScene!.World.AddEntity(_player);
+        _sceneManager.CurrentScene!.AddPersistentEntity(
+            _gameState.Player
+        );
         
     }
 
@@ -101,7 +120,7 @@ public class Game : IGameLoop
         
             NavigationPath path = _navigationController.GetPath(
                 _sceneManager.CurrentScene!.World,
-                _player.Transform.Position,
+                _gameState.Player.Transform.Position,
                 clickPosition
             );
 
@@ -110,7 +129,7 @@ public class Game : IGameLoop
             {
                 Vector2 destination = path.Points[0];
                 _correctedPosition = destination;                
-                _player.Movement.SetPath(path);
+                _gameState.Player.Movement.SetPath(path);
             }
         }
 
@@ -122,8 +141,7 @@ public class Game : IGameLoop
     {
         RenderContext context = new(
             _sceneManager.CurrentScene!,
-            _sceneManager.CurrentScene!.Name,
-            _player,
+            _sceneManager.CurrentScene!.Name,            
             _mousePosition,
             _correctedPosition            
         );
@@ -132,6 +150,7 @@ public class Game : IGameLoop
 
     public void Shutdown()
     {
+        _assetManager.Dispose();
         _renderer.Shutdown();
     }
 }

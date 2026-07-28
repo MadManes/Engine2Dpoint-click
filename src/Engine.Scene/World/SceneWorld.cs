@@ -16,6 +16,11 @@ public class SceneWorld
 
     public void AddEntity(Entity entity)
     {
+        if (_entities.Contains(entity))
+        {
+            return;
+        }
+
         _entities.Add(entity);
     }
 }

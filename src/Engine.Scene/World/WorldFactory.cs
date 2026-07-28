@@ -8,7 +8,7 @@ public static class WorldFactory
     {
         WalkableArea area = new(
             NavigationType.Polygon,
-            data.WalkablePolygon
+            data.Navigation.WalkablePolygon
         );
 
         return new SceneWorld(area);

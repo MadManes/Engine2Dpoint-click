@@ -1,4 +1,5 @@
 using Engine.Entities.Components;
+
 namespace Engine.Entities;
 
 public class Entity
@@ -7,19 +8,25 @@ public class Entity
     public string Name { get; set; }
     public Transform Transform { get; }
     public Movement Movement { get; }
-
-    public Entity(string name)
+    public EntityType Type { get; }
+    public Sprite Sprite { get; }
+    
+    public Entity(
+        string name, 
+        EntityType type,
+        Sprite sprite        
+        )
     {
         Id = Guid.NewGuid();
 
         Name = name;
+        Type = type;
+        Sprite = sprite;
 
         Transform = new Transform();
-
         Transform.Entity = this;
 
         Movement = new Movement();
-
-        Movement.Entity = this;
+        Movement.Entity = this;        
     }
 }

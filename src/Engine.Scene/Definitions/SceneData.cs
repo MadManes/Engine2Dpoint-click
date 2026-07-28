@@ -6,18 +6,25 @@ public class SceneData
 {
     public string Name { get; }
 
-    public Polygon WalkablePolygon { get; }
+    public NavigationData Navigation { get; }
+
+    public BackgroundData Background { get; }
+
+    public EntityCollectionData EntityCollection { get; }
 
     public Vector2 PlayerSpawn { get; }
 
-
     public SceneData(
         string name,
-        Polygon walkablePolygon,
+        NavigationData navigation,
+        BackgroundData background,
+        EntityCollectionData entityCollection,
         Vector2 playerSpawn)
     {
         Name = name;
-        WalkablePolygon = walkablePolygon;
+        Navigation = navigation;
+        Background = background;
+        EntityCollection = entityCollection;
         PlayerSpawn = playerSpawn;
     }
 }

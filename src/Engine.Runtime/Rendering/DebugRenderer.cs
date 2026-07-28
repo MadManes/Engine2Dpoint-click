@@ -1,7 +1,9 @@
 using Engine.Runtime.Debug;
 using Engine.Runtime.Rendering.DebugRenderers;
+using Engine.Runtime.Assets;
 using Engine.Scene.World;
 using Raylib_cs;
+using Engine.Entities;
 
 namespace Engine.Runtime.Rendering;
 
@@ -12,25 +14,34 @@ public class DebugRenderer : IRenderer
     private const string WindowTitle = "Engine 2D Point & Click - Debug Viewer";
 
     private readonly PrimitiveRenderer _primitiveRenderer;
+    private readonly BackgroundRenderer _backgroundRenderer;
     private readonly DebugSettings _settings;    
     private readonly DebugOverlay _overlay;
     private readonly Camera _camera;
 
     private readonly WorldDebugRenderer _worldRenderer;
+    private readonly AssetManager _assetManager;
     private readonly PlayerDebugRenderer _playerRenderer;
+    private readonly SpriteRenderer _spriteRenderer;
     private readonly NavigationDebugRenderer _navigationRenderer;
     private readonly NavigationInteractionDebugRenderer _navigationInteractionRenderer;
 
     public DebugRenderer(
         DebugSettings settings,
-        Camera camera)
+        Camera camera,
+        AssetManager assetManager)
     {
         _primitiveRenderer = new PrimitiveRenderer();
+
         _settings = settings;
-        _camera = camera;        
+        _camera = camera;   
+        _assetManager = assetManager;
+
         _overlay = new DebugOverlay(settings);
         _worldRenderer = new WorldDebugRenderer(_primitiveRenderer);
+        _backgroundRenderer = new BackgroundRenderer();
         _playerRenderer = new PlayerDebugRenderer(_primitiveRenderer);
+        _spriteRenderer = new SpriteRenderer(_assetManager);
         _navigationRenderer = new NavigationDebugRenderer(
             _primitiveRenderer,
             settings.Navigation
@@ -50,7 +61,10 @@ public class DebugRenderer : IRenderer
     {
         Raylib.BeginDrawing();
 
-        Raylib.ClearBackground(Color.DarkBlue);
+        Texture2D background = _assetManager.LoadTexture(
+            context.Scene.Data.Background.AssetName + ".png"
+        );
+        _backgroundRenderer.Draw(background);
 
         Raylib.BeginMode2D(_camera.NativeCamera);
 
@@ -61,12 +75,12 @@ public class DebugRenderer : IRenderer
 
         if (_settings.DrawPlayer)
         {
-            _playerRenderer.Draw(context.Player);
-        }
+            _playerRenderer.Draw(context.Scene.Player);
+        }        
 
         if (_settings.Navigation.DrawPath)
         {
-            _navigationRenderer.Draw(context.Player);
+            _navigationRenderer.Draw(context.Scene.Player);
         }
 
         if (_settings.DrawMouse ||
@@ -77,6 +91,11 @@ public class DebugRenderer : IRenderer
                 context.MousePosition,
                 context.CorrectedPosition
             );
+        }
+
+        foreach (Entity entity in context.Scene.World.Entities)
+        {
+            _spriteRenderer.Draw(entity);
         }
 
         Raylib.EndMode2D();

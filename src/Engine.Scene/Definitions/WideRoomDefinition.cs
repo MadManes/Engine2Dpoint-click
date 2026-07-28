@@ -1,4 +1,5 @@
 using Engine.Math;
+using Engine.Entities.Components;
 
 namespace Engine.Scene.Definitions;
 
@@ -13,16 +14,27 @@ public static class WideRoomDefinition
             new Vector2(100, 500)
         );
 
+        NavigationData navigation = new(polygon);
+
+        BackgroundData background = new(
+            "wide_room"
+        );
 
         Vector2 playerSpawn = new(
             600,
             300
         );
 
+        EntityCollectionData entityCollection =
+        new(
+            new List<EntityData>()            
+        );
 
         return new SceneData(
             "Wide Room",
-            polygon,
+            navigation,
+            background,
+            entityCollection,
             playerSpawn
         );
     }

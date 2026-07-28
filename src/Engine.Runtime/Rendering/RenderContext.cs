@@ -8,22 +8,19 @@ namespace Engine.Runtime.Rendering;
 public class RenderContext
 {
     public GameScene Scene { get; }
-    public string SceneName { get; }
-    public Entity Player { get; }
+    public string SceneName { get; }    
     public Vector2? MousePosition { get; }
     public Vector2? CorrectedPosition { get; }    
 
     public RenderContext(
         GameScene scene,
-        string sceneName,
-        Entity player,
+        string sceneName,        
         Vector2? mousePosition,
         Vector2? correctedPosition
     )        
     {
         Scene = scene;
-        SceneName = sceneName;
-        Player = player;
+        SceneName = sceneName;        
         MousePosition = mousePosition;
         CorrectedPosition = correctedPosition;        
     }
