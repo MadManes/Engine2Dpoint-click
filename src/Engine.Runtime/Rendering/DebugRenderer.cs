@@ -75,12 +75,12 @@ public class DebugRenderer : IRenderer
 
         if (_settings.DrawPlayer)
         {
-            _playerRenderer.Draw(context.Scene.Player);
+            _playerRenderer.Draw(context.Player);
         }        
 
         if (_settings.Navigation.DrawPath)
         {
-            _navigationRenderer.Draw(context.Scene.Player);
+            _navigationRenderer.Draw(context.Player);
         }
 
         if (_settings.DrawMouse ||

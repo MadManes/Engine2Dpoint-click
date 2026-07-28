@@ -1,5 +1,4 @@
 using Engine.Entities;
-using Engine.Entities.Components;
 using Engine.Scene.Definitions;
 using Engine.Scene.Factories;
 using Engine.Scene.World;
@@ -18,17 +17,7 @@ public class GameScene : IScene
 
     public IReadOnlyList<Entity> Entities => _entities;
 
-    public Entity Player
-    {
-        get
-        {
-            return World.Entities.First(
-                entity => entity.Type == EntityType.Player
-            );
-        }
-    }
-
-
+    
     public GameScene(SceneData data)
     {
         Data = data;
@@ -67,7 +56,7 @@ public class GameScene : IScene
         {
             _entities.Add(entity);
         }
-    
+
         if (!World.Entities.Contains(entity))
         {
             World.AddEntity(entity);

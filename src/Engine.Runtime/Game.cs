@@ -61,7 +61,11 @@ public class Game : IGameLoop
 
         _sceneManager = new SceneManager();
         _sceneManager.LoadScene(
-            SceneRegistry.Create("TestRoom")
+            SceneRegistry.Create("TestRoom"),
+            new[]
+            {
+                _gameState.Player
+            }
         );        
 
         _gameState.Player.Transform.SetPosition(
@@ -75,11 +79,6 @@ public class Game : IGameLoop
             _gameState.Player,
             _sceneManager.CurrentScene!.Name
         );        
-
-        _sceneManager.CurrentScene!.AddPersistentEntity(
-            _gameState.Player
-        );
-        
     }
 
     public void Run()
@@ -141,7 +140,8 @@ public class Game : IGameLoop
     {
         RenderContext context = new(
             _sceneManager.CurrentScene!,
-            _sceneManager.CurrentScene!.Name,            
+            _sceneManager.CurrentScene!.Name,
+            _gameState.Player,            
             _mousePosition,
             _correctedPosition            
         );
