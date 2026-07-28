@@ -1,4 +1,5 @@
 using Engine.Entities;
+using Engine.Entities.Components;
 
 namespace Engine.Scene;
 
@@ -6,19 +7,30 @@ public class SceneManager
 {
     public GameScene? CurrentScene { get; private set; }
 
-    public void LoadScene(
-        GameScene scene,
-        IEnumerable<Entity>? persistentEntities = null)
+    private readonly List<Entity> _persistentEntities = new();
+
+    public void RegisterPersistentEntity(Entity entity)
     {
-        CurrentScene = scene;
-
-        if (persistentEntities == null)
+        if (!_persistentEntities.Contains(entity))
         {
-            return;
+            _persistentEntities.Add(entity);
         }
+    }
 
-        foreach (Entity entity in persistentEntities)
+    public void LoadScene(GameScene scene)
+    {
+        CurrentScene = scene;      
+
+        foreach (Entity entity in _persistentEntities)
         {
+            if (entity.Type == EntityType.Player)
+            {
+                entity.Transform.SetPosition(
+                    scene.Data.PlayerSpawn
+                );
+
+                entity.Movement.ClearPath();
+            }
             CurrentScene.AddPersistentEntity(entity);
         }
     }

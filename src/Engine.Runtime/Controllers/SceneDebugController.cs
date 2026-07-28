@@ -1,26 +1,22 @@
 using Engine.Scene;
 using Engine.Scene.Scenes;
-using Engine.Entities;
 using Raylib_cs;
 
 namespace Engine.Runtime.Controllers;
 
 public class SceneDebugController
 {
-    private readonly SceneManager _sceneManager;
-    private readonly Entity _player;
+    private readonly SceneManager _sceneManager;    
     private readonly List<string> _scenes;
 
     private int _currentIndex;
 
 
     public SceneDebugController(
-        SceneManager sceneManager,
-        Entity player,
+        SceneManager sceneManager,        
         string initialScene)
     {
-        _sceneManager = sceneManager;
-        _player = player;
+        _sceneManager = sceneManager;        
         _scenes = SceneCatalog.Names.ToList();
         _currentIndex = _scenes.IndexOf(            
             initialScene
@@ -57,12 +53,8 @@ public class SceneDebugController
             SceneCatalog.Create(
                 _scenes[_currentIndex]
             );
-
-        _player.Movement.ClearPath();
+        
         _sceneManager.LoadScene(scene);        
-        _player.Transform.SetPosition(
-            scene.Data.PlayerSpawn
-        );
-        scene.World.AddEntity(_player);
+
     }
 }

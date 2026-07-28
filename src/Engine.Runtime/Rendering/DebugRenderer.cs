@@ -4,6 +4,7 @@ using Engine.Runtime.Assets;
 using Engine.Scene.World;
 using Raylib_cs;
 using Engine.Entities;
+using Engine.Scene;
 
 namespace Engine.Runtime.Rendering;
 
@@ -73,14 +74,20 @@ public class DebugRenderer : IRenderer
             _worldRenderer.Draw(context.Scene.World);
         }
 
-        if (_settings.DrawPlayer)
-        {
-            _playerRenderer.Draw(context.Player);
-        }        
+        
+        Entity? player = GetPlayer(context.Scene);
 
-        if (_settings.Navigation.DrawPath)
+        if (player != null)
         {
-            _navigationRenderer.Draw(context.Player);
+            if (_settings.DrawPlayer)
+            {
+                _playerRenderer.Draw(player);
+            }
+
+            if (_settings.Navigation.DrawPath)
+            {
+                _navigationRenderer.Draw(player);
+            }
         }
 
         if (_settings.DrawMouse ||
@@ -108,6 +115,13 @@ public class DebugRenderer : IRenderer
         _overlay.Draw();
 
         Raylib.EndDrawing();
+    }
+
+    private Entity? GetPlayer(GameScene scene)
+    {
+        return scene.World.Entities.FirstOrDefault(
+            entity => entity.Type == Entities.Components.EntityType.Player
+        );
     }
     
 

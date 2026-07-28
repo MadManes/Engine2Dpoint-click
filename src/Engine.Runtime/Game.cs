@@ -60,23 +60,17 @@ public class Game : IGameLoop
         _gameState = new GameState(player);  
 
         _sceneManager = new SceneManager();
-        _sceneManager.LoadScene(
-            SceneRegistry.Create("TestRoom"),
-            new[]
-            {
-                _gameState.Player
-            }
-        );        
 
-        _gameState.Player.Transform.SetPosition(
-            _sceneManager.CurrentScene!
-                .Data
-                .PlayerSpawn
+        _sceneManager.RegisterPersistentEntity(
+            _gameState.Player
+        );
+
+        _sceneManager.LoadScene(
+            SceneRegistry.Create("TestRoom")
         );
 
         _sceneDebugController = new SceneDebugController(
-            _sceneManager,
-            _gameState.Player,
+            _sceneManager,            
             _sceneManager.CurrentScene!.Name
         );        
     }
@@ -141,9 +135,8 @@ public class Game : IGameLoop
         RenderContext context = new(
             _sceneManager.CurrentScene!,
             _sceneManager.CurrentScene!.Name,
-            _gameState.Player,            
             _mousePosition,
-            _correctedPosition            
+            _correctedPosition
         );
         _renderer.Render(context);
     }
