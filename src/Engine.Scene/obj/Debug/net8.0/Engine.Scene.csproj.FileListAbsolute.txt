@@ -18,3 +18,5 @@ F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Scene\obj\Debug\net8.0\
 F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Scene\obj\Debug\net8.0\ref\Engine.Scene.dll
 F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Scene\bin\Debug\net8.0\Engine.Math.dll
 F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Scene\bin\Debug\net8.0\Engine.Math.pdb
+F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Scene\bin\Debug\net8.0\Engine.Game.dll
+F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Scene\bin\Debug\net8.0\Engine.Game.pdb

@@ -9,7 +9,8 @@
       "Engine.Scene/1.0.0": {
         "dependencies": {
           "Engine.Core": "1.0.0",
-          "Engine.Entities": "1.0.0"
+          "Engine.Entities": "1.0.0",
+          "Engine.Game": "1.0.0"
         },
         "runtime": {
           "Engine.Scene.dll": {}
@@ -38,6 +39,18 @@
           }
         }
       },
+      "Engine.Game/1.0.0": {
+        "dependencies": {
+          "Engine.Core": "1.0.0",
+          "Engine.Entities": "1.0.0"
+        },
+        "runtime": {
+          "Engine.Game.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
       "Engine.Math/1.0.0": {
         "runtime": {
           "Engine.Math.dll": {
@@ -60,6 +73,11 @@
       "sha512": ""
     },
     "Engine.Entities/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Engine.Game/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

@@ -31,6 +31,7 @@ public static class TestRoomDefinition
             new List<EntityData>
             {
                 new EntityData(
+                    "object_1",
                     "NPC_Test_1",
                     new Vector2(600,200),
                     new SpriteData("npc_test"),
@@ -38,6 +39,7 @@ public static class TestRoomDefinition
                 ),
 
                 new EntityData(
+                    "object_2",
                     "NPC_Test_2",
                     new Vector2(600,250),
                     new SpriteData("npc_test"),

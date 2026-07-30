@@ -20,3 +20,5 @@ F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Navigation\obj\Debug\ne
 F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Navigation\obj\Debug\net8.0\ref\Engine.Navigation.dll
 F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Navigation\bin\Debug\net8.0\Engine.Math.dll
 F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Navigation\bin\Debug\net8.0\Engine.Math.pdb
+F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Navigation\bin\Debug\net8.0\Engine.Game.dll
+F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Navigation\bin\Debug\net8.0\Engine.Game.pdb

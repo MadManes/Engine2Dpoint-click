@@ -31,3 +31,5 @@ F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Runtime\bin\Debug\net8.
 F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Runtime\bin\Debug\net8.0\runtimes\osx-x64\native\libraylib.dylib
 F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Runtime\bin\Debug\net8.0\runtimes\win-x64\native\raylib.dll
 F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Runtime\bin\Debug\net8.0\runtimes\win-x86\native\raylib.dll
+F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Runtime\bin\Debug\net8.0\Engine.Game.dll
+F:\Martin\Programacion\C#\Engine2Dpoint&click\src\Engine.Runtime\bin\Debug\net8.0\Engine.Game.pdb

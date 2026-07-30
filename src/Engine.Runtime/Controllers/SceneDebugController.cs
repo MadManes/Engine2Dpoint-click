@@ -9,6 +9,7 @@ public class SceneDebugController
     private readonly SceneManager _sceneManager;    
     private readonly List<string> _scenes;
 
+    public event Action<GameScene>? SceneChanged;
     private int _currentIndex;
 
 
@@ -54,7 +55,8 @@ public class SceneDebugController
                 _scenes[_currentIndex]
             );
         
-        _sceneManager.LoadScene(scene);        
+        _sceneManager.LoadScene(scene);
+        SceneChanged?.Invoke(scene);
 
     }
 }

@@ -1,4 +1,5 @@
 using Engine.Core;
+using Engine.Game.State;
 using Engine.Scene;
 using Engine.Scene.Scenes;
 using Engine.Runtime.Assets;
@@ -12,6 +13,7 @@ using Engine.Entities.Components;
 using Engine.Math;
 using Raylib_cs;
 using Engine.Entities.Sprites;
+using Engine.Game.Systems;
 
 namespace Engine.Runtime;
 
@@ -23,6 +25,7 @@ public class Game : IGameLoop
     private readonly DebugController _debugController;
     private readonly DebugSettings _debugSettings;
     private readonly SceneDebugController _sceneDebugController;
+    private readonly WorldStateApplier _worldStateApplier;
     private readonly SceneManager _sceneManager;
     private readonly AssetManager _assetManager;
     private readonly GameState _gameState;    
@@ -52,7 +55,10 @@ public class Game : IGameLoop
         _navigationController = new NavigationController(
             new DirectPathFinder()
         );
+        _worldStateApplier = new WorldStateApplier();
+
         Entity player = new(
+            "Player",
             "Guybrush",
             EntityType.Player,
             new SpriteComponent(

@@ -24,6 +24,7 @@ public static class EntityFactory
         );
         
         Entity entity = new(
+            data.Id,
             data.Name,
             data.Type,
             sprite

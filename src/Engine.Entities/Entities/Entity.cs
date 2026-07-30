@@ -5,6 +5,7 @@ namespace Engine.Entities;
 public class Entity
 {
     public Guid Id { get; }
+    public string EntityId { get; }
     public string Name { get; set; }
     public Transform Transform { get; }
     public Movement Movement { get; }
@@ -12,6 +13,7 @@ public class Entity
     public SpriteComponent Sprite { get; }
     
     public Entity(
+        string entityId,
         string name, 
         EntityType type,
         SpriteComponent sprite        
@@ -19,6 +21,7 @@ public class Entity
     {
         Id = Guid.NewGuid();
 
+        EntityId = entityId;
         Name = name;
         Type = type;
         Sprite = sprite;

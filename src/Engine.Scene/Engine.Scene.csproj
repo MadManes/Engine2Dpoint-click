@@ -3,6 +3,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Engine.Core\Engine.Core.csproj" />
     <ProjectReference Include="..\Engine.Entities\Engine.Entities.csproj" />
+    <ProjectReference Include="..\Engine.Game\Engine.Game.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

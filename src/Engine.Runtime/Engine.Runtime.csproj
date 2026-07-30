@@ -5,6 +5,7 @@
     <ProjectReference Include="..\Engine.Entities\Engine.Entities.csproj" />
     <ProjectReference Include="..\Engine.Scene\Engine.Scene.csproj" />
     <ProjectReference Include="..\Engine.Navigation\Engine.Navigation.csproj" />
+    <ProjectReference Include="..\Engine.Game\Engine.Game.csproj" />
   </ItemGroup>
 
   <ItemGroup>

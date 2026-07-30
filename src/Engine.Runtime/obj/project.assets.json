@@ -64,6 +64,20 @@
           "bin/placeholder/Engine.Entities.dll": {}
         }
       },
+      "Engine.Game/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Engine.Core": "1.0.0",
+          "Engine.Entities": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Engine.Game.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Engine.Game.dll": {}
+        }
+      },
       "Engine.Math/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
@@ -94,7 +108,8 @@
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
           "Engine.Core": "1.0.0",
-          "Engine.Entities": "1.0.0"
+          "Engine.Entities": "1.0.0",
+          "Engine.Game": "1.0.0"
         },
         "compile": {
           "bin/placeholder/Engine.Scene.dll": {}
@@ -138,6 +153,11 @@
       "path": "../Engine.Entities/Engine.Entities.csproj",
       "msbuildProject": "../Engine.Entities/Engine.Entities.csproj"
     },
+    "Engine.Game/1.0.0": {
+      "type": "project",
+      "path": "../Engine.Game/Engine.Game.csproj",
+      "msbuildProject": "../Engine.Game/Engine.Game.csproj"
+    },
     "Engine.Math/1.0.0": {
       "type": "project",
       "path": "../Engine.Math/Engine.Math.csproj",
@@ -158,6 +178,7 @@
     "net8.0": [
       "Engine.Core >= 1.0.0",
       "Engine.Entities >= 1.0.0",
+      "Engine.Game >= 1.0.0",
       "Engine.Navigation >= 1.0.0",
       "Engine.Scene >= 1.0.0",
       "Raylib-cs >= 8.0.0"
@@ -193,6 +214,9 @@
             },
             "F:\\Martin\\Programacion\\C#\\Engine2Dpoint&click\\src\\Engine.Entities\\Engine.Entities.csproj": {
               "projectPath": "F:\\Martin\\Programacion\\C#\\Engine2Dpoint&click\\src\\Engine.Entities\\Engine.Entities.csproj"
+            },
+            "F:\\Martin\\Programacion\\C#\\Engine2Dpoint&click\\src\\Engine.Game\\Engine.Game.csproj": {
+              "projectPath": "F:\\Martin\\Programacion\\C#\\Engine2Dpoint&click\\src\\Engine.Game\\Engine.Game.csproj"
             },
             "F:\\Martin\\Programacion\\C#\\Engine2Dpoint&click\\src\\Engine.Navigation\\Engine.Navigation.csproj": {
               "projectPath": "F:\\Martin\\Programacion\\C#\\Engine2Dpoint&click\\src\\Engine.Navigation\\Engine.Navigation.csproj"

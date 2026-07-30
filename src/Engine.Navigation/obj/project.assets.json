@@ -29,6 +29,20 @@
           "bin/placeholder/Engine.Entities.dll": {}
         }
       },
+      "Engine.Game/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Engine.Core": "1.0.0",
+          "Engine.Entities": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Engine.Game.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Engine.Game.dll": {}
+        }
+      },
       "Engine.Math/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
@@ -44,7 +58,8 @@
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
           "Engine.Core": "1.0.0",
-          "Engine.Entities": "1.0.0"
+          "Engine.Entities": "1.0.0",
+          "Engine.Game": "1.0.0"
         },
         "compile": {
           "bin/placeholder/Engine.Scene.dll": {}
@@ -65,6 +80,11 @@
       "type": "project",
       "path": "../Engine.Entities/Engine.Entities.csproj",
       "msbuildProject": "../Engine.Entities/Engine.Entities.csproj"
+    },
+    "Engine.Game/1.0.0": {
+      "type": "project",
+      "path": "../Engine.Game/Engine.Game.csproj",
+      "msbuildProject": "../Engine.Game/Engine.Game.csproj"
     },
     "Engine.Math/1.0.0": {
       "type": "project",
