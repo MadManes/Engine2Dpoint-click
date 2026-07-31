@@ -12,6 +12,7 @@ public class Entity
     public Movement Movement { get; }
     public EntityType Type { get; }
     public SpriteComponent Sprite { get; }
+    public InteractionComponent? Interaction { get; private set; }
     
     public Entity(
         string entityId,
@@ -33,5 +34,11 @@ public class Entity
 
         Movement = new Movement();
         Movement.Entity = this;        
+    }
+
+    public void  EnableInteraction()
+    {
+        Interaction = new InteractionComponent();
+        Interaction.Entity = this;
     }
 }

@@ -30,6 +30,11 @@ public static class EntityFactory
             sprite
         );
 
+        if (data.IsInteractable)
+        {
+            entity.EnableInteraction();
+        }
+
         entity.Transform.SetPosition(
             data.Position
         );

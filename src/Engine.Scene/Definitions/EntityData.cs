@@ -10,19 +10,22 @@ public class EntityData
     public string Name { get; }    
     public Vector2 Position { get; }
     public SpriteData Sprite { get; }
-    public EntityType Type { get; }  
+    public EntityType Type { get; } 
+    public bool IsInteractable { get; } 
 
     public EntityData(
         string id,
         string name,
         Vector2 position,
         SpriteData sprite,
-        EntityType type)
+        EntityType type,
+        bool isInteractable = false)
     {
         Id = id;
         Name = name;
         Position = position;
         Sprite = sprite;
         Type = type;
+        IsInteractable = isInteractable;
     }
 }

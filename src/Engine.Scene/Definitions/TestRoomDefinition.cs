@@ -35,7 +35,8 @@ public static class TestRoomDefinition
                     "NPC_Test_1",
                     new Vector2(600,200),
                     new SpriteData("npc_test"),
-                    EntityType.Generic
+                    EntityType.Generic,
+                    true
                 ),
 
                 new EntityData(
