@@ -7,15 +7,19 @@ namespace Engine.Scene;
 
 public class GameScene : IScene
 {
-    private readonly List<Entity> _entities = new();
-
     public SceneData Data { get; }
 
     public SceneWorld World { get; }    
 
     public string Name { get; }
 
-    public IReadOnlyList<Entity> Entities => _entities;
+    public IReadOnlyList<Entity> Entities
+    {
+        get
+        {
+            return World.Entities;
+        }
+    }
 
     
     public GameScene(SceneData data)
@@ -32,29 +36,28 @@ public class GameScene : IScene
         foreach (EntityData entityData in data.EntityCollection.Entities)
         {
             Entity entity =
-                EntityFactory.Create(entityData);
-    
-            World.AddEntity(entity);
+                EntityFactory.Create(entityData);    
+            
             AddEntity(entity);
         }
     }  
 
     public void AddEntity(Entity entity)
     {
-        _entities.Add(entity);
+        World.AddEntity(entity);
     }
 
 
     public void RemoveEntity(Entity entity)
     {
-        _entities.Remove(entity);
+        World.RemoveEntity(entity);
     }
 
     public void AddPersistentEntity(Entity entity)
     {
-        if (!_entities.Contains(entity))
+        if (!World.Contains(entity))
         {
-            _entities.Add(entity);
+            World.AddEntity(entity);
         }
 
         if (!World.Entities.Contains(entity))

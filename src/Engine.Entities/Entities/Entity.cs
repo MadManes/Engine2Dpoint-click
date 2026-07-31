@@ -25,6 +25,7 @@ public class Entity
         Name = name;
         Type = type;
         Sprite = sprite;
+        Sprite.Entity = this;
 
         Transform = new Transform();
         Transform.Entity = this;

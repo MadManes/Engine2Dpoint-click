@@ -13,7 +13,7 @@ using Engine.Entities.Components;
 using Engine.Math;
 using Raylib_cs;
 using Engine.Entities.Sprites;
-using Engine.Game.Systems;
+//using Engine.Runtime.Systems;
 
 namespace Engine.Runtime;
 
@@ -84,10 +84,46 @@ public class Game : IGameLoop
             SceneRegistry.Create("TestRoom")
         );
 
+        var state =
+            _gameState.WorldState
+                .GetSceneState("Test Room")
+                .GetEntityState("object_2");
+        
+        state.SetState("TestState");
+        
+        _worldStateApplier.Apply(
+            _gameState,
+            _sceneManager.CurrentScene!
+        );
+
         _sceneDebugController = new SceneDebugController(
             _sceneManager,            
             _sceneManager.CurrentScene!.Name
-        );        
+        );
+
+        // PRUEBA
+        _sceneDebugController.SceneChanged += OnSceneChanged;
+    }
+
+    // PRUEBA
+    private void OnSceneChanged(GameScene scene)
+    {
+        if (scene.Name == "Wide Room")
+        {
+            SceneState testRoomState =
+                _gameState.WorldState.GetSceneState(
+                    "Test Room"
+                );
+
+            testRoomState
+                .GetEntityState("object_1")
+                .Remove();
+        }
+
+        _worldStateApplier.Apply(
+            _gameState,
+            scene
+        );
     }
 
     public void Run()

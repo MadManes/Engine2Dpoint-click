@@ -23,4 +23,15 @@ public class SceneWorld
 
         _entities.Add(entity);
     }
+
+    public void RemoveEntity(Entity entity)
+    {
+        _entities.Remove(entity);
+    }
+
+    public bool Contains(Entity entity)
+    {
+        return _entities.Contains(entity);
+    }
+    
 }

@@ -2,7 +2,7 @@ using Engine.Entities.Sprites;
 
 namespace Engine.Entities.Components;
 
-public class SpriteComponent
+public class SpriteComponent : Component
 {
     public SpriteSet Set { get; }
     public SpritePivot Pivot { get; }
