@@ -1,8 +1,8 @@
 using Engine.Entities;
 
-namespace Engine.Runtime.Rendering;
+namespace Engine.Runtime;
 
-public class EntityRenderSorter
+public class EntityVisualSorter
 {
     public IEnumerable<Entity> Sort(
         IEnumerable<Entity> entities)

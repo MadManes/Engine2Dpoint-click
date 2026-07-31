@@ -30,6 +30,11 @@ public class EntityStateApplier
                 $"{entity.Name} tiene estado {state.State}"
             );
         }
+
+        if (state.IsState("Hidden"))
+        {
+            entity.Visible = false;
+        }
     }
 
     private void ApplyFlags(

@@ -1,7 +1,6 @@
 using Engine.Runtime.Debug;
 using Engine.Runtime.Rendering.DebugRenderers;
 using Engine.Runtime.Assets;
-using Engine.Scene.World;
 using Raylib_cs;
 using Engine.Entities;
 using Engine.Scene;
@@ -23,7 +22,7 @@ public class DebugRenderer : IRenderer
     private readonly AssetManager _assetManager;
     private readonly PlayerDebugRenderer _playerRenderer;
     private readonly SpriteRenderer _spriteRenderer;
-    private readonly EntityRenderSorter _entitySorter;
+    private readonly EntityVisualSorter _entitySorter;
     private readonly NavigationDebugRenderer _navigationRenderer;
     private readonly NavigationInteractionDebugRenderer _navigationInteractionRenderer;
 
@@ -39,7 +38,7 @@ public class DebugRenderer : IRenderer
         _camera = camera;   
         _assetManager = assetManager;
 
-        _entitySorter = new EntityRenderSorter();
+        _entitySorter = new EntityVisualSorter();
 
         _overlay = new DebugOverlay(settings);
         _worldRenderer = new WorldDebugRenderer(_primitiveRenderer);

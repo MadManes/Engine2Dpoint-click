@@ -8,11 +8,13 @@ namespace Engine.Runtime.Rendering;
 public class SpriteRenderer
 {
     private readonly AssetManager _assetManager;
+    private readonly SpritePlacement _placement;
 
     public SpriteRenderer(
         AssetManager assetManager)
     {
         _assetManager = assetManager;
+        _placement = new SpritePlacement();
     }
 
 
@@ -22,25 +24,19 @@ public class SpriteRenderer
         {
             return;
         }
-        
+
         Texture2D texture =
             _assetManager.LoadSprite(
                 entity.Sprite.Set.Idle + ".png"
             );
 
-        float drawX =
-            entity.Transform.Position.X
-            - entity.Sprite.Pivot.X;
-        
-        float drawY =
-            entity.Transform.Position.Y
-            - entity.Sprite.Pivot.Y;
+        Vector2 drawPosition = _placement.GetDrawPosition(entity);
         
         
         Raylib.DrawTexture(
             texture,
-            (int)drawX,
-            (int)drawY,
+            (int)drawPosition.X,
+            (int)drawPosition.Y,
             Color.White
         );
     }

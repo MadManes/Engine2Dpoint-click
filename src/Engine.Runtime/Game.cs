@@ -13,6 +13,7 @@ using Engine.Entities.Components;
 using Engine.Math;
 using Raylib_cs;
 using Engine.Entities.Sprites;
+using Engine.Runtime.Interaction;
 //using Engine.Runtime.Systems;
 
 namespace Engine.Runtime;
@@ -28,6 +29,8 @@ public class Game : IGameLoop
     private readonly WorldStateApplier _worldStateApplier;
     private readonly SceneManager _sceneManager;
     private readonly AssetManager _assetManager;
+    private readonly EntityPicker _entityPicker;
+    private readonly InteractionSystem _interactionSystem;
     private readonly GameState _gameState;    
     private readonly Camera _camera;
     private Vector2? _mousePosition;
@@ -43,6 +46,12 @@ public class Game : IGameLoop
         _assetManager = new AssetManager(
             "assets"
         );
+
+        _entityPicker = new EntityPicker(
+            _assetManager
+        );
+
+        _interactionSystem = new InteractionSystem();
 
         _debugController = new DebugController(_debugSettings, _camera); 
         _renderer = new DebugRenderer(
@@ -84,12 +93,20 @@ public class Game : IGameLoop
             SceneRegistry.Create("TestRoom")
         );
 
+        // PRUEBA
         var state =
             _gameState.WorldState
                 .GetSceneState("Test Room")
                 .GetEntityState("object_2");
-        
-        state.SetState("TestState");
+
+        state.SetState("Hidden");
+
+        //var state =
+        //    _gameState.WorldState
+        //        .GetSceneState("Test Room")
+        //        .GetEntityState("object_2");
+        //
+        //state.SetState("TestState");
         
         _worldStateApplier.Apply(
             _gameState,
@@ -160,7 +177,23 @@ public class Game : IGameLoop
                 mouse.Y
             );
 
-            _mousePosition = clickPosition;            
+            _mousePosition = clickPosition;
+
+            Entity? selectedEntity =
+                _entityPicker.Pick(
+                    _sceneManager.CurrentScene!.World.Entities,
+                    clickPosition
+                );
+            
+            // Por ahora
+            if (selectedEntity != null)
+            {
+                _interactionSystem.Interact(
+                    selectedEntity
+                );
+
+                return;
+            }
         
             NavigationPath path = _navigationController.GetPath(
                 _sceneManager.CurrentScene!.World,
