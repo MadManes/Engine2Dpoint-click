@@ -7,6 +7,7 @@ public class Entity
     public Guid Id { get; }
     public string EntityId { get; }
     public string Name { get; set; }
+    public bool Visible { get; set; } = true;
     public Transform Transform { get; }
     public Movement Movement { get; }
     public EntityType Type { get; }

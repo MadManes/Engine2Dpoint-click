@@ -18,6 +18,11 @@ public class SpriteRenderer
 
     public void Draw(Entity entity)
     {
+        if (!entity.Visible)
+        {
+            return;
+        }
+        
         Texture2D texture =
             _assetManager.LoadSprite(
                 entity.Sprite.Set.Idle + ".png"

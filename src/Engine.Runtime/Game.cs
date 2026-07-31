@@ -70,7 +70,7 @@ public class Game : IGameLoop
                     32
                 )
             )
-        );
+        );        
 
         _gameState = new GameState(player);  
 

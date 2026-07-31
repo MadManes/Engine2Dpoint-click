@@ -24,6 +24,10 @@ public class EntityState
         return State == state;
     }
 
+    public bool HasFlag(string flag)
+    {
+        return _flags.ContainsKey(flag);
+    }
     public void Remove()
     {
         Exists = false;

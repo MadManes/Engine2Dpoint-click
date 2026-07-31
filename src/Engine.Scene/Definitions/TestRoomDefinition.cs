@@ -24,8 +24,8 @@ public static class TestRoomDefinition
         Vector2 playerSpawn = new(
             600,
             100
-        );
-        
+        );        
+
         EntityCollectionData entityCollection =
         new(
             new List<EntityData>
