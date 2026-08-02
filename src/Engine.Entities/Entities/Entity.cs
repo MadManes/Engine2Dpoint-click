@@ -13,6 +13,7 @@ public class Entity
     public EntityType Type { get; }
     public SpriteComponent Sprite { get; }
     public InteractionComponent? Interaction { get; private set; }
+    public ComponentCollection Components { get; }
     
     public Entity(
         string entityId,
@@ -33,7 +34,8 @@ public class Entity
         Transform.Entity = this;
 
         Movement = new Movement();
-        Movement.Entity = this;        
+        Movement.Entity = this;
+        Components = new ComponentCollection();
     }
 
     public void  EnableInteraction()

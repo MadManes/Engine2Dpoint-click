@@ -35,6 +35,16 @@ public static class EntityFactory
             entity.EnableInteraction();
         }
 
+        if (data.Door != null)
+        {
+            entity.Components.Add(
+                new DoorComponent(
+                    data.Door.TargetScene,
+                    data.Door.TargetSpawn
+                )
+            );            
+        }
+
         entity.Transform.SetPosition(
             data.Position
         );

@@ -36,6 +36,11 @@ public class EntityPicker
 
         foreach (Entity entity in orderedEntities)
         {
+            if (entity.Interaction == null)
+            {
+                continue;
+            }
+            
             Console.WriteLine(
                 $"Revisando: {entity.Name}"
             );

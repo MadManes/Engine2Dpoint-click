@@ -21,10 +21,17 @@ public static class TestRoomDefinition
             "test_room"
         );
 
-        Vector2 playerSpawn = new(
-            600,
-            100
-        );        
+        List<SpawnPointData>spawnPoints =
+        [
+            new SpawnPointData(
+                "Default",
+                new Vector2(600, 100)
+            ),
+            new SpawnPointData(
+                "Entrance",
+                new Vector2(850, 250)
+            )
+        ];
 
         EntityCollectionData entityCollection =
         new(
@@ -42,9 +49,22 @@ public static class TestRoomDefinition
                 new EntityData(
                     "object_2",
                     "NPC_Test_2",
-                    new Vector2(600,250),
+                    new Vector2(350,250),
                     new SpriteData("npc_test"),
-                    EntityType.Generic
+                    EntityType.Generic                    
+                ),
+
+                new EntityData(
+                    "door_wide_room",
+                    "to Wide Room",
+                    new Vector2(850,200),
+                    new SpriteData("door"),
+                    EntityType.Generic,
+                    true,
+                    new DoorData(
+                        "WideRoom",
+                        "Entrance"
+                    )
                 ),
 
             }
@@ -55,7 +75,7 @@ public static class TestRoomDefinition
             navigation,
             background,
             entityCollection,
-            playerSpawn
+            spawnPoints
         );
     }
 }

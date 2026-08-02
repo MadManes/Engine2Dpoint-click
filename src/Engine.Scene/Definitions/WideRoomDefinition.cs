@@ -20,22 +20,45 @@ public static class WideRoomDefinition
             "wide_room"
         );
 
-        Vector2 playerSpawn = new(
-            600,
-            300
-        );
+        List<SpawnPointData>spawnPoints =
+        [
+            new SpawnPointData(
+                "Default",
+                new Vector2(600, 300)
+            ),
+            new SpawnPointData(
+                "Entrance",
+                new Vector2(150, 250)
+            )
+        ];
 
         EntityCollectionData entityCollection =
         new(
-            new List<EntityData>()            
+            new List<EntityData>
+            {
+                new EntityData(
+                    "door_test_room",
+                    "to Test Room",
+                    new Vector2(150,200),
+                    new SpriteData("door"),
+                    EntityType.Generic,
+                    true,
+                    new DoorData(
+                        "TestRoom",
+                        "Entrance"
+                    )
+                )
+            }                      
         );
+
+        
 
         return new SceneData(
             "Wide Room",
             navigation,
             background,
             entityCollection,
-            playerSpawn
+            spawnPoints
         );
     }
 }

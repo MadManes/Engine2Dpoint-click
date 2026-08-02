@@ -11,7 +11,8 @@ public class EntityData
     public Vector2 Position { get; }
     public SpriteData Sprite { get; }
     public EntityType Type { get; } 
-    public bool IsInteractable { get; } 
+    public bool IsInteractable { get; }
+    public DoorData? Door { get; }
 
     public EntityData(
         string id,
@@ -19,7 +20,8 @@ public class EntityData
         Vector2 position,
         SpriteData sprite,
         EntityType type,
-        bool isInteractable = false)
+        bool isInteractable = false,
+        DoorData? door = null)
     {
         Id = id;
         Name = name;
@@ -27,5 +29,6 @@ public class EntityData
         Sprite = sprite;
         Type = type;
         IsInteractable = isInteractable;
+        Door = door;
     }
 }

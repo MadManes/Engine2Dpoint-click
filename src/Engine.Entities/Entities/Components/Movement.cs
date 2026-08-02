@@ -7,6 +7,8 @@ public class Movement : Component
 {
     public NavigationPath? Path { get; private set; }
 
+    public bool HasFinishedPath {get; private set; } = false;
+
     public float Speed { get; set; }
 
     public Movement()
@@ -20,6 +22,7 @@ public class Movement : Component
     public void SetPath(NavigationPath path)
     {
         Path = path;
+        HasFinishedPath = false;
     }    
 
     public bool AdvancePath()
@@ -31,6 +34,23 @@ public class Movement : Component
 
         return Path.MoveNext();
     }
+
+    public bool IsMoving()
+    {
+        return Path != null; 
+    }
+
+    public void CompletePath()
+    {
+        Path = null;
+        HasFinishedPath = true;
+    }
+
+    public void ResetFinishedPath()
+    {
+        HasFinishedPath = false;
+    }
+
     public void ClearPath()
     {
         Path = null;

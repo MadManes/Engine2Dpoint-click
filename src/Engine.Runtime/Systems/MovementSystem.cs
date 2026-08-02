@@ -44,7 +44,7 @@ public class MovementSystem
 
                 if (!hasNextPoint)
                 {
-                    entity.Movement.ClearPath();
+                    entity.Movement.CompletePath();
                 }
             }
             else

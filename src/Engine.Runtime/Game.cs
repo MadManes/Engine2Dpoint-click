@@ -14,6 +14,7 @@ using Engine.Math;
 using Raylib_cs;
 using Engine.Entities.Sprites;
 using Engine.Runtime.Interaction;
+using Engine.Runtime.SceneTransition;
 //using Engine.Runtime.Systems;
 
 namespace Engine.Runtime;
@@ -31,6 +32,8 @@ public class Game : IGameLoop
     private readonly AssetManager _assetManager;
     private readonly EntityPicker _entityPicker;
     private readonly InteractionSystem _interactionSystem;
+    private readonly InteractionController _interactionController;
+    private readonly PlayerController _playerController;
     private readonly GameState _gameState;    
     private readonly Camera _camera;
     private Vector2? _mousePosition;
@@ -49,10 +52,8 @@ public class Game : IGameLoop
 
         _entityPicker = new EntityPicker(
             _assetManager
-        );
-
-        _interactionSystem = new InteractionSystem();
-
+        );        
+        
         _debugController = new DebugController(_debugSettings, _camera); 
         _renderer = new DebugRenderer(
             _debugSettings,
@@ -64,6 +65,9 @@ public class Game : IGameLoop
         _navigationController = new NavigationController(
             new DirectPathFinder()
         );
+
+        
+        
         _worldStateApplier = new WorldStateApplier();
 
         Entity player = new(
@@ -93,13 +97,47 @@ public class Game : IGameLoop
             SceneRegistry.Create("TestRoom")
         );
 
+        DefaultInteractionHandler defaultHandler =
+            new();
+
+        SceneTransitionService transitionService =
+            new(_sceneManager);
+
+        DoorInteractionHandler doorHandler =
+            new(transitionService);
+
+        InteractionHandlerResolver resolver =
+            new(
+                defaultHandler,
+                doorHandler
+            );
+
+        InteractionExecutor executor =
+            new(resolver);
+
+        _interactionSystem =
+            new InteractionSystem(executor);
+
+        
+
+        _playerController = new PlayerController(_gameState.Player);
+
+        _interactionController = new InteractionController(
+            _navigationController,
+            _interactionSystem,
+            _playerController
+        );
+
+        
+        
+
         // PRUEBA
         var state =
             _gameState.WorldState
                 .GetSceneState("Test Room")
                 .GetEntityState("object_2");
 
-        state.SetState("Hidden");
+        //state.SetState("Hidden");
 
         //var state =
         //    _gameState.WorldState
@@ -187,9 +225,11 @@ public class Game : IGameLoop
             
             // Por ahora
             if (selectedEntity != null)
-            {
-                _interactionSystem.Interact(
-                    selectedEntity
+            {   
+                _interactionController.HandleEntityClick(
+                    selectedEntity,
+                    _gameState.Player,
+                    _sceneManager.CurrentScene!.World
                 );
 
                 return;
@@ -206,11 +246,12 @@ public class Game : IGameLoop
             {
                 Vector2 destination = path.Points[0];
                 _correctedPosition = destination;                
-                _gameState.Player.Movement.SetPath(path);
+                _playerController.MoveTo(path);
             }
         }
 
         _movementSystem.Update(_sceneManager.CurrentScene!.World, deltaTime);
+        _interactionSystem.Update(_gameState.Player);
         
     }
 

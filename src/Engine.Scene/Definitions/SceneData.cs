@@ -1,5 +1,3 @@
-using Engine.Math;
-
 namespace Engine.Scene.Definitions;
 
 public class SceneData
@@ -12,19 +10,36 @@ public class SceneData
 
     public EntityCollectionData EntityCollection { get; }
 
-    public Vector2 PlayerSpawn { get; }
+    public IReadOnlyList<SpawnPointData> SpawnPoints { get; }
 
     public SceneData(
         string name,
         NavigationData navigation,
         BackgroundData background,
         EntityCollectionData entityCollection,
-        Vector2 playerSpawn)
+        IReadOnlyList<SpawnPointData> spawnPoints)
     {
         Name = name;
         Navigation = navigation;
         Background = background;
         EntityCollection = entityCollection;
-        PlayerSpawn = playerSpawn;
+        SpawnPoints = spawnPoints;
+    }
+
+    public SpawnPointData GetSpawnPoint(string id)
+    {
+        SpawnPointData? spawn =
+            SpawnPoints.FirstOrDefault(
+                x => x.Id == id
+            );
+    
+        if (spawn == null)
+        {
+            throw new InvalidOperationException(
+                $"Spawn point '{id}' does not exist in scene '{Name}'."
+            );
+        }
+    
+        return spawn;
     }
 }

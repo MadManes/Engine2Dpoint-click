@@ -15,7 +15,9 @@ public class SceneManager
         _persistentEntities.Add(entity);        
     }
 
-    public void LoadScene(GameScene scene)
+    public void LoadScene(
+        GameScene scene,
+        string spawnId = "Default")
     {
         CurrentScene = scene;      
 
@@ -24,7 +26,7 @@ public class SceneManager
             if (entity.Type == EntityType.Player)
             {
                 entity.Transform.SetPosition(
-                    scene.Data.PlayerSpawn
+                    scene.Data.GetSpawnPoint(spawnId).Position
                 );
 
                 entity.Movement.ClearPath();
