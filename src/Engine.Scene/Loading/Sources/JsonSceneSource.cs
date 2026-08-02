@@ -1,5 +1,3 @@
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using Engine.Scene.Definitions;
 using Engine.Scene.Serialization;
 
@@ -8,24 +6,15 @@ namespace Engine.Scene.Loading.Sources;
 public class JsonSceneSource : ISceneSource
 {
     private readonly string _folder;
-    private readonly JsonSerializerOptions _options = 
-        new()
-        {
-            PropertyNameCaseInsensitive = true
-        };
-    
+    private readonly SceneSerializer _serializer;
+
+
     public JsonSceneSource(
-        string folder)
+        string folder,
+        SceneSerializer serializer)
     {
         _folder = folder;
-        _options = new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true
-        };
-
-        _options.Converters.Add(
-            new JsonStringEnumConverter()
-        );
+        _serializer = serializer;
     }
 
 
@@ -40,18 +29,12 @@ public class JsonSceneSource : ISceneSource
                 string json =
                     File.ReadAllText(file);
 
-                SceneData? data =
-                    JsonSerializer.Deserialize<SceneData>(
-                        json,
-                        _options
-                    );
+                SceneData data =
+                    _serializer.Deserialize(json);
 
-                if (data != null)
-                {
-                    ids.Add(data.Id);
-                }
+                ids.Add(data.Id);
             }
-            
+
             return ids;
         }
     }
@@ -59,42 +42,22 @@ public class JsonSceneSource : ISceneSource
 
     public SceneData Load(string id)
     {
-        string[] files =
-            Directory.GetFiles(
-                _folder,
-                $"*.json"
-            );
-        
-        foreach (string file in files)
+        foreach (string file in Directory.GetFiles(_folder, "*.json"))
         {
             string json =
                 File.ReadAllText(file);
 
-            SceneData? data =
-                JsonSerializer.Deserialize<SceneData>(
-                    json,
-                    _options
-                );
+            SceneData data =
+                _serializer.Deserialize(json);
 
-            if (data != null)
+            if (data.Id == id)
             {
-                Console.WriteLine(
-                    $"Archivo: {file} - Id: {data.Id} - Name: {data.Name}"
-                );
-
-                if(data.Id == id)
-                {
-                    return data;
-                }
-            }            
-            
+                return data;
+            }
         }
-
 
         throw new FileNotFoundException(
             $"Scene '{id}' not found."
         );
-        
     }
-    
 }

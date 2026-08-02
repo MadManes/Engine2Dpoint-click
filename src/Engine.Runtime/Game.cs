@@ -19,6 +19,7 @@ using Engine.Runtime.SceneTransition;
 using Engine.Scene.Loading.Sources;
 using Engine.Scene.Loading.Writers;
 using Engine.Scene.Factories;
+using Engine.Scene.Serialization;
 //using Engine.Runtime.Systems;
 
 namespace Engine.Runtime;
@@ -94,11 +95,11 @@ public class Game : IGameLoop
 
         _gameState = new GameState(player);  
 
-        // PRUEBA JSON
-        //DefinitionSceneSource source = new();
-        //_sceneLoader = new SceneLoader(source);
+        SceneSerializer serializer = new();
+
         JsonSceneSource source = new(
-            "assets/scenes"
+            "assets/scenes",
+            serializer
         );
 
         _sceneLoader = new SceneLoader(source);
@@ -116,7 +117,8 @@ public class Game : IGameLoop
         );
 
         _sceneWriter = new JsonSceneWriter(
-            "assets/scenes"
+            "assets/scenes",
+            serializer
         );                
 
         _sceneManager = new SceneManager();

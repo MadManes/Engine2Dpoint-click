@@ -1,0 +1,90 @@
+{
+  "id": "test_room",
+  "name": "Test Room",
+  "navigation": {
+    "vertices": [
+      {
+        "x": 240,
+        "y": 10
+      },
+      {
+        "x": 1100,
+        "y": 10
+      },
+      {
+        "x": 1100,
+        "y": 600
+      },
+      {
+        "x": 240,
+        "y": 600
+      }
+    ]
+  },
+  "background": {
+    "assetName": "test_room"
+  },
+  "entityCollection": {
+    "entities": [
+      {
+        "id": "object_1",
+        "name": "NPC_Test_1",
+        "position": {
+          "x": 600,
+          "y": 200
+        },
+        "sprite": {
+          "assetName": "npc_test"
+        },
+        "type": "Generic",
+        "isInteractable": true
+      },
+      {
+        "id": "object_2",
+        "name": "NPC_Test_2",
+        "position": {
+          "x": 350,
+          "y": 250
+        },
+        "sprite": {
+          "assetName": "npc_test"
+        },
+        "type": "Generic",
+        "isInteractable": false
+      },
+      {
+        "id": "door_wide_room",
+        "name": "to Wide Room",
+        "position": {
+          "x": 850,
+          "y": 200
+        },
+        "sprite": {
+          "assetName": "door"
+        },
+        "type": "Generic",
+        "isInteractable": true,
+        "door": {
+          "targetScene": "wide_room",
+          "targetSpawn": "Entrance"
+        }
+      }
+    ]
+  },
+  "spawnPoints": [
+    {
+      "id": "Default",
+      "position": {
+        "x": 600,
+        "y": 100
+      }
+    },
+    {
+      "id": "Entrance",
+      "position": {
+        "x": 850,
+        "y": 250
+      }
+    }
+  ]
+}

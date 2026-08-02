@@ -1,4 +1,3 @@
-using System.Text.Json;
 using Engine.Scene.Definitions;
 using Engine.Scene.Serialization;
 
@@ -7,32 +6,27 @@ namespace Engine.Scene.Loading.Writers;
 public class JsonSceneWriter
 {
     private readonly string _folder;
-
+    private readonly SceneSerializer _serializer;
 
     public JsonSceneWriter(
-        string folder)
+        string folder,
+        SceneSerializer serializer)
     {
         _folder = folder;
+        _serializer = serializer;
     }
 
 
-    public void Save(
-        SceneData scene)
+    public void Save(SceneData scene)
     {
-        string fileName = GetFileName(scene.Name);
-
         string path =
             Path.Combine(
                 _folder,
-                $"{fileName}.json"
+                $"{scene.Id}.json"
             );
 
         string json =
-            JsonSerializer.Serialize(
-                scene,
-                JsonOptions.Default
-            );
-
+            _serializer.Serialize(scene);
 
         File.WriteAllText(
             path,
