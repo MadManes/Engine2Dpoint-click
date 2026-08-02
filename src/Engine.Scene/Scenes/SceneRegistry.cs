@@ -1,17 +1,23 @@
+using Engine.Scene.Loading;
+using Engine.Scene.Definitions;
+
 namespace Engine.Scene.Scenes;
 
-public static class SceneRegistry
+public class SceneRegistry
 {
-    public static GameScene Create(string name)
-    {
-        return name switch
-        {
-            "TestRoom" => new TestRoomScene(),
-            "WideRoom" => new WideRoomScene(),
+    private readonly SceneLoader _loader;
 
-            _ => throw new InvalidOperationException(
-                $"Scene '{name}' does not exist."
-            )
-        };
+    public SceneRegistry(
+        SceneLoader loader)
+    {
+        _loader = loader;
+    }
+
+    public GameScene Create(
+        string name)
+    {
+        SceneData data = _loader.Load(name);
+        
+        return new GameScene(data);
     }
 }

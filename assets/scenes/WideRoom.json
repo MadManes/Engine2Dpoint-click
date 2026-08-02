@@ -1,0 +1,55 @@
+{
+  "name": "Wide Room",
+
+  "background": {
+    "assetName": "wide_room"
+  },
+
+  "navigation": {
+    "vertices": [
+      { "x": 100, "y": 100 },
+      { "x": 1200, "y": 100 },
+      { "x": 1200, "y": 500 },
+      { "x": 100, "y": 500 }
+    ]
+  },
+
+  "spawnPoints": [
+    {
+      "id": "Default",
+      "position": {
+        "x": 600,
+        "y": 300
+      }
+    },
+    {
+      "id": "Entrance",
+      "position": {
+        "x": 150,
+        "y": 250
+      }
+    }
+  ],
+
+  "entityCollection": {
+    "entities": [
+      {
+        "id": "door_test_room",
+        "name": "to Test Room",
+        "position": {
+          "x": 150,
+          "y": 200
+        },
+        "sprite": {
+          "assetName": "door"
+        },
+        "type": "Generic",
+        "isInteractable": true,
+        "door": {
+          "targetScene": "TestRoom",
+          "targetSpawn": "Entrance"
+        }
+      }
+    ]
+  }
+}

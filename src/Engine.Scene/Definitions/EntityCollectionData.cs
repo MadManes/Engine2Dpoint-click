@@ -2,11 +2,5 @@ namespace Engine.Scene.Definitions;
 
 public class EntityCollectionData
 {
-    public IReadOnlyList<EntityData> Entities { get; }
-
-    public EntityCollectionData(
-        IReadOnlyList<EntityData> entities)
-    {
-        Entities = entities;
-    }
+    public List<EntityData> Entities { get; set; } = new();
 }

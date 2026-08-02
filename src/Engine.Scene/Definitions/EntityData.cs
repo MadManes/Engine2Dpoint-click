@@ -6,29 +6,12 @@ namespace Engine.Scene.Definitions;
 
 public class EntityData
 {
-    public string Id { get; }
-    public string Name { get; }    
-    public Vector2 Position { get; }
-    public SpriteData Sprite { get; }
-    public EntityType Type { get; } 
-    public bool IsInteractable { get; }
-    public DoorData? Door { get; }
+    public string Id { get; set; } = "";
+    public string Name { get; set; } = "";
+    public Vector2 Position { get; set; }
+    public SpriteData Sprite { get; set; } = new();
+    public EntityType Type { get; set; } 
+    public bool IsInteractable { get; set; }
+    public DoorData? Door { get; set; }
 
-    public EntityData(
-        string id,
-        string name,
-        Vector2 position,
-        SpriteData sprite,
-        EntityType type,
-        bool isInteractable = false,
-        DoorData? door = null)
-    {
-        Id = id;
-        Name = name;
-        Position = position;
-        Sprite = sprite;
-        Type = type;
-        IsInteractable = isInteractable;
-        Door = door;
-    }
 }

@@ -1,4 +1,5 @@
 using Engine.Scene;
+using Engine.Scene.Loading;
 using Engine.Scene.Scenes;
 using Raylib_cs;
 
@@ -8,17 +9,24 @@ public class SceneDebugController
 {
     private readonly SceneManager _sceneManager;    
     private readonly List<string> _scenes;
+    private readonly SceneRegistry _registry;
+    private readonly SceneLoader _loader;
 
     public event Action<GameScene>? SceneChanged;
     private int _currentIndex;
 
 
     public SceneDebugController(
-        SceneManager sceneManager,        
+        SceneManager sceneManager,
+        SceneRegistry registry,
+        SceneLoader loader,        
         string initialScene)
     {
-        _sceneManager = sceneManager;        
-        _scenes = SceneCatalog.Names.ToList();
+        _sceneManager = sceneManager;
+        _registry = registry;
+        _loader = loader;
+
+        _scenes = _loader.Names.ToList();
         _currentIndex = _scenes.IndexOf(            
             initialScene
         );
@@ -51,7 +59,7 @@ public class SceneDebugController
 
 
         GameScene scene =
-            SceneCatalog.Create(
+            _registry.Create(
                 _scenes[_currentIndex]
             );
         

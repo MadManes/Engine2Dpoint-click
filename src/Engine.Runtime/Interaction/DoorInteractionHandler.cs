@@ -1,7 +1,6 @@
 using Engine.Entities;
 using Engine.Entities.Components;
 using Engine.Runtime.SceneTransition;
-using Engine.Scene.Scenes;
 
 namespace Engine.Runtime.Interaction;
 
@@ -23,9 +22,7 @@ public class DoorInteractionHandler
             entity.Components.Get<DoorComponent>()!;
 
         _transitionService.ChangeScene(
-            SceneCatalog.Create(
-                door.TargetScene
-            ),
+            door.TargetScene,
             door.TargetSpawn
         );
     }

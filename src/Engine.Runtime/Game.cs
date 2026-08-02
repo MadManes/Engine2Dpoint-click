@@ -2,6 +2,7 @@ using Engine.Core;
 using Engine.Game.State;
 using Engine.Scene;
 using Engine.Scene.Scenes;
+using Engine.Scene.Loading;
 using Engine.Runtime.Assets;
 using Engine.Runtime.Systems;
 using Engine.Runtime.Controllers;
@@ -15,6 +16,7 @@ using Raylib_cs;
 using Engine.Entities.Sprites;
 using Engine.Runtime.Interaction;
 using Engine.Runtime.SceneTransition;
+using Engine.Scene.Loading.Sources;
 //using Engine.Runtime.Systems;
 
 namespace Engine.Runtime;
@@ -29,6 +31,8 @@ public class Game : IGameLoop
     private readonly SceneDebugController _sceneDebugController;
     private readonly WorldStateApplier _worldStateApplier;
     private readonly SceneManager _sceneManager;
+    private readonly SceneLoader _sceneLoader;
+    private readonly SceneRegistry _sceneRegistry;
     private readonly AssetManager _assetManager;
     private readonly EntityPicker _entityPicker;
     private readonly InteractionSystem _interactionSystem;
@@ -87,6 +91,18 @@ public class Game : IGameLoop
 
         _gameState = new GameState(player);  
 
+        // PRUEBA JSON
+        //DefinitionSceneSource source = new();
+        //_sceneLoader = new SceneLoader(source);
+        JsonSceneSource source = new(
+            "assets/scenes"
+        );
+        _sceneLoader = new SceneLoader(source);
+
+        _sceneRegistry = new SceneRegistry(
+            _sceneLoader
+        );
+
         _sceneManager = new SceneManager();
 
         _sceneManager.RegisterPersistentEntity(
@@ -94,14 +110,17 @@ public class Game : IGameLoop
         );
 
         _sceneManager.LoadScene(
-            SceneRegistry.Create("TestRoom")
+            _sceneRegistry.Create("TestRoom")
         );
 
         DefaultInteractionHandler defaultHandler =
             new();
 
         SceneTransitionService transitionService =
-            new(_sceneManager);
+            new(
+                _sceneManager,
+                _sceneRegistry
+            );
 
         DoorInteractionHandler doorHandler =
             new(transitionService);
@@ -151,9 +170,12 @@ public class Game : IGameLoop
             _sceneManager.CurrentScene!
         );
 
-        _sceneDebugController = new SceneDebugController(
-            _sceneManager,            
-            _sceneManager.CurrentScene!.Name
+        _sceneDebugController = 
+            new SceneDebugController(
+                _sceneManager,
+                _sceneRegistry,            
+                _sceneLoader,
+                _sceneManager.CurrentScene!.Name
         );
 
         // PRUEBA

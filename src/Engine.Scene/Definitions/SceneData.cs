@@ -2,29 +2,15 @@ namespace Engine.Scene.Definitions;
 
 public class SceneData
 {
-    public string Name { get; }
+    public string Name { get; set; } = "";
 
-    public NavigationData Navigation { get; }
+    public NavigationData Navigation { get; set; } = new();
 
-    public BackgroundData Background { get; }
+    public BackgroundData Background { get; set; } = new();
 
-    public EntityCollectionData EntityCollection { get; }
+    public EntityCollectionData EntityCollection { get; set; } = new();
 
-    public IReadOnlyList<SpawnPointData> SpawnPoints { get; }
-
-    public SceneData(
-        string name,
-        NavigationData navigation,
-        BackgroundData background,
-        EntityCollectionData entityCollection,
-        IReadOnlyList<SpawnPointData> spawnPoints)
-    {
-        Name = name;
-        Navigation = navigation;
-        Background = background;
-        EntityCollection = entityCollection;
-        SpawnPoints = spawnPoints;
-    }
+    public List<SpawnPointData> SpawnPoints { get; set; } = new();
 
     public SpawnPointData GetSpawnPoint(string id)
     {
@@ -32,14 +18,14 @@ public class SceneData
             SpawnPoints.FirstOrDefault(
                 x => x.Id == id
             );
-    
+
         if (spawn == null)
         {
             throw new InvalidOperationException(
                 $"Spawn point '{id}' does not exist in scene '{Name}'."
             );
         }
-    
+
         return spawn;
     }
 }
