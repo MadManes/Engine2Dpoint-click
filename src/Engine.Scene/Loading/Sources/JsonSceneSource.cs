@@ -1,13 +1,18 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Engine.Scene.Definitions;
+using Engine.Scene.Serialization;
 
 namespace Engine.Scene.Loading.Sources;
 
 public class JsonSceneSource : ISceneSource
 {
     private readonly string _folder;
-    private readonly JsonSerializerOptions _options;
+    private readonly JsonSerializerOptions _options = 
+        new()
+        {
+            PropertyNameCaseInsensitive = true
+        };
     
     public JsonSceneSource(
         string folder)
@@ -28,65 +33,68 @@ public class JsonSceneSource : ISceneSource
     {
         get
         {
-            return Directory
-                .GetFiles(
-                    _folder,
-                    "*.json")
-                .Select(
-                    file => Path.GetFileNameWithoutExtension(file)!
-                )
-                .ToList();
+            List<string> ids = new();
+
+            foreach (string file in Directory.GetFiles(_folder, "*.json"))
+            {
+                string json =
+                    File.ReadAllText(file);
+
+                SceneData? data =
+                    JsonSerializer.Deserialize<SceneData>(
+                        json,
+                        _options
+                    );
+
+                if (data != null)
+                {
+                    ids.Add(data.Id);
+                }
+            }
+            
+            return ids;
         }
     }
 
 
-    public SceneData Load(string name)
+    public SceneData Load(string id)
     {
-        string path =
-            Path.Combine(
+        string[] files =
+            Directory.GetFiles(
                 _folder,
-                $"{name}.json"
+                $"*.json"
             );
-
-
-        if (!File.Exists(path))
-        {
-            throw new FileNotFoundException(
-                $"Scene '{name}' not found."
-            );
-        }
-
-
-        string json =
-            File.ReadAllText(path);
-
-
-
-        //Console.WriteLine(path);
-        //Console.WriteLine("----------------");
-        //Console.WriteLine(json);
-        //Console.WriteLine("----------------");
-
-
-        SceneData? data =
-            JsonSerializer.Deserialize<SceneData>(
-                json,
-                _options
-            );
-
-        Console.WriteLine($"Name: '{data?.Name}'");
-        Console.WriteLine($"SpawnPoints: {data?.SpawnPoints.Count}");
-        Console.WriteLine($"Entities: {data?.EntityCollection.Entities.Count}");
-
-        if (data == null)
-        {
-            throw new InvalidOperationException(
-                "Invalid scene data."
-            );
-        }
-
         
-        return data;
+        foreach (string file in files)
+        {
+            string json =
+                File.ReadAllText(file);
+
+            SceneData? data =
+                JsonSerializer.Deserialize<SceneData>(
+                    json,
+                    _options
+                );
+
+            if (data != null)
+            {
+                Console.WriteLine(
+                    $"Archivo: {file} - Id: {data.Id} - Name: {data.Name}"
+                );
+
+                if(data.Id == id)
+                {
+                    return data;
+                }
+            }            
+            
+        }
+
+
+        throw new FileNotFoundException(
+            $"Scene '{id}' not found."
+        );
+        
     }
     
 }

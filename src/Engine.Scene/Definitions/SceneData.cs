@@ -2,6 +2,7 @@ namespace Engine.Scene.Definitions;
 
 public class SceneData
 {
+    public string Id { get; set; } = "";
     public string Name { get; set; } = "";
 
     public NavigationData Navigation { get; set; } = new();

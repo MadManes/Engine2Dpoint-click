@@ -17,13 +17,15 @@ using Engine.Entities.Sprites;
 using Engine.Runtime.Interaction;
 using Engine.Runtime.SceneTransition;
 using Engine.Scene.Loading.Sources;
+using Engine.Scene.Loading.Writers;
+using Engine.Scene.Factories;
 //using Engine.Runtime.Systems;
 
 namespace Engine.Runtime;
 
 public class Game : IGameLoop
 {
-    private readonly IRenderer _renderer;
+    private readonly IRenderer _renderer;    
     private readonly MovementSystem _movementSystem;
     private readonly NavigationController _navigationController;
     private readonly DebugController _debugController;
@@ -31,7 +33,8 @@ public class Game : IGameLoop
     private readonly SceneDebugController _sceneDebugController;
     private readonly WorldStateApplier _worldStateApplier;
     private readonly SceneManager _sceneManager;
-    private readonly SceneLoader _sceneLoader;
+    private readonly SceneLoader _sceneLoader;    
+    private readonly JsonSceneWriter _sceneWriter;
     private readonly SceneRegistry _sceneRegistry;
     private readonly AssetManager _assetManager;
     private readonly EntityPicker _entityPicker;
@@ -97,11 +100,24 @@ public class Game : IGameLoop
         JsonSceneSource source = new(
             "assets/scenes"
         );
+
         _sceneLoader = new SceneLoader(source);
+        
+        SceneRepository repository = 
+            new SceneRepository(
+                _sceneLoader
+        );
+
+        SceneFactory factory = new();
 
         _sceneRegistry = new SceneRegistry(
-            _sceneLoader
+            repository,
+            factory
         );
+
+        _sceneWriter = new JsonSceneWriter(
+            "assets/scenes"
+        );                
 
         _sceneManager = new SceneManager();
 
@@ -110,7 +126,11 @@ public class Game : IGameLoop
         );
 
         _sceneManager.LoadScene(
-            _sceneRegistry.Create("TestRoom")
+            _sceneRegistry.Create("test_room")
+        );
+
+        _sceneWriter.Save(
+            _sceneManager.CurrentScene!.Data
         );
 
         DefaultInteractionHandler defaultHandler =
@@ -175,7 +195,7 @@ public class Game : IGameLoop
                 _sceneManager,
                 _sceneRegistry,            
                 _sceneLoader,
-                _sceneManager.CurrentScene!.Name
+                _sceneManager.CurrentScene!.Id
         );
 
         // PRUEBA
@@ -185,7 +205,7 @@ public class Game : IGameLoop
     // PRUEBA
     private void OnSceneChanged(GameScene scene)
     {
-        if (scene.Name == "Wide Room")
+        if (scene.Id == "wide_room")
         {
             SceneState testRoomState =
                 _gameState.WorldState.GetSceneState(

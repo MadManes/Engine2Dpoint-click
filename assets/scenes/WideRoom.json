@@ -1,4 +1,5 @@
 {
+    "id": "wide_room",
   "name": "Wide Room",
 
   "background": {
@@ -46,7 +47,7 @@
         "type": "Generic",
         "isInteractable": true,
         "door": {
-          "targetScene": "TestRoom",
+          "targetScene": "test_room",
           "targetSpawn": "Entrance"
         }
       }
