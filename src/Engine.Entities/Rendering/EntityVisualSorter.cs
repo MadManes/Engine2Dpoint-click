@@ -1,6 +1,4 @@
-using Engine.Entities;
-
-namespace Engine.Runtime;
+namespace Engine.Entities.Rendering;
 
 public class EntityVisualSorter
 {

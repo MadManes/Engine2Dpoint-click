@@ -1,7 +1,7 @@
 using Engine.Math;
 using Engine.Entities;
 
-namespace Engine.Runtime.Rendering;
+namespace Engine.Entities.Rendering;
 
 public class SpritePlacement
 {

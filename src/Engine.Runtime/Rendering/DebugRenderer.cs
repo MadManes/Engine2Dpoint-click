@@ -3,6 +3,7 @@ using Engine.Runtime.Rendering.DebugRenderers;
 using Engine.Assets;
 using Raylib_cs;
 using Engine.Entities;
+using Engine.Entities.Rendering;
 using Engine.Scene;
 
 namespace Engine.Runtime.Rendering;
@@ -64,7 +65,7 @@ public class DebugRenderer : IRenderer
     {
         Raylib.BeginDrawing();
 
-        Texture2D background = _assetManager.LoadTexture(
+        Texture2D background = _assetManager.LoadBackground(
             context.Scene.Data.Background.AssetName + ".png"
         );
         _backgroundRenderer.Draw(background);

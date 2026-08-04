@@ -1,7 +1,7 @@
 using Engine.Math;
 using Engine.Entities;
 using Engine.Assets;
-using Engine.Runtime.Rendering;
+using Engine.Entities.Rendering;
 using Raylib_cs;
 
 namespace Engine.Runtime.Interaction;
