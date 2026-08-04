@@ -17,17 +17,14 @@ public class SceneViewRenderer
             0,
             Color.White
         );
-        
+
         DrawNavigation(
             document
-        );
-
-        DrawSpawnPoints(
-            document
-        );
+        );        
 
         DrawEntities(
-            document
+            document,
+            assets
         );
     }
 
@@ -59,52 +56,27 @@ public class SceneViewRenderer
             );
         }
     }
-
-
-    private void DrawSpawnPoints(
-        SceneDocument document)
-    {
-        foreach(var spawn in document.Scene.SpawnPoints)
-        {
-            Raylib.DrawCircle(
-                (int)spawn.Position.X,
-                (int)spawn.Position.Y,
-                6,
-                Color.Blue
-            );
-
-
-            Raylib.DrawText(
-                spawn.Id,
-                (int)spawn.Position.X + 8,
-                (int)spawn.Position.Y,
-                12,
-                Color.White
-            );
-        }
-    }
-
-
+    
     private void DrawEntities(
-        SceneDocument document)
+    SceneDocument document,
+    EditorAssets assets)
     {
         foreach(var entity in document.Scene.EntityCollection.Entities)
         {
-            Raylib.DrawCircle(
+            if (!string.IsNullOrWhiteSpace(entity.Sprite.AssetName))
+                continue;
+            
+            Texture2D texture =
+                assets.GetSprite(
+                    entity.Sprite.AssetName
+                );
+            Raylib.DrawTexture(
+                texture,
                 (int)entity.Position.X,
                 (int)entity.Position.Y,
-                8,
-                Color.Red
-            );
-
-
-            Raylib.DrawText(
-                entity.Id,
-                (int)entity.Position.X + 10,
-                (int)entity.Position.Y,
-                12,
                 Color.White
             );
         }
+            
     }
 }
