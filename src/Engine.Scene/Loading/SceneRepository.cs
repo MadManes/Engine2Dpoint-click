@@ -4,22 +4,39 @@ namespace Engine.Scene.Loading;
 
 public class SceneRepository
 {
-    private readonly SceneLoader _loader;
+    private readonly SceneProject _project;
 
 
     public SceneRepository(
-        SceneLoader loader)
+        SceneProject project)
     {
-        _loader = loader;
+        _project = project;
     }
 
 
     public IReadOnlyCollection<string> SceneIds =>
-        _loader.Names;
+        _project.Scenes
+            .Select(x => x.Id)
+            .ToList();
 
 
     public SceneData Get(string id)
     {
-        return _loader.Load(id);
+        SceneData? scene =
+            _project.Scenes
+                .FirstOrDefault(
+                    x => x.Id == id
+                );
+
+
+        if (scene == null)
+        {
+            throw new FileNotFoundException(
+                $"Scene '{id}' not found."
+            );
+        }
+
+
+        return scene;
     }
 }

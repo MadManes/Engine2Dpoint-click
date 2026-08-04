@@ -9,8 +9,7 @@ public class SceneDebugController
 {
     private readonly SceneManager _sceneManager;    
     private readonly List<string> _scenes;
-    private readonly SceneRegistry _registry;
-    private readonly SceneLoader _loader;
+    private readonly SceneRegistry _registry;    
 
     public event Action<GameScene>? SceneChanged;
     private int _currentIndex;
@@ -18,15 +17,15 @@ public class SceneDebugController
 
     public SceneDebugController(
         SceneManager sceneManager,
-        SceneRegistry registry,
-        SceneLoader loader,        
+        SceneRegistry registry,        
+        SceneRepository repository,
         string initialScene)
     {
         _sceneManager = sceneManager;
-        _registry = registry;
-        _loader = loader;
+        _registry = registry;        
 
-        _scenes = _loader.Names.ToList();
+        _scenes = repository.SceneIds.ToList();
+        
         _currentIndex = _scenes.IndexOf(            
             initialScene
         );

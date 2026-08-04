@@ -18,9 +18,12 @@ using Engine.Runtime.Interaction;
 using Engine.Runtime.SceneTransition;
 using Engine.Scene.Loading.Sources;
 using Engine.Scene.Loading.Writers;
+using Engine.Scene.Loading.Project;
 using Engine.Scene.Factories;
 using Engine.Scene.Serialization;
-//using Engine.Runtime.Systems;
+using Engine.Scene.Validation;
+using Engine.Scene.Definitions;
+
 
 namespace Engine.Runtime;
 
@@ -33,10 +36,10 @@ public class Game : IGameLoop
     private readonly DebugSettings _debugSettings;
     private readonly SceneDebugController _sceneDebugController;
     private readonly WorldStateApplier _worldStateApplier;
-    private readonly SceneManager _sceneManager;
-    private readonly SceneLoader _sceneLoader;    
+    private readonly SceneManager _sceneManager;    
     private readonly JsonSceneWriter _sceneWriter;
     private readonly SceneRegistry _sceneRegistry;
+    private readonly SceneRepository _sceneRepository;
     private readonly AssetManager _assetManager;
     private readonly EntityPicker _entityPicker;
     private readonly InteractionSystem _interactionSystem;
@@ -96,23 +99,36 @@ public class Game : IGameLoop
         _gameState = new GameState(player);  
 
         SceneSerializer serializer = new();
+        
+        SceneValidator validator = new();
 
         JsonSceneSource source = new(
             "assets/scenes",
-            serializer
+            serializer,
+            validator
         );
 
-        _sceneLoader = new SceneLoader(source);
+        ProjectValidator projectValidator = new();
+
+        SceneProjectLoader projectLoader =
+            new(
+                source,
+                projectValidator
+            );
+
+
+        SceneProject project =
+            projectLoader.Load();
         
-        SceneRepository repository = 
+        _sceneRepository = 
             new SceneRepository(
-                _sceneLoader
+                project
         );
 
         SceneFactory factory = new();
 
         _sceneRegistry = new SceneRegistry(
-            repository,
+            _sceneRepository,
             factory
         );
 
@@ -127,8 +143,9 @@ public class Game : IGameLoop
             _gameState.Player
         );
 
+        
         _sceneManager.LoadScene(
-            _sceneRegistry.Create("test_room")
+           _sceneRegistry.Create("test_room")
         );
 
         _sceneWriter.Save(
@@ -196,12 +213,13 @@ public class Game : IGameLoop
             new SceneDebugController(
                 _sceneManager,
                 _sceneRegistry,            
-                _sceneLoader,
+                _sceneRepository,
                 _sceneManager.CurrentScene!.Id
         );
 
         // PRUEBA
         _sceneDebugController.SceneChanged += OnSceneChanged;
+        
     }
 
     // PRUEBA
