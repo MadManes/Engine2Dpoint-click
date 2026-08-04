@@ -147,10 +147,7 @@ public class Game : IGameLoop
         _sceneManager.LoadScene(
            _sceneRegistry.Create("test_room")
         );
-
-        _sceneWriter.Save(
-            _sceneManager.CurrentScene!.Data
-        );
+        
 
         DefaultInteractionHandler defaultHandler =
             new();
