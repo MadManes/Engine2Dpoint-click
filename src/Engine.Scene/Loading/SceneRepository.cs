@@ -1,25 +1,26 @@
 using Engine.Scene.Definitions;
+using Engine.Scene.Catalog;
 
 namespace Engine.Scene.Loading;
 
 public class SceneRepository
 {
-    private readonly SceneProject _project;
+    private readonly SceneCatalog _catalog;
 
 
     public SceneRepository(
-        SceneProject project)
+        SceneCatalog catalog)
     {
-        _project = project;
+        _catalog = catalog;
     }
 
 
     public IReadOnlyCollection<string> SceneIds =>
-        _project.SceneIds;
+        _catalog.Ids;
 
 
     public SceneData Get(string id)
     {
-        return _project.GetScene(id);
+        return _catalog.Get(id);
     }
 }

@@ -23,6 +23,7 @@ using Engine.Scene.Factories;
 using Engine.Scene.Serialization;
 using Engine.Scene.Validation;
 using Engine.Scene.Definitions;
+using Engine.Scene.Catalog;
 
 
 namespace Engine.Runtime;
@@ -37,9 +38,8 @@ public class Game : IGameLoop
     private readonly SceneDebugController _sceneDebugController;
     private readonly WorldStateApplier _worldStateApplier;
     private readonly SceneManager _sceneManager;    
-    private readonly JsonSceneWriter _sceneWriter;
-    private readonly SceneRegistry _sceneRegistry;
-    private readonly SceneRepository _sceneRepository;
+//    private readonly JsonSceneWriter _sceneWriter;
+    private readonly SceneRegistry _sceneRegistry;    
     private readonly AssetManager _assetManager;
     private readonly EntityPicker _entityPicker;
     private readonly InteractionSystem _interactionSystem;
@@ -120,22 +120,25 @@ public class Game : IGameLoop
         SceneProject project =
             projectLoader.Load();
         
-        _sceneRepository = 
-            new SceneRepository(
-                project
+        SceneCatalog catalog = new(
+            project.Scenes
+        );
+
+        SceneRepository repository = new(
+            catalog
         );
 
         SceneFactory factory = new();
 
         _sceneRegistry = new SceneRegistry(
-            _sceneRepository,
+            repository,
             factory
         );
 
-        _sceneWriter = new JsonSceneWriter(
-            "assets/scenes",
-            serializer
-        );                
+        //_sceneWriter = new JsonSceneWriter(
+        //    "assets/scenes",
+        //    serializer
+        //);                
 
         _sceneManager = new SceneManager();
 
@@ -210,7 +213,7 @@ public class Game : IGameLoop
             new SceneDebugController(
                 _sceneManager,
                 _sceneRegistry,            
-                _sceneRepository,
+                repository,
                 _sceneManager.CurrentScene!.Id
         );
 

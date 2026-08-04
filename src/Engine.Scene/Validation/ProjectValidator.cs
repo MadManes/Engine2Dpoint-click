@@ -36,7 +36,7 @@ public class ProjectValidator : IProjectValidator
             {
                 result.AddError(
                     "PR001",
-                    $"Duplicated scene id '{scene.Id}'."
+                    $"Project contains duplicated scene id '{scene.Id}'."
                 );
             }
         }
@@ -55,6 +55,17 @@ public class ProjectValidator : IProjectValidator
                     continue;
 
 
+                if(string.IsNullOrWhiteSpace(entity.Door.TargetScene))
+                {
+                    result.AddError(
+                        "PR002",
+                        $"Scene '{scene.Id}' entity '{entity.Id}' has a door without target scene."
+                    );
+
+                    continue;
+                }
+
+
                 SceneData? targetScene =
                     project.Scenes.FirstOrDefault(
                         x => x.Id == entity.Door.TargetScene
@@ -64,8 +75,19 @@ public class ProjectValidator : IProjectValidator
                 if(targetScene == null)
                 {
                     result.AddError(
-                        "PR002",
+                        "PR003",
                         $"Scene '{scene.Id}' entity '{entity.Id}' references missing scene '{entity.Door.TargetScene}'."
+                    );
+
+                    continue;
+                }
+
+
+                if(string.IsNullOrWhiteSpace(entity.Door.TargetSpawn))
+                {
+                    result.AddError(
+                        "PR004",
+                        $"Scene '{scene.Id}' entity '{entity.Id}' has a door without target spawn."
                     );
 
                     continue;
@@ -81,7 +103,7 @@ public class ProjectValidator : IProjectValidator
                 if(!spawnExists)
                 {
                     result.AddError(
-                        "PR003",
+                        "PR005",
                         $"Scene '{targetScene.Id}' does not contain spawn '{entity.Door.TargetSpawn}'."
                     );
                 }
