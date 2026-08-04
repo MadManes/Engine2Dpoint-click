@@ -1,6 +1,6 @@
 using Engine.Runtime.Debug;
 using Engine.Runtime.Rendering.DebugRenderers;
-using Engine.Runtime.Assets;
+using Engine.Assets;
 using Raylib_cs;
 using Engine.Entities;
 using Engine.Scene;

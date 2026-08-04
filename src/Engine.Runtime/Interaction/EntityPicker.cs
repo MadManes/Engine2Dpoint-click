@@ -1,6 +1,6 @@
 using Engine.Math;
 using Engine.Entities;
-using Engine.Runtime.Assets;
+using Engine.Assets;
 using Engine.Runtime.Rendering;
 using Raylib_cs;
 

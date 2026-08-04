@@ -4,6 +4,74 @@
     "F:\\Martin\\Programacion\\C#\\Engine2Dpoint&click\\src\\Engine.Runtime\\Engine.Runtime.csproj": {}
   },
   "projects": {
+    "F:\\Martin\\Programacion\\C#\\Engine2Dpoint&click\\src\\Engine.Assets\\Engine.Assets.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "F:\\Martin\\Programacion\\C#\\Engine2Dpoint&click\\src\\Engine.Assets\\Engine.Assets.csproj",
+        "projectName": "Engine.Assets",
+        "projectPath": "F:\\Martin\\Programacion\\C#\\Engine2Dpoint&click\\src\\Engine.Assets\\Engine.Assets.csproj",
+        "packagesPath": "F:\\Users\\MadManes\\.nuget\\packages\\",
+        "outputPath": "F:\\Martin\\Programacion\\C#\\Engine2Dpoint&click\\src\\Engine.Assets\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "F:\\Users\\MadManes\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "F:\\Martin\\Programacion\\C#\\Engine2Dpoint&click\\src\\Engine.Scene\\Engine.Scene.csproj": {
+                "projectPath": "F:\\Martin\\Programacion\\C#\\Engine2Dpoint&click\\src\\Engine.Scene\\Engine.Scene.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Raylib-cs": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "F:\\Program Files\\dotnet\\sdk\\8.0.422/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
     "F:\\Martin\\Programacion\\C#\\Engine2Dpoint&click\\src\\Engine.Core\\Engine.Core.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -344,6 +412,9 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
+              "F:\\Martin\\Programacion\\C#\\Engine2Dpoint&click\\src\\Engine.Assets\\Engine.Assets.csproj": {
+                "projectPath": "F:\\Martin\\Programacion\\C#\\Engine2Dpoint&click\\src\\Engine.Assets\\Engine.Assets.csproj"
+              },
               "F:\\Martin\\Programacion\\C#\\Engine2Dpoint&click\\src\\Engine.Core\\Engine.Core.csproj": {
                 "projectPath": "F:\\Martin\\Programacion\\C#\\Engine2Dpoint&click\\src\\Engine.Core\\Engine.Core.csproj"
               },

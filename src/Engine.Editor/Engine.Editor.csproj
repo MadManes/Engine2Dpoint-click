@@ -4,6 +4,7 @@
     <ProjectReference Include="..\Engine.Scene\Engine.Scene.csproj" />
     <ProjectReference Include="..\Engine.Entities\Engine.Entities.csproj" />
     <ProjectReference Include="..\Engine.Math\Engine.Math.csproj" />
+    <ProjectReference Include="..\Engine.Assets\Engine.Assets.csproj" />
   </ItemGroup>
 
   <ItemGroup>

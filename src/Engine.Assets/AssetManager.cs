@@ -1,7 +1,7 @@
 using Raylib_cs;
 using Engine.Scene.Definitions;
 
-namespace Engine.Runtime.Assets;
+namespace Engine.Assets;
 
 public class AssetManager
 {
@@ -13,17 +13,7 @@ public class AssetManager
         _assetPath = assetPath;
     }
 
-
-    public string GetBackgroundPath(string assetName)
-    {
-        return Path.Combine(
-            _assetPath,
-            "backgrounds",
-            assetName
-        );
-    }
-
-    public Texture2D LoadTexture(string assetName)
+    public Texture2D LoadBackground(string assetName)
     {
         if (_textures.TryGetValue(
             assetName,
@@ -31,9 +21,12 @@ public class AssetManager
         {
             return texture;
         }
-    
-    
-        string path = GetBackgroundPath(assetName);
+
+        string path = Path.Combine(
+            _assetPath,
+            "backgrounds",
+            assetName
+        );
     
         texture = Raylib.LoadTexture(path);
     
@@ -76,7 +69,7 @@ public class AssetManager
 
     public LoadedSceneAssets LoadScene(SceneData scene)
     {
-        Texture2D background = LoadTexture(
+        Texture2D background = LoadBackground(
             scene.Background.AssetName + ".png"
         );
 

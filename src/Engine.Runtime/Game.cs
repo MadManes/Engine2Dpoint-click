@@ -3,7 +3,7 @@ using Engine.Game.State;
 using Engine.Scene;
 using Engine.Scene.Scenes;
 using Engine.Scene.Loading;
-using Engine.Runtime.Assets;
+using Engine.Assets;
 using Engine.Runtime.Systems;
 using Engine.Runtime.Controllers;
 using Engine.Runtime.Rendering;

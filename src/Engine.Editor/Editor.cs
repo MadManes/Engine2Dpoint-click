@@ -1,5 +1,8 @@
+using Engine.Assets;
 using Engine.Editor.State;
 using Engine.Editor.Loading;
+using Engine.Editor.Rendering;
+using Engine.Editor.Camera;
 using Engine.Scene.Definitions;
 using Engine.Editor.Documents;
 using Raylib_cs;
@@ -9,14 +12,26 @@ namespace Engine.Editor;
 public class Editor
 {
     private readonly EditorState _state;    
+    private readonly EditorRenderer _renderer;
+    private readonly EditorCamera _camera;
+    private readonly AssetManager _assetManager;
+
 
     public Editor()
     {
         _state = new EditorState();
+        _renderer = new EditorRenderer();
+        _camera = new EditorCamera();
+        
+        _assetManager = new AssetManager("assets");
+                
+    }
 
+    private void InitializeContent()
+    {
         EditorProjectLoader loader = new(
             "assets/scenes"
-        );
+        );        
 
         SceneProject project = loader.Load();
 
@@ -28,13 +43,21 @@ public class Editor
         );
 
         _state.OpenDocument(document);
-    }
 
+        EditorAssetLoader assetLoader =
+            new(_assetManager);
+
+        _state.Assets =
+            assetLoader.Load(
+                _state.CurrentDocument!
+            );
+    }
 
     public void Run()
     {
         Initialize();
 
+        InitializeContent();
 
         while (!Raylib.WindowShouldClose())
         {
@@ -59,7 +82,7 @@ public class Editor
 
     private void Update()
     {
-
+        _camera.Update();
     }
 
 
@@ -71,25 +94,16 @@ public class Editor
             Color.Black
         );
 
-
-        Raylib.DrawText(
-            "Engine Editor",
-            20,
-            20,
-            30,
-            Color.White
+        Raylib.BeginMode2D(
+            _camera.NativeCamera
         );
-        
-        if (_state.CurrentDocument != null)
-        {
-            Raylib.DrawText(
-                $"Editing: {_state.CurrentDocument.Scene.Id}",
-                20,
-                60,
-                20,
-                Color.White
-            );
-        }
+
+        _renderer.Render(
+            _state.CurrentDocument!,
+            _state.Assets!
+        );
+
+        Raylib.EndMode2D();
 
         Raylib.EndDrawing();
     }
@@ -97,6 +111,8 @@ public class Editor
 
     private void Shutdown()
     {
+        _assetManager.Dispose();
+
         Raylib.CloseWindow();
     }
 }
