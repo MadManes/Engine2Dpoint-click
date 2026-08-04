@@ -5,14 +5,17 @@ namespace Engine.Editor.Documents;
 public class SceneDocument
 {
     public SceneData Scene { get; }
+    public string FileName { get; }
 
     public bool IsDirty { get; private set; }
 
 
     public SceneDocument(
-        SceneData scene)
+        SceneData scene,
+        string fileName)
     {
         Scene = scene;
+        FileName = fileName;
     }
 
 

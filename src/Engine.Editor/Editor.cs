@@ -1,14 +1,14 @@
 using Engine.Editor.State;
 using Engine.Editor.Loading;
 using Engine.Scene.Definitions;
+using Engine.Editor.Documents;
 using Raylib_cs;
 
 namespace Engine.Editor;
 
 public class Editor
 {
-    private readonly EditorState _state;
-    private readonly SceneProject _project;
+    private readonly EditorState _state;    
 
     public Editor()
     {
@@ -18,7 +18,16 @@ public class Editor
             "assets/scenes"
         );
 
-        _project = loader.Load();
+        SceneProject project = loader.Load();
+
+        SceneData scene = project.GetScene("test_room");
+
+        SceneDocument document = new(
+            scene,
+            "test_room.json"
+        );
+
+        _state.OpenDocument(document);
     }
 
 
@@ -70,29 +79,16 @@ public class Editor
             30,
             Color.White
         );
-
-        Raylib.DrawText(
-            $"Scenes: {_project.Scenes.Count}",
-            20,
-            90,
-            30,
-            Color.White
-        );
-
-        // Listar escenas
-        int y = 125;
-
-        foreach(SceneData scene in _project.Scenes)
+        
+        if (_state.CurrentDocument != null)
         {
             Raylib.DrawText(
-                scene.Id,
+                $"Editing: {_state.CurrentDocument.Scene.Id}",
                 20,
-                y,
+                60,
                 20,
                 Color.White
             );
-
-            y += 25;
         }
 
         Raylib.EndDrawing();
