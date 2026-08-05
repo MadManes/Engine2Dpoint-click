@@ -1,6 +1,7 @@
 using Engine.Math;
 using Engine.Assets;
 using Engine.Scene.Definitions;
+using Engine.Editor.Input;
 using Engine.Editor.State;
 using Engine.Editor.Loading;
 using Engine.Editor.Rendering;
@@ -12,19 +13,25 @@ using Raylib_cs;
 namespace Engine.Editor;
 
 public class Editor
-{
+{    
     private readonly EditorState _state;    
     private readonly EditorRenderer _renderer;
     private readonly EditorCamera _camera;
+    private readonly EditorInputController _input;
     private readonly AssetManager _assetManager;
     private readonly EditorEntityPicker _entityPicker;
 
 
     public Editor()
-    {
+    {           
         _state = new EditorState();
         _renderer = new EditorRenderer();
         _camera = new EditorCamera();
+
+        _input = new EditorInputController(
+            _camera
+        );
+        
         
         _assetManager = new AssetManager("assets");
 
@@ -82,60 +89,68 @@ public class Editor
             640,
             "Engine 2D Editor"
         );
-    }
-
-    private Vector2 GetMouseWorldPosition()
-    {
-        System.Numerics.Vector2 mouse =
-            Raylib.GetMousePosition();
-
-
-        System.Numerics.Vector2 world =
-            Raylib.GetScreenToWorld2D(
-                mouse,
-                _camera.NativeCamera
-            );
-
-
-        return new Vector2(
-            world.X,
-            world.Y
-        );
-    }
+    }   
 
     private void Update()
     {
-        Vector2 mouseWorld = GetMouseWorldPosition();
         _camera.Update();
 
-        if(Raylib.IsMouseButtonPressed(
-            MouseButton.Left))
+        Vector2 mouseWorld =
+            _input.MouseWorldPosition();
+
+
+        if(_input.LeftPressed())
         {
-            System.Numerics.Vector2 mouse =
-                Raylib.GetMousePosition();
-
-            System.Numerics.Vector2 world =
-                Raylib.GetScreenToWorld2D(
-                    mouse,
-                    _camera.NativeCamera
-                );
-
-
-            Vector2 position =
-                new Vector2(
-                    world.X,
-                    world.Y
-                );
-
-
             EntityData? selected =
                 _entityPicker.Pick(
                     _state.CurrentDocument!.Scene.EntityCollection.Entities,
-                    position
+                    mouseWorld
                 );
 
 
             _state.SelectEntity(selected);
+
+
+            if(selected != null)
+            {
+                Vector2 offset =
+                    new Vector2(
+                        selected.Position.X - mouseWorld.X,
+                        selected.Position.Y - mouseWorld.Y
+                    );
+
+
+                _state.StartDragging(offset);
+            }
+        }
+
+
+        if(_input.LeftDown()
+            &&
+            _state.IsDragging
+            &&
+            _state.SelectedEntity != null)
+        {
+            EntityData entity =
+                _state.SelectedEntity;
+
+
+            entity.Position =
+                new Vector2(
+                    mouseWorld.X + _state.DragOffset.X,
+                    mouseWorld.Y + _state.DragOffset.Y
+                );
+
+
+            _state.CurrentDocument!
+                .MarkDirty();
+
+        }
+
+
+        if(_input.LeftReleased())
+        {
+            _state.StopDragging();
         }
     }
 
