@@ -11,10 +11,7 @@ public class EditorState
 
     public bool HasDocument =>  
         CurrentDocument != null;
-
-    public bool IsDragging {get; set; }
-
-    public Vector2 DragOffset { get; set; }
+    
     public EntityData? SelectedEntity { get; private set; }
 
     public EditorAssets? Assets { get; set; }
@@ -32,17 +29,5 @@ public class EditorState
     {
         SelectedEntity = entity;
     }
-
-    public void StartDragging(
-        Vector2 offset)
-    {
-        IsDragging = true;
-        DragOffset = offset;
-    }
     
-    
-    public void StopDragging()
-    {
-        IsDragging = false;
-    }
 }

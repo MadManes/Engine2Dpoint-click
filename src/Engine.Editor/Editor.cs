@@ -1,7 +1,8 @@
-using Engine.Math;
 using Engine.Assets;
 using Engine.Scene.Definitions;
 using Engine.Editor.Input;
+using Engine.Editor.Context;
+using Engine.Editor.Tools;
 using Engine.Editor.State;
 using Engine.Editor.Loading;
 using Engine.Editor.Rendering;
@@ -19,6 +20,10 @@ public class Editor
     private readonly EditorCamera _camera;
     private readonly EditorInputController _input;
     private readonly AssetManager _assetManager;
+
+    private readonly EditorContext _context;
+    private readonly ToolManager _toolManager;
+
     private readonly EditorEntityPicker _entityPicker;
 
 
@@ -36,8 +41,29 @@ public class Editor
         _assetManager = new AssetManager("assets");
 
         _entityPicker = new EditorEntityPicker(_assetManager);
-                
-    }
+
+        _context = new EditorContext(
+            _state,
+            _input
+        );
+
+        _toolManager = new ToolManager();
+
+        _toolManager.Register(
+            "select",
+            new SelectTool(
+                _entityPicker
+            )
+        );
+
+        _toolManager.Register(
+            "move",
+            new MoveTool(
+                _entityPicker
+            )
+        );
+                        
+    }    
 
     private void InitializeContent()
     {
@@ -94,64 +120,29 @@ public class Editor
     private void Update()
     {
         _camera.Update();
-
-        Vector2 mouseWorld =
-            _input.MouseWorldPosition();
-
-
-        if(_input.LeftPressed())
+    
+    
+        if(Raylib.IsKeyPressed(
+            KeyboardKey.S))
         {
-            EntityData? selected =
-                _entityPicker.Pick(
-                    _state.CurrentDocument!.Scene.EntityCollection.Entities,
-                    mouseWorld
-                );
-
-
-            _state.SelectEntity(selected);
-
-
-            if(selected != null)
-            {
-                Vector2 offset =
-                    new Vector2(
-                        selected.Position.X - mouseWorld.X,
-                        selected.Position.Y - mouseWorld.Y
-                    );
-
-
-                _state.StartDragging(offset);
-            }
+            _toolManager.Activate(
+                "select"
+            );
         }
 
 
-        if(_input.LeftDown()
-            &&
-            _state.IsDragging
-            &&
-            _state.SelectedEntity != null)
+        if(Raylib.IsKeyPressed(
+            KeyboardKey.M))
         {
-            EntityData entity =
-                _state.SelectedEntity;
-
-
-            entity.Position =
-                new Vector2(
-                    mouseWorld.X + _state.DragOffset.X,
-                    mouseWorld.Y + _state.DragOffset.Y
-                );
-
-
-            _state.CurrentDocument!
-                .MarkDirty();
-
+            _toolManager.Activate(
+                "move"
+            );
         }
 
 
-        if(_input.LeftReleased())
-        {
-            _state.StopDragging();
-        }
+        _toolManager.Update(
+            _context
+        );
     }
 
 
