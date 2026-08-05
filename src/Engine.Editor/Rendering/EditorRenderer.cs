@@ -1,6 +1,6 @@
 using Engine.Editor.Documents;
 using Engine.Editor.Loading;
-using Raylib_cs;
+using Engine.Scene.Definitions;
 
 namespace Engine.Editor.Rendering;
 
@@ -16,7 +16,9 @@ public class EditorRenderer
 
     public void Render(
         SceneDocument? document,
-        EditorAssets assets)
+        EditorAssets assets,
+        EntityData? selectedEntity
+        )
     {
         if(document == null)
             return;
@@ -24,7 +26,8 @@ public class EditorRenderer
 
         _sceneViewRenderer.Render(
             document,
-            assets
+            assets  ,
+            selectedEntity          
         );
     }
 }

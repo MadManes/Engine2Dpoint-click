@@ -1,15 +1,25 @@
+using Raylib_cs;
+using Engine.Math;
 using Engine.Editor.Documents;
 using Engine.Editor.Loading;
-using Engine.Math;
-using Raylib_cs;
+using Engine.Entities.Rendering;
+using Engine.Scene.Definitions;
 
 namespace Engine.Editor.Rendering;
 
 public class SceneViewRenderer
 {
+    private readonly EditorSpritePlacement _placement;
+
+    public SceneViewRenderer()
+    {
+        _placement = new EditorSpritePlacement();
+    }
+
     public void Render(
         SceneDocument document,
-        EditorAssets assets)
+        EditorAssets assets,
+        EntityData? selectedEntity)
     {
         Raylib.DrawTexture(
             assets.Background,
@@ -24,6 +34,11 @@ public class SceneViewRenderer
 
         DrawEntities(
             document,
+            assets
+        );
+
+        DrawSelection(
+            selectedEntity,
             assets
         );
     }
@@ -63,20 +78,49 @@ public class SceneViewRenderer
     {
         foreach(var entity in document.Scene.EntityCollection.Entities)
         {
-            if (!string.IsNullOrWhiteSpace(entity.Sprite.AssetName))
+            if (string.IsNullOrWhiteSpace(entity.Sprite.AssetName))
                 continue;
             
             Texture2D texture =
                 assets.GetSprite(
                     entity.Sprite.AssetName
                 );
+
+            Vector2 drawPosition = _placement.GetDrawPosition(entity);
+            
             Raylib.DrawTexture(
                 texture,
-                (int)entity.Position.X,
-                (int)entity.Position.Y,
+                (int)drawPosition.X,
+                (int)drawPosition.Y,
                 Color.White
             );
         }
             
     }
+
+    private void DrawSelection(
+        EntityData? entity,
+        EditorAssets assets)
+    {
+        if(entity == null)
+            return;
+
+        Texture2D texture = 
+            assets.GetSprite(
+                entity.Sprite.AssetName
+            );
+        
+        Vector2 drawPosition = 
+            _placement.GetDrawPosition(entity);
+        
+        Raylib.DrawRectangleLines(
+            (int)drawPosition.X,
+            (int)drawPosition.Y,
+            texture.Width,
+            texture.Height,
+            Color.Yellow
+        );
+    }
+    
+
 }

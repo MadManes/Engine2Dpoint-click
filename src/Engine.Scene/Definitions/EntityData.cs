@@ -1,5 +1,4 @@
 using Engine.Math;
-using Engine.Entities;
 using Engine.Entities.Components;
 
 namespace Engine.Scene.Definitions;

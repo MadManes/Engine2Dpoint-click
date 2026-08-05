@@ -1,9 +1,11 @@
+using Engine.Math;
 using Engine.Assets;
+using Engine.Scene.Definitions;
 using Engine.Editor.State;
 using Engine.Editor.Loading;
 using Engine.Editor.Rendering;
 using Engine.Editor.Camera;
-using Engine.Scene.Definitions;
+using Engine.Editor.Selection;
 using Engine.Editor.Documents;
 using Raylib_cs;
 
@@ -15,6 +17,7 @@ public class Editor
     private readonly EditorRenderer _renderer;
     private readonly EditorCamera _camera;
     private readonly AssetManager _assetManager;
+    private readonly EditorEntityPicker _entityPicker;
 
 
     public Editor()
@@ -24,6 +27,8 @@ public class Editor
         _camera = new EditorCamera();
         
         _assetManager = new AssetManager("assets");
+
+        _entityPicker = new EditorEntityPicker(_assetManager);
                 
     }
 
@@ -79,10 +84,59 @@ public class Editor
         );
     }
 
+    private Vector2 GetMouseWorldPosition()
+    {
+        System.Numerics.Vector2 mouse =
+            Raylib.GetMousePosition();
+
+
+        System.Numerics.Vector2 world =
+            Raylib.GetScreenToWorld2D(
+                mouse,
+                _camera.NativeCamera
+            );
+
+
+        return new Vector2(
+            world.X,
+            world.Y
+        );
+    }
 
     private void Update()
     {
+        Vector2 mouseWorld = GetMouseWorldPosition();
         _camera.Update();
+
+        if(Raylib.IsMouseButtonPressed(
+            MouseButton.Left))
+        {
+            System.Numerics.Vector2 mouse =
+                Raylib.GetMousePosition();
+
+            System.Numerics.Vector2 world =
+                Raylib.GetScreenToWorld2D(
+                    mouse,
+                    _camera.NativeCamera
+                );
+
+
+            Vector2 position =
+                new Vector2(
+                    world.X,
+                    world.Y
+                );
+
+
+            EntityData? selected =
+                _entityPicker.Pick(
+                    _state.CurrentDocument!.Scene.EntityCollection.Entities,
+                    position
+                );
+
+
+            _state.SelectEntity(selected);
+        }
     }
 
 
@@ -100,7 +154,8 @@ public class Editor
 
         _renderer.Render(
             _state.CurrentDocument!,
-            _state.Assets!
+            _state.Assets!,
+            _state.SelectedEntity
         );
 
         Raylib.EndMode2D();

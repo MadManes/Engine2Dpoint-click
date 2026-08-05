@@ -1,6 +1,7 @@
+using Engine.Math;
 using Engine.Editor.Loading;
 using Engine.Editor.Documents;
-using Engine.Entities;
+using Engine.Scene.Definitions;
 
 namespace Engine.Editor.State;
 
@@ -11,7 +12,10 @@ public class EditorState
     public bool HasDocument =>  
         CurrentDocument != null;
 
-    public Entity? SelectedEntity { get; private set; }
+    public bool IsDragging {get; set; }
+
+    public Vector2 DragOffset { get; set; }
+    public EntityData? SelectedEntity { get; private set; }
 
     public EditorAssets? Assets { get; set; }
 
@@ -24,8 +28,21 @@ public class EditorState
     }
 
     public void SelectEntity(
-        Entity? entity)
+        EntityData? entity)
     {
         SelectedEntity = entity;
+    }
+
+    public void StartDragging(
+        Vector2 offset)
+    {
+        IsDragging = true;
+        DragOffset = offset;
+    }
+    
+    
+    public void StopDragging()
+    {
+        IsDragging = false;
     }
 }
