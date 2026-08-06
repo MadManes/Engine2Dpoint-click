@@ -38,9 +38,11 @@ public class SelectTool : IEditorTool
                 mouseWorld
             );
 
-
-        context.State.SelectEntity(
-            selected
-        );
+        if(selected != null)
+        {
+            context.State.SelectEntity(
+                selected
+            );
+        }
     }
 }

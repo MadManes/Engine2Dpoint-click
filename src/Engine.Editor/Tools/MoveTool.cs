@@ -42,9 +42,9 @@ public class MoveTool : IEditorTool
             if(clicked == null)
                 return;
 
-
-            if(clicked != context.State.SelectedEntity)
-                return;
+            context.State.SelectEntity(
+                clicked
+            );            
 
 
             _dragOffset =

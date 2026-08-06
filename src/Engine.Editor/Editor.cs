@@ -1,5 +1,6 @@
 using Engine.Assets;
 using Engine.Scene.Definitions;
+using Engine.Editor.UI;
 using Engine.Editor.Input;
 using Engine.Editor.Context;
 using Engine.Editor.Tools;
@@ -23,6 +24,7 @@ public class Editor
 
     private readonly EditorContext _context;
     private readonly ToolManager _toolManager;
+    private readonly EditorToolbar _toolbar;
 
     private readonly EditorEntityPicker _entityPicker;
 
@@ -62,6 +64,8 @@ public class Editor
                 _entityPicker
             )
         );
+
+        _toolbar = new EditorToolbar();
                         
     }    
 
@@ -120,6 +124,19 @@ public class Editor
     private void Update()
     {
         _camera.Update();
+        
+        ToolbarAction action = _toolbar.Update();
+
+        switch(action)
+        {
+            case ToolbarAction.Select:
+                _toolManager.Activate("select");
+                break;
+
+            case ToolbarAction.Move:
+                _toolManager.Activate("move");
+                break;
+        }        
     
     
         if(Raylib.IsKeyPressed(
@@ -165,6 +182,8 @@ public class Editor
         );
 
         Raylib.EndMode2D();
+
+        _toolbar.Draw();
 
         Raylib.EndDrawing();
     }
