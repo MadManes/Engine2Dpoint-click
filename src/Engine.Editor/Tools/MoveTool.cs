@@ -2,6 +2,7 @@ using Engine.Math;
 using Engine.Scene.Definitions;
 using Engine.Editor.Context;
 using Engine.Editor.Selection;
+using Raylib_cs;
 
 namespace Engine.Editor.Tools;
 
@@ -21,8 +22,14 @@ public class MoveTool : IEditorTool
 
 
     public void Update(
-        EditorContext context)
+        EditorContext context)        
     {
+        System.Numerics.Vector2 mouse =
+            Raylib.GetMousePosition();
+            
+        if(!context.Viewport.Contains(mouse))
+            return;
+            
         Vector2 mouseWorld =
             context.Input.MouseWorldPosition();
 

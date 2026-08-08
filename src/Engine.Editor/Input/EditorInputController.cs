@@ -8,6 +8,8 @@ public class EditorInputController
 {
     private readonly EditorCamera _camera;
 
+    private bool _previousLeftDown;
+
 
     public EditorInputController(
         EditorCamera camera)
@@ -36,14 +38,6 @@ public class EditorInputController
     }
 
 
-    public bool LeftPressed()
-    {
-        return Raylib.IsMouseButtonPressed(
-            MouseButton.Left
-        );
-    }
-
-
     public bool LeftDown()
     {
         return Raylib.IsMouseButtonDown(
@@ -52,10 +46,37 @@ public class EditorInputController
     }
 
 
+    public bool LeftPressed()
+    {
+        bool current =
+            Raylib.IsMouseButtonDown(
+                MouseButton.Left
+            );
+
+
+        return current &&
+               !_previousLeftDown;
+    }
+
+
     public bool LeftReleased()
     {
-        return Raylib.IsMouseButtonReleased(
-            MouseButton.Left
-        );
+        bool current =
+            Raylib.IsMouseButtonDown(
+                MouseButton.Left
+            );
+
+
+        return !current &&
+               _previousLeftDown;
+    }
+
+
+    public void EndFrame()
+    {
+        _previousLeftDown =
+            Raylib.IsMouseButtonDown(
+                MouseButton.Left
+            );
     }
 }

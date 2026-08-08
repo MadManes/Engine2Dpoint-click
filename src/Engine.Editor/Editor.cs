@@ -1,6 +1,8 @@
+using Raylib_cs;
 using Engine.Assets;
 using Engine.Scene.Definitions;
 using Engine.Editor.UI;
+using Engine.Editor.Viewport;
 using Engine.Editor.Input;
 using Engine.Editor.Context;
 using Engine.Editor.Tools;
@@ -10,16 +12,21 @@ using Engine.Editor.Rendering;
 using Engine.Editor.Camera;
 using Engine.Editor.Selection;
 using Engine.Editor.Documents;
-using Raylib_cs;
+using Engine.Core.Display;
+using Engine.Editor.UI.Layout;
+using Engine.Editor.Display;
 
 namespace Engine.Editor;
 
 public class Editor
-{    
+{   
+    private readonly EditorViewport _viewport;
+    private readonly EditorLayout _layout;
     private readonly EditorState _state;    
     private readonly EditorRenderer _renderer;
     private readonly EditorCamera _camera;
     private readonly EditorInputController _input;
+    private readonly DisplayManager _displayManager;
     private readonly AssetManager _assetManager;
 
     private readonly EditorContext _context;
@@ -30,13 +37,24 @@ public class Editor
 
 
     public Editor()
-    {           
+    {
+        _layout = new EditorLayout();
+
+        _displayManager = 
+            new DisplayManager(
+                EditorDisplaySettings.Resolution
+            );
+
+        _viewport = new EditorViewport(); 
+
         _state = new EditorState();
         _renderer = new EditorRenderer();
-        _camera = new EditorCamera();
+        _camera = new EditorCamera(
+            _viewport
+        );
 
         _input = new EditorInputController(
-            _camera
+            _camera            
         );
         
         
@@ -46,7 +64,8 @@ public class Editor
 
         _context = new EditorContext(
             _state,
-            _input
+            _input,
+            _viewport
         );
 
         _toolManager = new ToolManager();
@@ -114,18 +133,77 @@ public class Editor
 
     private void Initialize()
     {
+        Raylib.SetConfigFlags(
+            ConfigFlags.ResizableWindow
+        );
+
         Raylib.InitWindow(
             1280,
             640,
             "Engine 2D Editor"
         );
-    }   
+
+        _layout.Update(
+            Raylib.GetScreenWidth(),
+            Raylib.GetScreenHeight()
+        );
+
+        _toolbar.SetWidth(
+            _layout.ToolbarWidth
+        );
+
+        _displayManager.Update(
+            _layout.SceneX,
+            _layout.SceneY,
+            _layout.SceneWidth,
+            _layout.SceneHeight
+        );
+
+        _viewport.Update(
+            _displayManager.Viewport
+        );
+        
+    }
+    
+    private void UpdateDisplay()
+    {
+        int width =
+            Raylib.GetScreenWidth();
+
+        int height =
+            Raylib.GetScreenHeight();
+
+
+        _layout.Update(
+            width,
+            height
+        );
+
+
+        _toolbar.SetWidth(
+            _layout.ToolbarWidth
+        );
+
+
+        _displayManager.Update(
+            _layout.SceneX,
+            _layout.SceneY,
+            _layout.SceneWidth,
+            _layout.SceneHeight
+        );
+
+
+        _viewport.Update(
+            _displayManager.Viewport
+        );
+    }
 
     private void Update()
-    {
+    {        
+        UpdateDisplay();
         _camera.Update();
         
-        ToolbarAction action = _toolbar.Update();
+        ToolbarAction action = _toolbar.Update();        
 
         switch(action)
         {
@@ -138,7 +216,6 @@ public class Editor
                 break;
         }        
     
-    
         if(Raylib.IsKeyPressed(
             KeyboardKey.S))
         {
@@ -146,7 +223,6 @@ public class Editor
                 "select"
             );
         }
-
 
         if(Raylib.IsKeyPressed(
             KeyboardKey.M))
@@ -156,10 +232,11 @@ public class Editor
             );
         }
 
-
         _toolManager.Update(
             _context
         );
+
+        _input.EndFrame();
     }
 
 
@@ -169,6 +246,13 @@ public class Editor
 
         Raylib.ClearBackground(
             Color.Black
+        );
+
+        Raylib.BeginScissorMode(
+            _viewport.X,
+            _viewport.Y,
+            _viewport.Width,
+            _viewport.Height
         );
 
         Raylib.BeginMode2D(
@@ -182,6 +266,8 @@ public class Editor
         );
 
         Raylib.EndMode2D();
+
+        Raylib.EndScissorMode();
 
         _toolbar.Draw();
 

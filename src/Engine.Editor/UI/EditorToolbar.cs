@@ -4,6 +4,7 @@ namespace Engine.Editor.UI;
 
 public class EditorToolbar
 {
+    private int _width;
     private readonly int _height;
     private readonly Rectangle _selectButton;
     private readonly Rectangle _moveButton;
@@ -12,6 +13,8 @@ public class EditorToolbar
     public EditorToolbar()
     {
         _height = 40;
+
+        _width = 0;
 
         _selectButton = new Rectangle(
             10,
@@ -28,13 +31,18 @@ public class EditorToolbar
         );
     }
 
+    public void SetWidth(
+        int width)
+    {
+        _width = width;
+    }
 
     public void Draw()
     {
         Raylib.DrawRectangle(
             0,
             0,
-            1280,
+            _width,
             _height,
             Color.DarkGray
         );
@@ -70,28 +78,46 @@ public class EditorToolbar
 
     public ToolbarAction Update()
     {
-        if(!Raylib.IsMouseButtonPressed(
-            MouseButton.Left))
+        System.Numerics.Vector2 mouse =
+            Raylib.GetMousePosition();
+    
+    
+        bool pressed =
+            Raylib.IsMouseButtonPressed(
+                MouseButton.Left
+            );
+    
+    
+        bool released =
+            Raylib.IsMouseButtonReleased(
+                MouseButton.Left
+            );   
+    
+        if(!pressed)
         {
             return ToolbarAction.None;
         }
     
-        System.Numerics.Vector2 mouse =
-            Raylib.GetMousePosition();
     
         if(Raylib.CheckCollisionPointRec(
             mouse,
             _selectButton))
         {
+            Console.WriteLine("SELECT");
+    
             return ToolbarAction.Select;
         }
+    
     
         if(Raylib.CheckCollisionPointRec(
             mouse,
             _moveButton))
         {
+            Console.WriteLine("MOVE");
+    
             return ToolbarAction.Move;
         }
+    
     
         return ToolbarAction.None;
     }

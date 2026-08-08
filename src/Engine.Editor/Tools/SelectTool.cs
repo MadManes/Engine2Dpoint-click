@@ -2,7 +2,7 @@ using Engine.Math;
 using Engine.Editor.Context;
 using Engine.Editor.Selection;
 using Engine.Scene.Definitions;
-
+using Raylib_cs;
 
 namespace Engine.Editor.Tools;
 
@@ -19,9 +19,17 @@ public class SelectTool : IEditorTool
 
 
     public void Update(
-    EditorContext context)
+        EditorContext context)
     {
         if(!context.Input.LeftPressed())
+            return;
+
+
+        System.Numerics.Vector2 mouse =
+            Raylib.GetMousePosition();
+
+
+        if(!context.Viewport.Contains(mouse))
             return;
 
 
@@ -38,11 +46,9 @@ public class SelectTool : IEditorTool
                 mouseWorld
             );
 
-        if(selected != null)
-        {
-            context.State.SelectEntity(
-                selected
-            );
-        }
+
+        context.State.SelectEntity(
+            selected
+        );
     }
 }
