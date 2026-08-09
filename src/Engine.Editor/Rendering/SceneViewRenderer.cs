@@ -79,8 +79,16 @@ public class SceneViewRenderer
         foreach(var entity in document.Scene.EntityCollection.Entities)
         {
             if (string.IsNullOrWhiteSpace(entity.Sprite.AssetName))
+            {
+                Raylib.DrawCircle(
+                    (int)entity.Position.X,
+                    (int)entity.Position.Y,
+                    8,
+                    Color.Magenta
+                );
+
                 continue;
-            
+            }
             Texture2D texture =
                 assets.GetSprite(
                     entity.Sprite.AssetName
@@ -103,16 +111,35 @@ public class SceneViewRenderer
         EditorAssets assets)
     {
         if(entity == null)
-            return;
+            return; 
 
-        Texture2D texture = 
+
+        if(string.IsNullOrWhiteSpace(
+            entity.Sprite.AssetName))
+        {
+            Raylib.DrawCircleLines(
+                (int)entity.Position.X,
+                (int)entity.Position.Y,
+                12,
+                Color.Yellow
+            );  
+
+            return;
+        }   
+
+
+        Texture2D texture =
             assets.GetSprite(
                 entity.Sprite.AssetName
-            );
-        
-        Vector2 drawPosition = 
-            _placement.GetDrawPosition(entity);
-        
+            );  
+
+
+        Vector2 drawPosition =
+            _placement.GetDrawPosition(
+                entity
+            );  
+
+
         Raylib.DrawRectangleLines(
             (int)drawPosition.X,
             (int)drawPosition.Y,

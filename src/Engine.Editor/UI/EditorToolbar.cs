@@ -8,7 +8,7 @@ public class EditorToolbar
     private readonly int _height;
     private readonly Rectangle _selectButton;
     private readonly Rectangle _moveButton;
-
+    private readonly Rectangle _createButton;
 
     public EditorToolbar()
     {
@@ -25,6 +25,13 @@ public class EditorToolbar
         
         _moveButton = new Rectangle(
             90,
+            5,
+            70,
+            30
+        );
+
+        _createButton = new Rectangle(
+            170,
             5,
             70,
             30
@@ -57,6 +64,10 @@ public class EditorToolbar
             Color.Gray
         );
 
+        Raylib.DrawRectangleRec(
+            _createButton,
+            Color.Gray
+        );
 
         Raylib.DrawText(
             "Select",
@@ -70,6 +81,14 @@ public class EditorToolbar
         Raylib.DrawText(
             "Move",
             100,
+            12,
+            18,
+            Color.White
+        );
+
+        Raylib.DrawText(
+            "Create",
+            177,
             12,
             18,
             Color.White
@@ -116,6 +135,15 @@ public class EditorToolbar
             Console.WriteLine("MOVE");
     
             return ToolbarAction.Move;
+        }
+
+        if(Raylib.CheckCollisionPointRec(
+            mouse,
+            _createButton))
+        {
+            Console.WriteLine("CREATE");
+    
+            return ToolbarAction.Create;
         }
     
     

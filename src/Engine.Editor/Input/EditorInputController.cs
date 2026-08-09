@@ -58,6 +58,13 @@ public class EditorInputController
                !_previousLeftDown;
     }
 
+    public bool RightPressed()
+    {
+        return Raylib.IsMouseButtonPressed(
+            MouseButton.Right
+        );
+    }
+
 
     public bool LeftReleased()
     {

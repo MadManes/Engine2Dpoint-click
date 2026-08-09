@@ -1,4 +1,5 @@
 using Raylib_cs;
+using Engine.Math;
 using Engine.Assets;
 using Engine.Scene.Definitions;
 using Engine.Editor.UI;
@@ -15,6 +16,7 @@ using Engine.Editor.Documents;
 using Engine.Core.Display;
 using Engine.Editor.UI.Layout;
 using Engine.Editor.Display;
+using Engine.Editor.Creation;
 
 namespace Engine.Editor;
 
@@ -32,8 +34,12 @@ public class Editor
     private readonly EditorContext _context;
     private readonly ToolManager _toolManager;
     private readonly EditorToolbar _toolbar;
+    private readonly EditorContextMenu _contextMenu;
 
     private readonly EditorEntityPicker _entityPicker;
+
+    private readonly EditorEntityFactory _entityFactory;
+    private readonly EditorInspector _inspector;
 
 
     public Editor()
@@ -68,6 +74,9 @@ public class Editor
             _viewport
         );
 
+        _entityFactory = new EditorEntityFactory();
+        _inspector = new EditorInspector();
+
         _toolManager = new ToolManager();
 
         _toolManager.Register(
@@ -84,7 +93,16 @@ public class Editor
             )
         );
 
+        _toolManager.Register(
+            "create",
+            new CreateTool(
+                _entityFactory
+            )            
+        );
+
         _toolbar = new EditorToolbar();
+
+        _contextMenu = new EditorContextMenu();
                         
     }    
 
@@ -141,6 +159,10 @@ public class Editor
             1280,
             640,
             "Engine 2D Editor"
+        );
+
+        Raylib.SetExitKey(
+            KeyboardKey.Null
         );
 
         _layout.Update(
@@ -202,6 +224,52 @@ public class Editor
     {        
         UpdateDisplay();
         _camera.Update();
+
+        if (_input.RightPressed())
+        {
+            Vector2 mousePosition =
+                _input.MouseWorldPosition();
+
+            EntityData? entity =
+                _entityPicker.Pick(
+                    _state.CurrentDocument!.Scene.EntityCollection.Entities,
+                    mousePosition
+                );
+
+            if(entity != null)
+            {
+                _state.SelectEntity(entity);
+
+                _contextMenu.Open(
+                    entity,
+                    (int)Raylib.GetMousePosition().X,
+                    (int)Raylib.GetMousePosition().Y
+                );
+            }
+            else
+            {
+                _contextMenu.Close();
+            }
+        }
+
+        ContextMenuAction contextAction = 
+            _contextMenu.Update();
+        
+        switch(contextAction)
+        {
+            case ContextMenuAction.Edit:
+
+                if(_contextMenu.Target != null)
+                {
+                    _inspector.Open(
+                        _contextMenu.Target
+                    );
+                }
+
+                _contextMenu.Close();
+
+                break;
+        }
         
         ToolbarAction action = _toolbar.Update();        
 
@@ -213,6 +281,10 @@ public class Editor
 
             case ToolbarAction.Move:
                 _toolManager.Activate("move");
+                break;
+
+            case ToolbarAction.Create:
+                _toolManager.Activate("create");
                 break;
         }        
     
@@ -232,11 +304,29 @@ public class Editor
             );
         }
 
+        if(Raylib.IsKeyPressed(
+            KeyboardKey.C))
+        {
+            _toolManager.Activate(
+                "create"
+            );
+        }
+
+
         _toolManager.Update(
             _context
         );
 
         _input.EndFrame();
+
+        InspectorResult inspectorResult =
+            _inspector.Update();
+
+        if(inspectorResult ==
+           InspectorResult.Changed)
+        {
+            _state.CurrentDocument?.MarkDirty();
+        }
     }
 
 
@@ -269,7 +359,9 @@ public class Editor
 
         Raylib.EndScissorMode();
 
-        _toolbar.Draw();
+        _toolbar.Draw();        
+        _inspector.Draw();
+        _contextMenu.Draw();
 
         Raylib.EndDrawing();
     }

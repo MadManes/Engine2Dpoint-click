@@ -26,6 +26,27 @@ public class EditorEntityPicker
     {
         foreach(EntityData entity in entities.Reverse())
         {
+            if(string.IsNullOrWhiteSpace(
+                entity.Sprite.AssetName))
+            {
+                Engine.Math.Rectangle emptyBounds =
+                    new Engine.Math.Rectangle(
+                        new Vector2(
+                            entity.Position.X - 16,
+                            entity.Position.Y - 16
+                        ),
+                        32,
+                        32
+                    );
+                
+                if(emptyBounds.Contains(position))
+                {
+                    return entity;
+                }
+
+                continue;
+            }
+
             Texture2D texture =
                 _assetManager.LoadSprite(
                     entity.Sprite.AssetName + ".png"

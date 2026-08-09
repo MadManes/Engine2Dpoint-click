@@ -4,5 +4,6 @@ public enum ToolbarAction
 {
     None,
     Select,
-    Move
+    Move,
+    Create
 }
