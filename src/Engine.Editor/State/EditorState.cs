@@ -9,6 +9,8 @@ public class EditorState
 {
     public SceneDocument? CurrentDocument { get; private set; }
 
+    public SceneProject? Project { get; private set; }
+
     public bool HasDocument =>  
         CurrentDocument != null;
     
@@ -22,6 +24,12 @@ public class EditorState
         CurrentDocument = document;
         SelectedEntity = null;
         Assets = null;
+    }
+
+    public void OpenProject(
+        SceneProject project)
+    {
+        Project = project;
     }
 
     public void SelectEntity(

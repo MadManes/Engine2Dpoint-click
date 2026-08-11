@@ -4,7 +4,7 @@ namespace Engine.Editor.Loading;
 
 public class EditorAssets
 {
-    public Texture2D Background { get; }
+    public Texture2D Background { get; }    
 
     private readonly Dictionary<string, Texture2D> _sprites;
 
@@ -23,4 +23,7 @@ public class EditorAssets
     {
         return _sprites[assetName];
     }
+
+    public IEnumerable<string> SpriteNames =>
+        _sprites.Keys;
 }

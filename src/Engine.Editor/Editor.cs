@@ -24,14 +24,16 @@ public class Editor
 {   
     private readonly EditorViewport _viewport;
     private readonly EditorLayout _layout;
-    private readonly EditorState _state;    
+    private readonly EditorState _state;
+    private readonly EditorSceneSaver _sceneSaver;
     private readonly EditorRenderer _renderer;
     private readonly EditorCamera _camera;
     private readonly EditorInputController _input;
     private readonly DisplayManager _displayManager;
     private readonly AssetManager _assetManager;
 
-    private readonly EditorContext _context;
+    private EditorContext _context = null!;
+
     private readonly ToolManager _toolManager;
     private readonly EditorToolbar _toolbar;
     private readonly EditorContextMenu _contextMenu;
@@ -66,13 +68,12 @@ public class Editor
         
         _assetManager = new AssetManager("assets");
 
-        _entityPicker = new EditorEntityPicker(_assetManager);
+        _sceneSaver =
+            new EditorSceneSaver(
+                "assets/scenes"
+            );
 
-        _context = new EditorContext(
-            _state,
-            _input,
-            _viewport
-        );
+        _entityPicker = new EditorEntityPicker(_assetManager);        
 
         _entityFactory = new EditorEntityFactory();
         _inspector = new EditorInspector();
@@ -114,6 +115,14 @@ public class Editor
 
         SceneProject project = loader.Load();
 
+        _state.OpenProject(
+            project
+        );
+
+        _inspector.SetProject(
+            project
+        );
+
         SceneData scene = project.GetScene("test_room");
 
         SceneDocument document = new(
@@ -130,6 +139,17 @@ public class Editor
             assetLoader.Load(
                 _state.CurrentDocument!
             );
+
+        _inspector.SetAssets(
+            _state.Assets
+        );
+
+        _context = new EditorContext(
+            _state,
+            _input,
+            _viewport,
+            _state.Assets
+        );
     }
 
     public void Run()
@@ -159,6 +179,10 @@ public class Editor
             1280,
             640,
             "Engine 2D Editor"
+        );
+
+        _inspector.UpdateLayout(
+            Raylib.GetScreenWidth()
         );
 
         Raylib.SetExitKey(
@@ -218,6 +242,10 @@ public class Editor
         _viewport.Update(
             _displayManager.Viewport
         );
+
+        _inspector.UpdateLayout(
+            width
+        );
     }
 
     private void Update()
@@ -254,6 +282,8 @@ public class Editor
 
         ContextMenuAction contextAction = 
             _contextMenu.Update();
+
+        bool uiConsumedInput = false;
         
         switch(contextAction)
         {
@@ -268,7 +298,23 @@ public class Editor
 
                 _contextMenu.Close();
 
+                uiConsumedInput = true;
+
                 break;
+        }
+
+        InspectorResult inspectorResult =
+            _inspector.Update();
+
+        if(inspectorResult ==
+           InspectorResult.Changed)
+        {
+            _state.CurrentDocument?.MarkDirty();
+        }
+
+        if(!_inspector.IsEditing)
+        {
+            
         }
         
         ToolbarAction action = _toolbar.Update();        
@@ -312,21 +358,28 @@ public class Editor
             );
         }
 
-
-        _toolManager.Update(
-            _context
-        );
+        if(!uiConsumedInput)
+        {
+            _toolManager.Update(
+                _context
+            );
+        }
 
         _input.EndFrame();
 
-        InspectorResult inspectorResult =
-            _inspector.Update();
-
-        if(inspectorResult ==
-           InspectorResult.Changed)
+        // Prueba SAVE
+        if(Raylib.IsKeyPressed(
+            KeyboardKey.F5))
         {
-            _state.CurrentDocument?.MarkDirty();
+            if(_state.CurrentDocument != null)
+            {
+                _sceneSaver.Save(
+                    _state.CurrentDocument
+                );
+            }
         }
+
+        
     }
 
 
