@@ -1,35 +1,47 @@
-using Engine.Math;
 using Engine.Editor.Loading;
 using Engine.Editor.Documents;
+using Engine.Editor.Project;
 using Engine.Scene.Definitions;
 
 namespace Engine.Editor.State;
 
 public class EditorState
 {
-    public SceneDocument? CurrentDocument { get; private set; }
+    public EditorProject? Project { get; private set; }
 
-    public SceneProject? Project { get; private set; }
+    public SceneDocument? CurrentDocument =>
+        Project?.CurrentDocument;
 
-    public bool HasDocument =>  
+    public bool HasDocument =>
         CurrentDocument != null;
-    
+
     public EntityData? SelectedEntity { get; private set; }
 
-    public EditorAssets? Assets { get; set; }
+    public EditorAssets? Assets { get;  private set; }
 
-    public void OpenDocument(
-        SceneDocument document)
+
+    public void OpenProject(
+        EditorProject project)
     {
-        CurrentDocument = document;
+        Project = project;
         SelectedEntity = null;
         Assets = null;
     }
 
-    public void OpenProject(
-        SceneProject project)
+    public void OpenScene(
+        string sceneId)
     {
-        Project = project;
+        if(Project == null)
+            throw new InvalidOperationException(
+                "No project is open."
+            );
+
+        Project.OpenDocument(
+            sceneId
+        );
+
+        SelectedEntity = null;
+        Assets = null;
     }
 
     public void SelectEntity(
@@ -37,5 +49,18 @@ public class EditorState
     {
         SelectedEntity = entity;
     }
+
+    public void SetAssets(
+        EditorAssets assets)
+    {
+        Assets = assets;
+    }
+
+    public void MarkCurrentDocumentDirty()
+    {
+        if(CurrentDocument == null)
+            return;
     
+        CurrentDocument.MarkDirty();
+    }
 }

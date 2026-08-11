@@ -65,10 +65,8 @@ public class MoveTool : IEditorTool
         }
 
 
-        if(context.Input.LeftDown()
-            &&
-            _dragging
-            &&
+        if(context.Input.LeftDown() &&
+            _dragging &&
             context.State.SelectedEntity != null)
         {
             EntityData entity =
@@ -81,9 +79,7 @@ public class MoveTool : IEditorTool
                     mouseWorld.Y + _dragOffset.Y
                 );
 
-
-            context.State.CurrentDocument!
-                .MarkDirty();
+            context.State.MarkCurrentDocumentDirty();
         }
 
 

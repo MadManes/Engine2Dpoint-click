@@ -2,6 +2,8 @@ using Raylib_cs;
 using Engine.Entities.Components;
 using Engine.Scene.Definitions;
 using Engine.Editor.Loading;
+using Engine.Editor.Project;
+using Engine.Editor.Documents;
 
 namespace Engine.Editor.UI;
 
@@ -19,7 +21,7 @@ public class EditorInspector
     private bool _targetSpawnDropdownOpen;
 
     private EditorAssets? _assets;
-    private SceneProject? _project;
+    private EditorProject? _project;
 
     private string _nameBuffer = "";
 
@@ -57,7 +59,7 @@ public class EditorInspector
     }
 
     public void SetProject(
-        SceneProject project)
+        EditorProject project)
     {
         _project = project;
     }
@@ -293,8 +295,11 @@ public class EditorInspector
 
         int index = 0;
 
-        foreach(string sceneId in _project.SceneIds)
+        foreach(SceneDocument document in _project.Documents)
         {
+            string sceneId =
+                document.Scene.Id;
+
             Rectangle option =
                 _layout.GetTargetSceneOption(index);
 
@@ -340,10 +345,13 @@ public class EditorInspector
             return;
         }
 
-        SceneData scene =
-            _project.GetScene(
+        SceneDocument document =
+            _project.GetDocument(
                 Target.Door.TargetScene
             );
+
+        SceneData scene = document.Scene;
+
 
         int index = 0;
 
@@ -396,8 +404,11 @@ public class EditorInspector
             {
                 int index = 0;
 
-                foreach(string sceneId in _project.SceneIds)
+                foreach(SceneDocument document in _project.Documents)
                 {
+                    string sceneId =
+                        document.Scene.Id;
+
                     Rectangle option =
                         _layout.GetTargetSceneOption(index);
 
@@ -416,7 +427,8 @@ public class EditorInspector
                             Target.Door.TargetScene =
                                 sceneId;
 
-                            Target.Door.TargetSpawn = "";
+                            Target.Door.TargetSpawn =
+                                "";
 
                             _targetSceneDropdownOpen = false;
 
@@ -663,10 +675,13 @@ public class EditorInspector
                !string.IsNullOrWhiteSpace(
                    Target.Door.TargetScene))
             {
-                SceneData scene =
-                    _project.GetScene(
+                SceneDocument document =
+                    _project.GetDocument(
                         Target.Door.TargetScene
                     );
+
+                SceneData scene = document.Scene;
+                    
 
                 int index = 0;
 
@@ -730,8 +745,7 @@ public class EditorInspector
             {
                 if(Target.Door == null)
                 {
-                    Target.Door =
-                        new DoorData();
+                    return InspectorResult.None;
                 }
 
                 _targetSceneDropdownOpen =

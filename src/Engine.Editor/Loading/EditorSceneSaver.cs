@@ -15,6 +15,7 @@ public class EditorSceneSaver
         _serializer = new SceneSerializer();
     }
 
+
     public void Save(
         SceneDocument document)
     {
@@ -33,7 +34,5 @@ public class EditorSceneSaver
             path,
             json
         );
-
-        document.SaveCompleted();
     }
 }

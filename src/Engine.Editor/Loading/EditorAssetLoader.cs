@@ -7,12 +7,15 @@ namespace Engine.Editor.Loading;
 public class EditorAssetLoader
 {
     private readonly AssetManager _assetManager;
+    private readonly string _spriteFolder;
 
-
+    
     public EditorAssetLoader(
-        AssetManager assetManager)
+        AssetManager assetManager,
+        string spriteFolder)
     {
         _assetManager = assetManager;
+        _spriteFolder = spriteFolder;
     }
 
 
@@ -56,6 +59,29 @@ public class EditorAssetLoader
         }
 
 
+        List<string> spriteNames =
+            new();
+
+
+        if(Directory.Exists(_spriteFolder))
+        {
+            foreach(string file in
+                Directory.GetFiles(
+                    _spriteFolder,
+                    "*.png"))
+            {
+                string assetName =
+                    Path.GetFileNameWithoutExtension(
+                        file
+                    );
+
+                spriteNames.Add(
+                    assetName
+                );
+            }
+        }
+
+
         Console.WriteLine(
             $"Background: {background.Width}x{background.Height}"
         );
@@ -66,9 +92,18 @@ public class EditorAssetLoader
         );
 
 
+        Console.WriteLine(
+            $"Sprites available: {spriteNames.Count}"
+        );
+
+
         return new EditorAssets(
             background,
-            sprites
+            sprites,
+            spriteNames,
+            _assetManager
         );
     }
+
+
 }

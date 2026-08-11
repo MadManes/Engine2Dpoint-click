@@ -5,6 +5,7 @@ namespace Engine.Editor.Documents;
 public class SceneDocument
 {
     public SceneData Scene { get; }
+
     public string FileName { get; }
 
     public bool IsDirty { get; private set; }
@@ -16,14 +17,12 @@ public class SceneDocument
     {
         Scene = scene;
         FileName = fileName;
-    }
-
+    }    
 
     public void MarkDirty()
     {
         IsDirty = true;
     }
-
 
     public void SaveCompleted()
     {

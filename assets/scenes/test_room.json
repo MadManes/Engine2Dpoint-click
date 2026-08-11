@@ -28,10 +28,79 @@
     "entities": [
       {
         "id": "object_1",
-        "name": "NPC_Test_1",
+        "name": "NPC de Pruebaac",
         "position": {
-          "x": 600,
-          "y": 200
+          "x": 965.6666,
+          "y": 58
+        },
+        "sprite": {
+          "assetName": "door"
+        },
+        "type": "Player",
+        "isInteractable": false
+      },
+      {
+        "id": "object_2",
+        "name": "NPC_Loco",
+        "position": {
+          "x": 262,
+          "y": 48.333374
+        },
+        "sprite": {
+          "assetName": "guybrush_idle"
+        },
+        "type": "Player",
+        "isInteractable": false
+      },
+      {
+        "id": "door_wide_room",
+        "name": "to Wide Room",
+        "position": {
+          "x": 650.3333,
+          "y": 444.6667
+        },
+        "sprite": {
+          "assetName": "door"
+        },
+        "type": "Generic",
+        "isInteractable": true,
+        "door": {
+          "targetScene": "test_room",
+          "targetSpawn": "Entrance"
+        }
+      },
+      {
+        "id": "3566c4d9-3889-4027-9e78-8de784a28a4c",
+        "name": "Entity",
+        "position": {
+          "x": 721.66675,
+          "y": 446.41675
+        },
+        "sprite": {
+          "assetName": "door"
+        },
+        "type": "Generic",
+        "isInteractable": true
+      },
+      {
+        "id": "999d793e-5b31-4802-a094-0a9038008139",
+        "name": "Entity",
+        "position": {
+          "x": 668.4286,
+          "y": 368.4286
+        },
+        "sprite": {
+          "assetName": ""
+        },
+        "type": "Generic",
+        "isInteractable": false
+      },
+      {
+        "id": "ce837d84-c433-416c-b999-0822b607d64b",
+        "name": "Entity",
+        "position": {
+          "x": 766,
+          "y": 88
         },
         "sprite": {
           "assetName": "npc_test"
@@ -40,45 +109,11 @@
         "isInteractable": true
       },
       {
-        "id": "object_2",
-        "name": "NPC_Loco",
-        "position": {
-          "x": 350,
-          "y": 250
-        },
-        "sprite": {
-          "assetName": "door"
-        },
-        "type": "Generic",
-        "isInteractable": true,
-        "door": {
-          "targetScene": "wide_room",
-          "targetSpawn": "Entrance"
-        }
-      },
-      {
-        "id": "door_wide_room",
-        "name": "to Wide Room",
-        "position": {
-          "x": 850,
-          "y": 200
-        },
-        "sprite": {
-          "assetName": "door"
-        },
-        "type": "Generic",
-        "isInteractable": true,
-        "door": {
-          "targetScene": "wide_room",
-          "targetSpawn": "Entrance"
-        }
-      },
-      {
-        "id": "92d57894-81d8-4b42-8c5e-fd0dcfbf02a1",
+        "id": "1f09dafd-5ca1-4c6a-a4fa-5979553f32b3",
         "name": "Entity",
         "position": {
-          "x": 1182.2223,
-          "y": 231.11113
+          "x": 1025,
+          "y": 115
         },
         "sprite": {
           "assetName": ""
@@ -87,11 +122,11 @@
         "isInteractable": false
       },
       {
-        "id": "84b3ffff-44ac-41fe-937a-58843936d877",
+        "id": "1eb90a63-ccf2-45d6-a0ab-2597658dbf48",
         "name": "Entity",
         "position": {
-          "x": 1175.5555,
-          "y": 280
+          "x": 1037,
+          "y": 100
         },
         "sprite": {
           "assetName": ""
@@ -100,11 +135,11 @@
         "isInteractable": false
       },
       {
-        "id": "fdb0d4c0-3e53-4b2c-8484-7de52dc572c5",
+        "id": "4aabe236-5ad4-447e-ba2c-07d9e163b3ab",
         "name": "Entity",
         "position": {
-          "x": 1176.6667,
-          "y": 294.44446
+          "x": 1043,
+          "y": 112
         },
         "sprite": {
           "assetName": ""
@@ -113,11 +148,11 @@
         "isInteractable": false
       },
       {
-        "id": "97bb6c3b-5061-48ac-926d-b501d8cff6ba",
+        "id": "ac0bb6f7-3ba5-4865-89ce-9fb4f4cc7b67",
         "name": "Entity",
         "position": {
-          "x": 1166.6667,
-          "y": 363.33334
+          "x": 1061,
+          "y": 188
         },
         "sprite": {
           "assetName": ""
@@ -126,11 +161,11 @@
         "isInteractable": false
       },
       {
-        "id": "84606603-a9d3-4231-a3e0-b2519e498000",
+        "id": "e096aaa9-8804-426c-a9de-a3d2b3f22ef9",
         "name": "Entity",
         "position": {
-          "x": 1165.5555,
-          "y": 345.55557
+          "x": 1039,
+          "y": 213
         },
         "sprite": {
           "assetName": ""
@@ -139,11 +174,11 @@
         "isInteractable": false
       },
       {
-        "id": "1c91ccd3-046f-48b3-b386-39d5be491d89",
+        "id": "ede95cf8-b633-4cfd-ab42-985e097e235f",
         "name": "Entity",
         "position": {
-          "x": 1163.3334,
-          "y": 410
+          "x": 1050,
+          "y": 162
         },
         "sprite": {
           "assetName": ""
@@ -152,11 +187,37 @@
         "isInteractable": false
       },
       {
-        "id": "e0742eb3-72d3-4079-bba4-8d94004cc059",
+        "id": "2fa3ed7b-a7e5-4939-b855-9bcbc3e179c7",
         "name": "Entity",
         "position": {
-          "x": 903.3334,
-          "y": 124.44446
+          "x": 1042,
+          "y": 233
+        },
+        "sprite": {
+          "assetName": ""
+        },
+        "type": "Generic",
+        "isInteractable": false
+      },
+      {
+        "id": "8d0eea3a-fede-43eb-a909-4b5fae46074a",
+        "name": "Entity",
+        "position": {
+          "x": 1049,
+          "y": 264
+        },
+        "sprite": {
+          "assetName": ""
+        },
+        "type": "Generic",
+        "isInteractable": false
+      },
+      {
+        "id": "0b5d22a5-3a76-47eb-ba67-edaad2e71480",
+        "name": "Entity",
+        "position": {
+          "x": 409,
+          "y": 125
         },
         "sprite": {
           "assetName": ""

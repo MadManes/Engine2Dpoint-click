@@ -1,0 +1,250 @@
+{
+  "id": "wide_room",
+  "name": "Wide Room",
+  "navigation": {
+    "vertices": [
+      {
+        "x": 100,
+        "y": 100
+      },
+      {
+        "x": 1200,
+        "y": 100
+      },
+      {
+        "x": 1200,
+        "y": 500
+      },
+      {
+        "x": 100,
+        "y": 500
+      }
+    ]
+  },
+  "background": {
+    "assetName": "wide_room"
+  },
+  "entityCollection": {
+    "entities": [
+      {
+        "id": "door_test_room",
+        "name": "Si guarda prrr",
+        "position": {
+          "x": 854.25006,
+          "y": 220.75
+        },
+        "sprite": {
+          "assetName": "door"
+        },
+        "type": "Generic",
+        "isInteractable": false,
+        "door": {
+          "targetScene": "test_room",
+          "targetSpawn": "Entrance"
+        }
+      },
+      {
+        "id": "529fa287-fe97-4859-a27f-219ddebbd8c3",
+        "name": "Entity",
+        "position": {
+          "x": 424.75006,
+          "y": 333.75003
+        },
+        "sprite": {
+          "assetName": ""
+        },
+        "type": "Generic",
+        "isInteractable": false
+      },
+      {
+        "id": "4f7e80d8-01d4-43ec-b007-46925c20d013",
+        "name": "Entity",
+        "position": {
+          "x": 480.24994,
+          "y": 223
+        },
+        "sprite": {
+          "assetName": ""
+        },
+        "type": "Generic",
+        "isInteractable": false
+      },
+      {
+        "id": "885b8b90-36c4-4767-88ae-fcdce6197990",
+        "name": "Entity",
+        "position": {
+          "x": 526.74994,
+          "y": 331.50003
+        },
+        "sprite": {
+          "assetName": ""
+        },
+        "type": "Generic",
+        "isInteractable": false,
+        "door": {
+          "targetScene": "test_room",
+          "targetSpawn": "Entrance"
+        }
+      },
+      {
+        "id": "7b62b0bd-f0ec-4174-b8cb-d6d39b4c5005",
+        "name": "Entity",
+        "position": {
+          "x": 1043,
+          "y": 230
+        },
+        "sprite": {
+          "assetName": ""
+        },
+        "type": "Generic",
+        "isInteractable": false
+      },
+      {
+        "id": "c778bbe6-b1cb-4b5e-bff0-ba7b204c7ea2",
+        "name": "Entity",
+        "position": {
+          "x": 1039,
+          "y": 262
+        },
+        "sprite": {
+          "assetName": ""
+        },
+        "type": "Generic",
+        "isInteractable": false
+      },
+      {
+        "id": "550c3016-f9ed-4eb6-b89d-5afddcb698c6",
+        "name": "Entity",
+        "position": {
+          "x": 945.74994,
+          "y": 152.5
+        },
+        "sprite": {
+          "assetName": ""
+        },
+        "type": "Generic",
+        "isInteractable": false
+      },
+      {
+        "id": "4485e848-eba0-4739-b24e-ce1267890efa",
+        "name": "Entity",
+        "position": {
+          "x": 1041,
+          "y": 297
+        },
+        "sprite": {
+          "assetName": ""
+        },
+        "type": "Generic",
+        "isInteractable": false
+      },
+      {
+        "id": "d54b8cce-d513-4500-b8eb-f00f8c6eb1f9",
+        "name": "Entity",
+        "position": {
+          "x": 1039,
+          "y": 310
+        },
+        "sprite": {
+          "assetName": ""
+        },
+        "type": "Generic",
+        "isInteractable": false
+      },
+      {
+        "id": "505c126c-1482-44e7-b6b8-0c6c8229619f",
+        "name": "Entity",
+        "position": {
+          "x": 1031,
+          "y": 363
+        },
+        "sprite": {
+          "assetName": ""
+        },
+        "type": "Generic",
+        "isInteractable": false
+      },
+      {
+        "id": "6e039136-3acf-4fb7-9d0f-03dd016bbb64",
+        "name": "Entity",
+        "position": {
+          "x": 507.7778,
+          "y": 178.41278
+        },
+        "sprite": {
+          "assetName": ""
+        },
+        "type": "Generic",
+        "isInteractable": false
+      },
+      {
+        "id": "9d76ceed-8a7c-401a-ade3-bdad621330d1",
+        "name": "Entity",
+        "position": {
+          "x": 493.01593,
+          "y": 197.14291
+        },
+        "sprite": {
+          "assetName": ""
+        },
+        "type": "Generic",
+        "isInteractable": false
+      },
+      {
+        "id": "b51313ce-51a4-4942-9977-daad613041d2",
+        "name": "Entity",
+        "position": {
+          "x": 480.15875,
+          "y": 270.00006
+        },
+        "sprite": {
+          "assetName": ""
+        },
+        "type": "Generic",
+        "isInteractable": false
+      },
+      {
+        "id": "d15cf9d6-2701-4977-b36e-7f29c6db0096",
+        "name": "Entity",
+        "position": {
+          "x": 480,
+          "y": 307.46036
+        },
+        "sprite": {
+          "assetName": ""
+        },
+        "type": "Generic",
+        "isInteractable": false
+      },
+      {
+        "id": "92ef09ec-7056-4459-a11e-887288f7cf66",
+        "name": "Entity",
+        "position": {
+          "x": 819.76196,
+          "y": 331.34924
+        },
+        "sprite": {
+          "assetName": "npc_test"
+        },
+        "type": "Generic",
+        "isInteractable": false
+      }
+    ]
+  },
+  "spawnPoints": [
+    {
+      "id": "Default",
+      "position": {
+        "x": 600,
+        "y": 300
+      }
+    },
+    {
+      "id": "Entrance",
+      "position": {
+        "x": 150,
+        "y": 250
+      }
+    }
+  ]
+}

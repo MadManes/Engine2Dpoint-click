@@ -5,5 +5,6 @@ public enum ToolbarAction
     None,
     Select,
     Move,
-    Create
+    Create,
+    Scene
 }

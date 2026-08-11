@@ -56,8 +56,7 @@ public class CreateTool : IEditorTool
             entity
         );
 
-
-        context.State.CurrentDocument!
-            .MarkDirty();
+        context.State.MarkCurrentDocumentDirty();
+        
     }
 }

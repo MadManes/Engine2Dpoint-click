@@ -8,6 +8,7 @@ using Engine.Editor.Input;
 using Engine.Editor.Context;
 using Engine.Editor.Tools;
 using Engine.Editor.State;
+using Engine.Editor.Project;
 using Engine.Editor.Loading;
 using Engine.Editor.Rendering;
 using Engine.Editor.Camera;
@@ -25,7 +26,7 @@ public class Editor
     private readonly EditorViewport _viewport;
     private readonly EditorLayout _layout;
     private readonly EditorState _state;
-    private readonly EditorSceneSaver _sceneSaver;
+    private readonly EditorProjectSaver _projectSaver;
     private readonly EditorRenderer _renderer;
     private readonly EditorCamera _camera;
     private readonly EditorInputController _input;
@@ -68,9 +69,14 @@ public class Editor
         
         _assetManager = new AssetManager("assets");
 
-        _sceneSaver =
+        EditorSceneSaver sceneSaver =
             new EditorSceneSaver(
                 "assets/scenes"
+            );
+
+        _projectSaver =
+            new EditorProjectSaver(
+                sceneSaver
             );
 
         _entityPicker = new EditorEntityPicker(_assetManager);        
@@ -105,7 +111,48 @@ public class Editor
 
         _contextMenu = new EditorContextMenu();
                         
-    }    
+    }
+
+    private void LoadCurrentSceneAssets()
+    {
+        EditorAssetLoader assetLoader =
+            new(
+                _assetManager,
+                "assets/sprites"
+            );
+
+        _state.SetAssets(
+            assetLoader.Load(
+                _state.CurrentDocument!
+            )
+        );
+
+        _inspector.SetAssets(
+            _state.Assets!
+        );
+    }
+
+    private void OpenScene(
+        string sceneId)
+    {
+        _state.OpenScene(
+            sceneId
+        );
+
+        ResetSceneView();
+
+        LoadCurrentSceneAssets();
+
+        _toolbar.SetCurrentScene(
+            sceneId
+        );
+    }
+
+    private void ResetSceneView()
+    {
+        _contextMenu.Close();
+        _inspector.Close();
+    }
 
     private void InitializeContent()
     {
@@ -113,42 +160,51 @@ public class Editor
             "assets/scenes"
         );        
 
-        SceneProject project = loader.Load();
+        SceneProject project =
+            loader.Load();
+
+        EditorProject editorProject =
+            new(project);
+
+        foreach(SceneData scene in project.Scenes)
+        {
+            SceneDocument document =
+                new(
+                    scene,
+                    $"{scene.Id}.json"
+                );
+
+            editorProject.AddDocument(
+                document
+            );
+        }
+
+        editorProject.OpenDocument(
+            "test_room"
+        );
 
         _state.OpenProject(
-            project
+            editorProject
         );
 
         _inspector.SetProject(
-            project
+            editorProject
         );
 
-        SceneData scene = project.GetScene("test_room");
-
-        SceneDocument document = new(
-            scene,
-            "test_room.json"
+        _toolbar.SetScenes(
+            editorProject.SceneIds
         );
 
-        _state.OpenDocument(document);
-
-        EditorAssetLoader assetLoader =
-            new(_assetManager);
-
-        _state.Assets =
-            assetLoader.Load(
-                _state.CurrentDocument!
-            );
-
-        _inspector.SetAssets(
-            _state.Assets
+        _toolbar.SetCurrentScene(
+            editorProject.CurrentDocument!.Scene.Id
         );
+
+        LoadCurrentSceneAssets();
 
         _context = new EditorContext(
             _state,
             _input,
-            _viewport,
-            _state.Assets
+            _viewport            
         );
     }
 
@@ -248,9 +304,27 @@ public class Editor
         );
     }
 
+    private void SaveProject()
+    {
+        if(_state.Project == null)
+            return;
+        
+        if(!_state.Project.IsDirty)
+            return;
+        
+        _projectSaver.Save(
+            _state.Project
+        );
+    }    
+
     private void Update()
     {        
         UpdateDisplay();
+
+        _toolbar.SetDocumentState(
+            _state.Project?.IsDirty ?? false
+        );
+
         _camera.Update();
 
         if (_input.RightPressed())
@@ -306,10 +380,9 @@ public class Editor
         InspectorResult inspectorResult =
             _inspector.Update();
 
-        if(inspectorResult ==
-           InspectorResult.Changed)
-        {
-            _state.CurrentDocument?.MarkDirty();
+        if(inspectorResult == InspectorResult.Changed)
+        {            
+            _state.MarkCurrentDocumentDirty();            
         }
 
         if(!_inspector.IsEditing)
@@ -331,6 +404,16 @@ public class Editor
 
             case ToolbarAction.Create:
                 _toolManager.Activate("create");
+                break;
+
+            case ToolbarAction.Scene:
+                if(_toolbar.RequestedSceneId != null)
+                {
+                    OpenScene(
+                        _toolbar.RequestedSceneId
+                    );
+                }
+
                 break;
         }        
     
@@ -368,15 +451,12 @@ public class Editor
         _input.EndFrame();
 
         // Prueba SAVE
-        if(Raylib.IsKeyPressed(
-            KeyboardKey.F5))
+        if (
+            Raylib.IsKeyDown(KeyboardKey.LeftControl) &&
+            Raylib.IsKeyPressed(KeyboardKey.S)
+        )
         {
-            if(_state.CurrentDocument != null)
-            {
-                _sceneSaver.Save(
-                    _state.CurrentDocument
-                );
-            }
+            SaveProject();
         }
 
         
