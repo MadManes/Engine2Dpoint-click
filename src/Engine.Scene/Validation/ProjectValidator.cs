@@ -19,6 +19,11 @@ public class ProjectValidator : IProjectValidator
             result
         );
 
+        ValidateStartupScene(
+            project,
+            result
+        );
+
         return result;
     }
 
@@ -108,6 +113,35 @@ public class ProjectValidator : IProjectValidator
                     );
                 }
             }
+        }
+    }
+
+    private void ValidateStartupScene(
+        SceneProject project,
+        ValidationResult result)
+    {
+        if(string.IsNullOrWhiteSpace(
+            project.StartupSceneId))
+        {
+            result.AddError(
+                "PR006",
+                "Project does not define a startup scene."
+            );
+    
+            return;
+        }
+    
+        bool exists =
+            project.Scenes.Any(
+                x => x.Id == project.StartupSceneId
+            );
+    
+        if(!exists)
+        {
+            result.AddError(
+                "PR007",
+                $"Project startup scene '{project.StartupSceneId}' does not exist."
+            );
         }
     }
 }

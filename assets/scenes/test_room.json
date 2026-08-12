@@ -43,8 +43,8 @@
         "id": "object_2",
         "name": "NPC_Loco",
         "position": {
-          "x": 324.8889,
-          "y": 172.22224
+          "x": 377.8889,
+          "y": 277.22223
         },
         "sprite": {
           "assetName": "guybrush_idle"
@@ -56,8 +56,8 @@
         "id": "door_wide_room",
         "name": "to Wide Room",
         "position": {
-          "x": 401.88885,
-          "y": 212.00005
+          "x": 418.88885,
+          "y": 212.00006
         },
         "sprite": {
           "assetName": "door"
@@ -73,8 +73,8 @@
         "id": "3566c4d9-3889-4027-9e78-8de784a28a4c",
         "name": "Entity",
         "position": {
-          "x": 205.44452,
-          "y": 211.86119
+          "x": 213.44452,
+          "y": 212.8612
         },
         "sprite": {
           "assetName": "door"
@@ -216,8 +216,8 @@
         "id": "0b5d22a5-3a76-47eb-ba67-edaad2e71480",
         "name": "Entity",
         "position": {
-          "x": 409,
-          "y": 125
+          "x": 279,
+          "y": 267
         },
         "sprite": {
           "assetName": ""

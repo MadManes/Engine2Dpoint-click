@@ -18,7 +18,8 @@ public class EditorProjectLoader
     }
 
 
-    public SceneProject Load()
+    public SceneProject Load(
+        ProjectData projectData)
     {
         SceneSerializer serializer = new();
 
@@ -43,6 +44,9 @@ public class EditorProjectLoader
             );
 
 
-        return loader.Load();
+        return loader.Load(
+            projectData.Scenes,
+            projectData.StartupSceneId
+        );
     }
 }

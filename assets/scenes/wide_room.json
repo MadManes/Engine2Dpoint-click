@@ -30,8 +30,8 @@
         "id": "door_test_room",
         "name": "Si guarda prrr",
         "position": {
-          "x": 891.5834,
-          "y": 359.19446
+          "x": 130.58337,
+          "y": 366.19446
         },
         "sprite": {
           "assetName": "door"
@@ -47,8 +47,8 @@
         "id": "529fa287-fe97-4859-a27f-219ddebbd8c3",
         "name": "Entity",
         "position": {
-          "x": 424.75006,
-          "y": 333.75003
+          "x": 150.75006,
+          "y": 271.75003
         },
         "sprite": {
           "assetName": ""
@@ -60,8 +60,8 @@
         "id": "4f7e80d8-01d4-43ec-b007-46925c20d013",
         "name": "Entity",
         "position": {
-          "x": 480.24994,
-          "y": 223
+          "x": 149.24994,
+          "y": 208
         },
         "sprite": {
           "assetName": ""
@@ -73,8 +73,8 @@
         "id": "885b8b90-36c4-4767-88ae-fcdce6197990",
         "name": "Entity",
         "position": {
-          "x": 526.74994,
-          "y": 331.50003
+          "x": 601.74994,
+          "y": 365.50003
         },
         "sprite": {
           "assetName": ""
@@ -90,8 +90,8 @@
         "id": "7b62b0bd-f0ec-4174-b8cb-d6d39b4c5005",
         "name": "Entity",
         "position": {
-          "x": 1043,
-          "y": 230
+          "x": 664,
+          "y": 365
         },
         "sprite": {
           "assetName": ""
@@ -116,8 +116,8 @@
         "id": "550c3016-f9ed-4eb6-b89d-5afddcb698c6",
         "name": "Entity",
         "position": {
-          "x": 945.74994,
-          "y": 152.5
+          "x": 683.74994,
+          "y": 236.5
         },
         "sprite": {
           "assetName": ""
@@ -168,8 +168,8 @@
         "id": "6e039136-3acf-4fb7-9d0f-03dd016bbb64",
         "name": "Entity",
         "position": {
-          "x": 507.7778,
-          "y": 178.41278
+          "x": 144.7778,
+          "y": 150.41278
         },
         "sprite": {
           "assetName": ""
@@ -181,8 +181,8 @@
         "id": "9d76ceed-8a7c-401a-ade3-bdad621330d1",
         "name": "Entity",
         "position": {
-          "x": 493.01593,
-          "y": 197.14291
+          "x": 146.01593,
+          "y": 179.14291
         },
         "sprite": {
           "assetName": ""
@@ -194,8 +194,8 @@
         "id": "b51313ce-51a4-4942-9977-daad613041d2",
         "name": "Entity",
         "position": {
-          "x": 480.15875,
-          "y": 270.00006
+          "x": 152.15875,
+          "y": 238.00006
         },
         "sprite": {
           "assetName": ""
@@ -207,8 +207,8 @@
         "id": "d15cf9d6-2701-4977-b36e-7f29c6db0096",
         "name": "Entity",
         "position": {
-          "x": 480,
-          "y": 307.46036
+          "x": 149,
+          "y": 310.46036
         },
         "sprite": {
           "assetName": ""
@@ -220,8 +220,8 @@
         "id": "92ef09ec-7056-4459-a11e-887288f7cf66",
         "name": "Entity",
         "position": {
-          "x": 859.42865,
-          "y": 295.127
+          "x": 120.42865,
+          "y": 465.127
         },
         "sprite": {
           "assetName": "npc_test"

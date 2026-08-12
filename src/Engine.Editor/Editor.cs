@@ -1,7 +1,12 @@
 using Raylib_cs;
 using Engine.Math;
 using Engine.Assets;
+using Engine.Core.Display;
+
 using Engine.Scene.Definitions;
+using Engine.Scene.Serialization;
+using Engine.Scene.Loading.Project;
+
 using Engine.Editor.UI;
 using Engine.Editor.Viewport;
 using Engine.Editor.Input;
@@ -14,7 +19,6 @@ using Engine.Editor.Rendering;
 using Engine.Editor.Camera;
 using Engine.Editor.Selection;
 using Engine.Editor.Documents;
-using Engine.Core.Display;
 using Engine.Editor.UI.Layout;
 using Engine.Editor.Display;
 using Engine.Editor.Creation;
@@ -156,12 +160,37 @@ public class Editor
 
     private void InitializeContent()
     {
+        ///////////////
+        /// Prueba Promject.sfp
+        ProjectSerializer serializer =
+            new();
+
+        ProjectLoader projectLoader =
+            new(
+                "assets/Project.sfp",
+                serializer
+            );
+
+        ProjectData projectData =
+            projectLoader.Load();
+
+        Console.WriteLine(
+            $"Project: {projectData.Name}"
+        );
+
+        Console.WriteLine(
+            $"Scenes: {string.Join(", ", projectData.Scenes)}"
+        );
+        ///////////////
+        
         EditorProjectLoader loader = new(
             "assets/scenes"
         );        
 
         SceneProject project =
-            loader.Load();
+            loader.Load(
+                projectData
+            );
 
         EditorProject editorProject =
             new(project);
@@ -180,7 +209,7 @@ public class Editor
         }
 
         editorProject.OpenDocument(
-            "test_room"
+            project.StartupSceneId
         );
 
         _state.OpenProject(

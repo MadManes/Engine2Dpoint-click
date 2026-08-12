@@ -18,12 +18,14 @@ public class SceneProjectLoader
     }
 
 
-    public SceneProject Load()
+    public SceneProject Load(
+        IReadOnlyCollection<string> sceneIds,
+        string startupSceneId)
     {
         List<SceneData> scenes = new();
 
 
-        foreach(string id in _source.Names)
+        foreach(string id in sceneIds)
         {
             scenes.Add(
                 _source.Load(id)
@@ -32,7 +34,10 @@ public class SceneProjectLoader
 
 
         SceneProject project =
-            new(scenes);
+            new(
+                scenes,
+                startupSceneId
+            );
 
 
         ValidationResult result =

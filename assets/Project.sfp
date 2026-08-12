@@ -1,0 +1,9 @@
+{
+    "Id": "silver_forest",
+    "Name": "Silver Forest",
+    "Scenes": [
+        "test_room",
+        "wide_room"
+    ],
+    "StartupSceneId": "test_room"
+}

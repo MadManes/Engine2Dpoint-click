@@ -3,6 +3,7 @@ namespace Engine.Scene.Definitions;
 public class SceneProject
 {
     public IReadOnlyList<SceneData> Scenes { get; }
+    public string StartupSceneId { get; }
 
 
     public IReadOnlyCollection<string> SceneIds =>
@@ -12,9 +13,11 @@ public class SceneProject
 
 
     public SceneProject(
-        IReadOnlyList<SceneData> scenes)
+        IReadOnlyList<SceneData> scenes,
+        string startupSceneId)
     {
         Scenes = scenes;
+        StartupSceneId = startupSceneId;
     }
 
 
