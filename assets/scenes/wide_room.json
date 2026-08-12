@@ -30,8 +30,8 @@
         "id": "door_test_room",
         "name": "Si guarda prrr",
         "position": {
-          "x": 854.25006,
-          "y": 220.75
+          "x": 891.5834,
+          "y": 359.19446
         },
         "sprite": {
           "assetName": "door"
@@ -220,8 +220,8 @@
         "id": "92ef09ec-7056-4459-a11e-887288f7cf66",
         "name": "Entity",
         "position": {
-          "x": 819.76196,
-          "y": 331.34924
+          "x": 859.42865,
+          "y": 295.127
         },
         "sprite": {
           "assetName": "npc_test"

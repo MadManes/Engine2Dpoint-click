@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Engine.Scene")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+aa9444993b17304f3bba34204a48e07996aec671")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0036f7da815b0e13ebb3111626ac1393b917d9f3")]
 [assembly: System.Reflection.AssemblyProductAttribute("Engine.Scene")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Engine.Scene")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -6,5 +6,6 @@ public enum ToolbarAction
     Select,
     Move,
     Create,
-    Scene
+    Scene,
+    SaveProject
 }

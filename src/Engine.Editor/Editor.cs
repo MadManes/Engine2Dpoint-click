@@ -415,6 +415,10 @@ public class Editor
                 }
 
                 break;
+            
+            case ToolbarAction.SaveProject:
+                SaveProject();
+                break;
         }        
     
         if(Raylib.IsKeyPressed(
