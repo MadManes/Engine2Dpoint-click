@@ -7,5 +7,7 @@ public enum ToolbarAction
     Move,
     Create,
     Scene,
+    NewScene,
+    DeleteScene,
     SaveProject
 }

@@ -38,7 +38,7 @@ public class SceneValidator : ISceneValidator
 
         if (string.IsNullOrWhiteSpace(scene.Background.AssetName))
         {
-            result.AddError(
+            result.AddWarning(
                 "SC003",
                 "Scene requires a background."
             );
@@ -50,7 +50,7 @@ public class SceneValidator : ISceneValidator
     {
         if (scene.Navigation.Vertices.Count < 3)
         {
-            result.AddError(
+            result.AddWarning(
                 "SC004",
                 $"Scene '{scene.Id}' navigation polygon requires at least 3 vertices."
             );            
@@ -67,7 +67,7 @@ public class SceneValidator : ISceneValidator
 
         if (!hasDefault)
         {
-            result.AddError(
+            result.AddWarning(
                 "SC005",
                 $"Scene '{scene.Id}' does not contain a 'Default' spawn point."
             );

@@ -1,0 +1,53 @@
+{
+  "id": "scene_5",
+  "name": "Scene 5",
+  "navigation": {
+    "vertices": [
+      {
+        "x": 0,
+        "y": 0
+      },
+      {
+        "x": 1280,
+        "y": 0
+      },
+      {
+        "x": 1280,
+        "y": 640
+      },
+      {
+        "x": 0,
+        "y": 640
+      }
+    ]
+  },
+  "background": {
+    "assetName": ""
+  },
+  "entityCollection": {
+    "entities": [
+      {
+        "id": "71e6ec09-3fbe-42e0-8434-9ad02172781d",
+        "name": "Entity",
+        "position": {
+          "x": 548,
+          "y": 217
+        },
+        "sprite": {
+          "assetName": ""
+        },
+        "type": "Generic",
+        "isInteractable": false
+      }
+    ]
+  },
+  "spawnPoints": [
+    {
+      "id": "Default",
+      "position": {
+        "x": 640,
+        "y": 320
+      }
+    }
+  ]
+}

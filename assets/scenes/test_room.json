@@ -30,8 +30,8 @@
         "id": "object_1",
         "name": "NPC de Pruebaac",
         "position": {
-          "x": 310.66663,
-          "y": 212
+          "x": 913.6666,
+          "y": 326
         },
         "sprite": {
           "assetName": "door"
@@ -43,8 +43,8 @@
         "id": "object_2",
         "name": "NPC_Loco",
         "position": {
-          "x": 377.8889,
-          "y": 277.22223
+          "x": 634.8889,
+          "y": 96.22223
         },
         "sprite": {
           "assetName": "guybrush_idle"
@@ -56,8 +56,8 @@
         "id": "door_wide_room",
         "name": "to Wide Room",
         "position": {
-          "x": 418.88885,
-          "y": 212.00006
+          "x": 617.88885,
+          "y": 516.00006
         },
         "sprite": {
           "assetName": "door"
@@ -73,8 +73,8 @@
         "id": "3566c4d9-3889-4027-9e78-8de784a28a4c",
         "name": "Entity",
         "position": {
-          "x": 213.44452,
-          "y": 212.8612
+          "x": 285.44452,
+          "y": 310.8612
         },
         "sprite": {
           "assetName": "door"
@@ -99,8 +99,8 @@
         "id": "ce837d84-c433-416c-b999-0822b607d64b",
         "name": "Entity",
         "position": {
-          "x": 271.44443,
-          "y": 313.66666
+          "x": 585.44446,
+          "y": 128.66666
         },
         "sprite": {
           "assetName": "npc_test"
@@ -216,8 +216,8 @@
         "id": "0b5d22a5-3a76-47eb-ba67-edaad2e71480",
         "name": "Entity",
         "position": {
-          "x": 279,
-          "y": 267
+          "x": 583,
+          "y": 20
         },
         "sprite": {
           "assetName": ""

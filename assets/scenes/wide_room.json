@@ -30,8 +30,8 @@
         "id": "door_test_room",
         "name": "Si guarda prrr",
         "position": {
-          "x": 130.58337,
-          "y": 366.19446
+          "x": 1015.5834,
+          "y": 429.19446
         },
         "sprite": {
           "assetName": "door"
@@ -103,8 +103,8 @@
         "id": "c778bbe6-b1cb-4b5e-bff0-ba7b204c7ea2",
         "name": "Entity",
         "position": {
-          "x": 1039,
-          "y": 262
+          "x": 140,
+          "y": 132
         },
         "sprite": {
           "assetName": ""
@@ -129,8 +129,8 @@
         "id": "4485e848-eba0-4739-b24e-ce1267890efa",
         "name": "Entity",
         "position": {
-          "x": 1041,
-          "y": 297
+          "x": 150,
+          "y": 382
         },
         "sprite": {
           "assetName": ""
@@ -142,8 +142,8 @@
         "id": "d54b8cce-d513-4500-b8eb-f00f8c6eb1f9",
         "name": "Entity",
         "position": {
-          "x": 1039,
-          "y": 310
+          "x": 149,
+          "y": 344
         },
         "sprite": {
           "assetName": ""
@@ -155,8 +155,8 @@
         "id": "505c126c-1482-44e7-b6b8-0c6c8229619f",
         "name": "Entity",
         "position": {
-          "x": 1031,
-          "y": 363
+          "x": 150,
+          "y": 414
         },
         "sprite": {
           "assetName": ""
@@ -220,8 +220,8 @@
         "id": "92ef09ec-7056-4459-a11e-887288f7cf66",
         "name": "Entity",
         "position": {
-          "x": 120.42865,
-          "y": 465.127
+          "x": 87.42865,
+          "y": 77.127014
         },
         "sprite": {
           "assetName": "npc_test"

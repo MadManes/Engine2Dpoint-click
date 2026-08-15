@@ -42,6 +42,9 @@ public class Editor
     private readonly ToolManager _toolManager;
     private readonly EditorToolbar _toolbar;
     private readonly EditorContextMenu _contextMenu;
+    private readonly EditorPopupManager _popupManager;
+    private readonly EditorPopup _popup;
+    private readonly SceneCreationPopup _sceneCreationPopup;
 
     private readonly EditorEntityPicker _entityPicker;
 
@@ -77,10 +80,15 @@ public class Editor
             new EditorSceneSaver(
                 "assets/scenes"
             );
+        EditorProjectFileSaver projectFileSaver =
+            new EditorProjectFileSaver(
+                "assets/Project.sfp"
+            );
 
         _projectSaver =
             new EditorProjectSaver(
-                sceneSaver
+                sceneSaver,
+                projectFileSaver
             );
 
         _entityPicker = new EditorEntityPicker(_assetManager);        
@@ -114,7 +122,14 @@ public class Editor
         _toolbar = new EditorToolbar();
 
         _contextMenu = new EditorContextMenu();
-                        
+
+        _popupManager = new EditorPopupManager();
+        _popup = new EditorPopup();
+
+        _sceneCreationPopup = 
+            new SceneCreationPopup();
+
+        
     }
 
     private void LoadCurrentSceneAssets()
@@ -152,6 +167,68 @@ public class Editor
         );
     }
 
+    private bool CreateNewScene(
+        string id,
+        string name
+    )
+    {
+        if(_state.Project == null)
+            return false;
+
+        if(string.IsNullOrWhiteSpace(id))
+        {
+            _sceneCreationPopup.SetError(
+                "Scene ID cannot be empty."
+            );
+
+            return false;
+        }
+        
+        if(string.IsNullOrWhiteSpace(name))
+        {
+            _sceneCreationPopup.SetError(
+                "Scene name cannot empty."
+            );
+
+            return false;
+        }
+
+        if(_state.Project.SceneIds.Contains(id))
+        {
+            _sceneCreationPopup.SetError(
+                $"Scene ID '{id}' already exists."
+            );
+
+            return false;
+        }
+
+        SceneDocument document =
+            _state.Project.CreateScene(
+                id,
+                name
+            );
+
+        _state.OpenScene(
+            document.Scene.Id
+        );
+
+        ResetSceneView();
+
+        LoadCurrentSceneAssets();
+
+        _toolbar.SetScenes(
+            _state.Project.SceneOptions
+        );
+
+        _toolbar.SetCurrentScene(
+            document.Scene.Id
+        );
+
+        _sceneCreationPopup.Close();
+
+        return true;
+    }
+
     private void ResetSceneView()
     {
         _contextMenu.Close();
@@ -160,32 +237,18 @@ public class Editor
 
     private void InitializeContent()
     {
-        ///////////////
-        /// Prueba Promject.sfp
-        ProjectSerializer serializer =
-            new();
-
         ProjectLoader projectLoader =
             new(
                 "assets/Project.sfp",
-                serializer
+                new ProjectSerializer()
             );
 
         ProjectData projectData =
             projectLoader.Load();
-
-        Console.WriteLine(
-            $"Project: {projectData.Name}"
-        );
-
-        Console.WriteLine(
-            $"Scenes: {string.Join(", ", projectData.Scenes)}"
-        );
-        ///////////////
         
         EditorProjectLoader loader = new(
             "assets/scenes"
-        );        
+        );
 
         SceneProject project =
             loader.Load(
@@ -193,24 +256,30 @@ public class Editor
             );
 
         EditorProject editorProject =
-            new(project);
-
+            new(
+                projectData,
+                project
+            );
+        
+        
+        
         foreach(SceneData scene in project.Scenes)
         {
             SceneDocument document =
                 new(
                     scene,
-                    $"{scene.Id}.json"
+                    $"{scene.Id}.json",
+                    false
                 );
-
-            editorProject.AddDocument(
-                document
-            );
+                editorProject.AddDocument(
+                    document
+                );
         }
 
         editorProject.OpenDocument(
-            project.StartupSceneId
-        );
+            editorProject.Data.StartupSceneId
+        );        
+        
 
         _state.OpenProject(
             editorProject
@@ -221,7 +290,7 @@ public class Editor
         );
 
         _toolbar.SetScenes(
-            editorProject.SceneIds
+            editorProject.SceneOptions
         );
 
         _toolbar.SetCurrentScene(
@@ -235,6 +304,22 @@ public class Editor
             _input,
             _viewport            
         );
+        
+    }
+
+    private void OpenNewScenePopup()
+    {
+        if(_state.Project == null)
+            return;
+
+        int number =
+            _state.Project.SceneIds.Count + 1;
+
+        _sceneCreationPopup.Open(
+            $"scene_{number}",
+            $"Scene {number}"
+        );
+        
     }
 
     public void Run()
@@ -242,7 +327,7 @@ public class Editor
         Initialize();
 
         InitializeContent();
-
+        
         while (!Raylib.WindowShouldClose())
         {
             Update();
@@ -279,8 +364,18 @@ public class Editor
             Raylib.GetScreenHeight()
         );
 
+        _popup.UpdateLayout(
+            Raylib.GetScreenWidth(),
+            Raylib.GetScreenHeight()
+        );
+
         _toolbar.SetWidth(
             _layout.ToolbarWidth
+        );
+
+        _sceneCreationPopup.UpdateLayout(
+            Raylib.GetScreenWidth(),
+            Raylib.GetScreenHeight()
         );
 
         _displayManager.Update(
@@ -310,6 +405,15 @@ public class Editor
             height
         );
 
+        _popup.UpdateLayout(
+            width,
+            height
+        );
+
+        _sceneCreationPopup.UpdateLayout(
+            width,
+            height
+        );
 
         _toolbar.SetWidth(
             _layout.ToolbarWidth
@@ -349,6 +453,53 @@ public class Editor
     private void Update()
     {        
         UpdateDisplay();
+
+
+        /// PRUEBA
+        if(Raylib.IsKeyPressed(
+            KeyboardKey.P))
+        {
+            _popup.Open(
+                "Test Popup (aca iria el titulo)",
+                ""
+            );
+        }
+        // FIN PRUEBA
+
+        if(_popup.IsOpen)
+        {
+            PopupResult popupResult =
+                _popup.Update();
+            
+            if(popupResult == PopupResult.Confirmed)
+            {
+                Console.WriteLine(
+                    $"Popup confirmed: {_popup.Text}"
+                );
+            }
+
+            _input.EndFrame();
+
+            return;
+        }
+
+        if(_sceneCreationPopup.IsOpen)
+        {
+            PopupResult popupResult =
+                _sceneCreationPopup.Update();
+
+            if(popupResult == PopupResult.Confirmed)
+            {
+                CreateNewScene(
+                    _sceneCreationPopup.SceneId,
+                    _sceneCreationPopup.SceneName
+                );
+            }
+
+            _input.EndFrame();
+
+            return;
+        }
 
         _toolbar.SetDocumentState(
             _state.Project?.IsDirty ?? false
@@ -413,11 +564,6 @@ public class Editor
         {            
             _state.MarkCurrentDocumentDirty();            
         }
-
-        if(!_inspector.IsEditing)
-        {
-            
-        }
         
         ToolbarAction action = _toolbar.Update();        
 
@@ -444,11 +590,15 @@ public class Editor
                 }
 
                 break;
-            
+
+            case ToolbarAction.NewScene:
+                OpenNewScenePopup();
+                break;
+
             case ToolbarAction.SaveProject:
                 SaveProject();
                 break;
-        }        
+        }
     
         if(Raylib.IsKeyPressed(
             KeyboardKey.S))
@@ -528,6 +678,8 @@ public class Editor
         _toolbar.Draw();        
         _inspector.Draw();
         _contextMenu.Draw();
+        _popup.Draw();
+        _sceneCreationPopup.Draw();
 
         Raylib.EndDrawing();
     }

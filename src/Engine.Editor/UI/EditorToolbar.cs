@@ -12,6 +12,7 @@ public class EditorToolbar
     
     private readonly Rectangle _entityButton;
     private readonly Rectangle _fileButton;
+    private readonly Rectangle _sceneButton;
     private readonly Rectangle _backgroundButton;
     private readonly Rectangle _navigationButton;
     private readonly Rectangle _testButton;
@@ -21,15 +22,16 @@ public class EditorToolbar
         
     
     private bool _fileDropdownOpen;
+    private bool _sceneMenuOpen;
     private bool _backgroundDropdownOpen;
     private bool _entityDropdownOpen;    
     private bool _navigationDropdownOpen;
     private bool _testDropdownOpen;
 
-    private bool _sceneDropdownOpen;
-
-    private IReadOnlyCollection<string> _sceneIds =
-        Array.Empty<string>();
+    private bool _sceneSelectorOpen;    
+    
+    private IReadOnlyCollection<EditorSceneOption> _scenes =
+        Array.Empty<EditorSceneOption>();
 
     public string? RequestedSceneId { get; private set; }
 
@@ -48,50 +50,58 @@ public class EditorToolbar
             30
         );
 
-        _backgroundButton = new Rectangle(
+        _sceneButton = new Rectangle(
             80,
+            5,
+            80,
+            30
+        );
+
+        _backgroundButton = new Rectangle(
+            170,
             5,
             120,
             30
         );
 
         _entityButton = new Rectangle(
-            210,
+            300,
             5,
             80,
             30
         );
 
         _navigationButton = new Rectangle(
-            300,
+            390,
             5,
             120,
             30
         );
 
         _testButton = new Rectangle(
-            430,
+            520,
             5,
             70,
             30
         );
 
         _sceneField = new Rectangle(
-            570,
+            610,
             5,
             180,
             30
         );
         
         _fileDropdownOpen = false;
+        _sceneMenuOpen = false;
         _backgroundDropdownOpen = false;
         _entityDropdownOpen = false;
         _navigationDropdownOpen = false;
         _testDropdownOpen = false;
         
-        _sceneDropdownOpen = false;
+        _sceneSelectorOpen = false;        
         
-    }
+    }    
 
     public void SetWidth(
         int width)
@@ -106,9 +116,9 @@ public class EditorToolbar
     }
 
     public void SetScenes(
-        IReadOnlyCollection<string> sceneIds)
-    {
-        _sceneIds = sceneIds;
+        IReadOnlyCollection<EditorSceneOption> scenes)
+    {        
+        _scenes = scenes;
     }
 
     public void SetCurrentScene(
@@ -117,9 +127,23 @@ public class EditorToolbar
         RequestedSceneId = sceneId;
     }
 
+    private string GetCurrentSceneName()
+    {
+        if(RequestedSceneId == null)
+            return "Scene";
+
+        EditorSceneOption? scene =
+            _scenes.FirstOrDefault(
+                x => x.Id == RequestedSceneId
+            );
+
+        return scene?.Name ?? RequestedSceneId;
+    }
+
     private void CloseDropdowns()
     {
         _fileDropdownOpen = false;
+        _sceneMenuOpen = false;
         _backgroundDropdownOpen = false;
         _entityDropdownOpen = false;
         _navigationDropdownOpen = false;
@@ -190,6 +214,38 @@ public class EditorToolbar
                 Color.White
             );
         }
+    }
+
+    private void DrawSceneMenu()
+    {
+        Rectangle option = new Rectangle(
+            _sceneButton.X,
+            _sceneButton.Y +
+                _sceneButton.Height,
+            120,
+            30
+        );
+
+        Raylib.DrawRectangleRec(
+            option,
+            Color.DarkGray
+        );
+
+        Raylib.DrawRectangleLines(
+            (int)option.X,
+            (int)option.Y,
+            (int)option.Width,
+            (int)option.Height,
+            Color.White
+        );
+
+        Raylib.DrawText(
+            "New Scene",
+            (int)option.X + 8,
+            (int)option.Y + 6,
+            18,
+            Color.White
+        );
     }
 
     private void DrawEntityDropdown()
@@ -341,7 +397,7 @@ public class EditorToolbar
     {
         int index = 0;
 
-        foreach(string sceneId in _sceneIds)
+        foreach(EditorSceneOption scene in _scenes)
         {
             Rectangle option = new Rectangle(
                 _sceneField.X,
@@ -366,7 +422,7 @@ public class EditorToolbar
             );
 
             Raylib.DrawText(
-                sceneId,
+                scene.Name,
                 (int)option.X + 8,
                 (int)option.Y + 6,
                 18,
@@ -390,6 +446,11 @@ public class EditorToolbar
 
         Raylib.DrawRectangleRec(
             _fileButton,
+            Color.Gray
+        );
+
+        Raylib.DrawRectangleRec(
+            _sceneButton,
             Color.Gray
         );
 
@@ -422,7 +483,7 @@ public class EditorToolbar
         );
 
         Raylib.DrawText(
-            "Background",
+            "Scene",
             88,
             12,
             18,
@@ -430,15 +491,15 @@ public class EditorToolbar
         );
 
         Raylib.DrawText(
-            "Entity",
-            218,
+            "Background",
+            178,
             12,
             18,
             Color.White
         );
 
         Raylib.DrawText(
-            "Navigation",
+            "Entity",
             308,
             12,
             18,
@@ -446,8 +507,16 @@ public class EditorToolbar
         );
 
         Raylib.DrawText(
+            "Navigation",
+            398,
+            12,
+            18,
+            Color.White
+        );
+
+        Raylib.DrawText(
             "Test",
-            448,
+            528,
             12,
             18,
             Color.White
@@ -471,7 +540,7 @@ public class EditorToolbar
         );
 
         Raylib.DrawText(
-            RequestedSceneId ?? "Scene",
+            GetCurrentSceneName(),
             (int)_sceneField.X + 8,
             (int)_sceneField.Y + 6,
             18,
@@ -489,6 +558,11 @@ public class EditorToolbar
         if(_fileDropdownOpen)
         {
             DrawFileDropdown();
+        }
+
+        if(_sceneMenuOpen)
+        {
+            DrawSceneMenu();
         }
 
         if(_entityDropdownOpen)
@@ -511,7 +585,7 @@ public class EditorToolbar
             DrawTestDropdown();
         }
 
-        if(_sceneDropdownOpen)
+        if(_sceneSelectorOpen)
         {
             DrawSceneDropdown();
         }
@@ -561,6 +635,30 @@ public class EditorToolbar
             return ToolbarAction.None;
         }
 
+        if(pressed && _sceneMenuOpen)
+        {
+            Rectangle option = new Rectangle(
+                _sceneButton.X,
+                _sceneButton.Y +
+                    _sceneButton.Height,
+                120,
+                30
+            );
+
+            if(Raylib.CheckCollisionPointRec(
+                mouse,
+                option))
+            {
+                _sceneMenuOpen = false;
+
+                return ToolbarAction.NewScene;
+            }
+
+            _sceneMenuOpen = false;
+
+            return ToolbarAction.None;
+        }
+
         if(pressed && _entityDropdownOpen)
         {
             Rectangle selectOption =
@@ -605,11 +703,11 @@ public class EditorToolbar
         }
     
     
-        if(pressed && _sceneDropdownOpen)
+        if(pressed && _sceneSelectorOpen)
         {
             int index = 0;
 
-            foreach(string sceneId in _sceneIds)
+            foreach(EditorSceneOption scene in _scenes)
             {
                 Rectangle option = new Rectangle(
                     _sceneField.X,
@@ -624,9 +722,9 @@ public class EditorToolbar
                     mouse,
                     option))
                 {
-                    RequestedSceneId = sceneId;
+                    RequestedSceneId = scene.Id;
 
-                    _sceneDropdownOpen = false;
+                    _sceneSelectorOpen = false;
 
                     return ToolbarAction.Scene;
                 }
@@ -634,7 +732,7 @@ public class EditorToolbar
                 index++;
             }
 
-            _sceneDropdownOpen = false;
+            _sceneSelectorOpen = false;
 
             return ToolbarAction.None;
         }
@@ -656,7 +754,22 @@ public class EditorToolbar
 
             _fileDropdownOpen = !wasOpen;
 
-            _sceneDropdownOpen = false;
+            _sceneSelectorOpen = false;
+
+            return ToolbarAction.None;
+        }
+
+        if(Raylib.CheckCollisionPointRec(
+            mouse,
+            _sceneButton))
+        {
+            bool wasOpen = _sceneMenuOpen;
+
+            CloseDropdowns();
+
+            _sceneMenuOpen = !wasOpen;
+
+            _sceneSelectorOpen = false;
 
             return ToolbarAction.None;
         }
@@ -671,7 +784,7 @@ public class EditorToolbar
 
             _backgroundDropdownOpen = !wasOpen;
 
-            _sceneDropdownOpen = false;
+            _sceneSelectorOpen = false;
 
             return ToolbarAction.None;
         }
@@ -686,7 +799,7 @@ public class EditorToolbar
 
             _entityDropdownOpen = !wasOpen;
 
-            _sceneDropdownOpen = false;
+            _sceneSelectorOpen = false;
     
             return ToolbarAction.None;
         }
@@ -701,7 +814,7 @@ public class EditorToolbar
 
             _navigationDropdownOpen = !wasOpen;
 
-            _sceneDropdownOpen = false;
+            _sceneSelectorOpen = false;
 
             return ToolbarAction.None;
         }
@@ -716,7 +829,7 @@ public class EditorToolbar
 
             _testDropdownOpen = !wasOpen;
 
-            _sceneDropdownOpen = false;
+            _sceneSelectorOpen = false;
 
             return ToolbarAction.None;
         }
@@ -727,10 +840,11 @@ public class EditorToolbar
             mouse,
             _sceneField))
         {
-            _sceneDropdownOpen =
-                !_sceneDropdownOpen;
-            
-            _entityDropdownOpen = false;
+            bool wasOpen = _sceneSelectorOpen;
+
+            CloseDropdowns();
+
+            _sceneSelectorOpen = !wasOpen;            
 
             return ToolbarAction.None;
         }

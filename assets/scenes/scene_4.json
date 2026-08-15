@@ -1,0 +1,39 @@
+{
+  "id": "scene_4",
+  "name": "Scene 4",
+  "navigation": {
+    "vertices": [
+      {
+        "x": 0,
+        "y": 0
+      },
+      {
+        "x": 1280,
+        "y": 0
+      },
+      {
+        "x": 1280,
+        "y": 640
+      },
+      {
+        "x": 0,
+        "y": 640
+      }
+    ]
+  },
+  "background": {
+    "assetName": "test_room"
+  },
+  "entityCollection": {
+    "entities": []
+  },
+  "spawnPoints": [
+    {
+      "id": "Default",
+      "position": {
+        "x": 640,
+        "y": 320
+      }
+    }
+  ]
+}

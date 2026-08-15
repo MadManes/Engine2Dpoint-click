@@ -1,9 +1,14 @@
 {
-    "Id": "silver_forest",
-    "Name": "Silver Forest",
-    "Scenes": [
-        "test_room",
-        "wide_room"
-    ],
-    "StartupSceneId": "test_room"
+  "id": "silver_forest",
+  "name": "Silver Forest",
+  "scenes": [
+    "test_room",
+    "wide_room",
+    "forest",
+    "scene_4",
+    "scene_5",
+    "MyRoom",
+    "secret_garden"
+  ],
+  "startupSceneId": "test_room"
 }

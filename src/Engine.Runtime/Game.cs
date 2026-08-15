@@ -116,9 +116,20 @@ public class Game : IGameLoop
                 projectValidator
             );
 
+        ProjectLoader projectDataLoader =
+            new(
+                "assets/Project.sfp",
+                new ProjectSerializer()
+            );
+
+        ProjectData projectData =
+            projectDataLoader.Load();
 
         SceneProject project =
-            projectLoader.Load();
+            projectLoader.Load(
+                projectData.Scenes,
+                projectData.StartupSceneId
+            );
         
         SceneCatalog catalog = new(
             project.Scenes

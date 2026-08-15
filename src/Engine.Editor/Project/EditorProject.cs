@@ -1,5 +1,8 @@
+using Engine.Math;
 using Engine.Editor.Documents;
+using Engine.Editor.Creation;
 using Engine.Scene.Definitions;
+using Engine.Editor.UI;
 
 namespace Engine.Editor.Project;
 
@@ -7,7 +10,12 @@ public class EditorProject
 {
     private readonly Dictionary<string, SceneDocument> _documents;
 
+    private readonly EditorSceneFactory _sceneFactory;
+
+    public ProjectData Data { get; }
     public SceneProject Source { get; }
+
+    public bool IsProjectDirty { get; private set; }
 
     public IReadOnlyCollection<SceneDocument> Documents =>
         _documents.Values;
@@ -15,18 +23,37 @@ public class EditorProject
         _documents.Keys;
 
     public SceneDocument? CurrentDocument { get; private set; }
+
+    public IReadOnlyCollection<EditorSceneOption> SceneOptions
+    {
+        get
+        {
+            return _documents.Values
+                .Select(
+                    document => new EditorSceneOption(
+                        document.Scene.Id,
+                        document.Scene.Name
+                    )
+                )
+                .ToList();            
+        }
+    }
     
     public bool IsDirty =>
+        IsProjectDirty ||
         _documents.Values.Any(
             document => document.IsDirty
         );
 
     public EditorProject(
+        ProjectData data,
         SceneProject source)
     {
+        Data = data;
         Source = source;
 
         _documents = new Dictionary<string, SceneDocument>();
+        _sceneFactory = new EditorSceneFactory();
     }
 
 
@@ -68,6 +95,145 @@ public class EditorProject
         }
 
         return document;
+    }
+
+    public SceneDocument CreateScene(
+        string id,
+        string name)
+    {
+        if(string.IsNullOrWhiteSpace(id))
+            throw new ArgumentException(
+                "Scene id cannot be empty.",
+                nameof(id)
+            );
+
+        if(string.IsNullOrWhiteSpace(name))
+            throw new ArgumentException(
+                "Scene name cannot be empty.",
+                nameof(name)
+            );
+
+        if(_documents.ContainsKey(id))
+            throw new InvalidOperationException(
+                $"Scene '{id}' already exists."
+            );
+
+        if(Data.Scenes.Contains(id))
+            throw new InvalidOperationException(
+                $"Project already contains scene '{id}'."
+            );
+
+
+        SceneData scene =
+            _sceneFactory.Create(
+                id,
+                name
+            );
+
+
+        SceneDocument document =
+            new(
+                scene,
+                $"{id}.json",
+                true
+            );
+
+
+        AddDocument(
+            document
+        );
+
+        Data.Scenes.Add(
+            id
+        );
+
+        MarkProjectDirty();
+
+        return document;
+    }
+
+    public void RenameScene(
+        string sceneId,
+        string name)
+    {
+        if(!_documents.TryGetValue(
+            sceneId,
+            out SceneDocument? document))
+        {
+            throw new InvalidOperationException(
+                $"Scene '{sceneId}' does not exist in the editor project."
+            );
+        }
+
+        if(string.IsNullOrWhiteSpace(name))
+        {
+            throw new ArgumentException(
+                "Scene name cannot be empty.",
+                nameof(name)
+            );
+        }
+
+        document.SetName(
+            name
+        );
+    }
+
+    public void DeleteScene(
+        string sceneId)
+    {
+        if(!_documents.TryGetValue(
+            sceneId,
+            out SceneDocument? document))
+        {
+            throw new InvalidOperationException(
+                $"Scene '{sceneId}' does not exist in the editor project."
+            );
+        }
+    
+    
+        if(Data.Scenes.Count <= 1)
+        {
+            throw new InvalidOperationException(
+                "A project must contain at least one scene."
+            );
+        }
+    
+    
+        if(Data.StartupSceneId == sceneId)
+        {
+            throw new InvalidOperationException(
+                "Cannot delete the startup scene."
+            );
+        }
+    
+    
+        _documents.Remove(
+            sceneId
+        );
+    
+        Data.Scenes.Remove(
+            sceneId
+        );
+    
+    
+        if(CurrentDocument == document)
+        {
+            CurrentDocument = null;
+        }
+    
+    
+        MarkProjectDirty();
+    }
+
+
+    public void MarkProjectDirty()
+    {
+        IsProjectDirty = true;
+    }
+
+    public void SaveProjectCompleted()
+    {
+        IsProjectDirty = false;
     }
 
 }
