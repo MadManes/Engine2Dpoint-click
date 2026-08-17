@@ -221,7 +221,7 @@ public class EditorToolbar
         string[] options =
         {
             "New Scene",
-            "Delete Scene"
+            "Rename Scene"
         };
 
         for(int index = 0; index < options.Length; index++)
@@ -231,7 +231,7 @@ public class EditorToolbar
                 _sceneButton.Y +
                     _sceneButton.Height +
                     index * 30,
-                150,
+                140,
                 30
             );
 
@@ -651,39 +651,39 @@ public class EditorToolbar
                 _sceneButton.X,
                 _sceneButton.Y +
                     _sceneButton.Height,
-                150,
+                140,
                 30
             );
-
-            Rectangle deleteSceneOption = new Rectangle(
+        
+            Rectangle renameSceneOption = new Rectangle(
                 _sceneButton.X,
                 _sceneButton.Y +
                     _sceneButton.Height +
                     30,
-                150,
+                140,
                 30
             );
-
+        
             if(Raylib.CheckCollisionPointRec(
                 mouse,
                 newSceneOption))
             {
                 _sceneMenuOpen = false;
-
+        
                 return ToolbarAction.NewScene;
             }
-
+        
             if(Raylib.CheckCollisionPointRec(
                 mouse,
-                deleteSceneOption))
+                renameSceneOption))
             {
                 _sceneMenuOpen = false;
-
-                return ToolbarAction.DeleteScene;
+        
+                return ToolbarAction.RenameScene;
             }
-
+        
             _sceneMenuOpen = false;
-
+        
             return ToolbarAction.None;
         }
 

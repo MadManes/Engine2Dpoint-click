@@ -215,63 +215,86 @@ public class Editor
         return;
     }
 
+    private void RenameCurrentScene(
+        string name)
+    {
+        if(_state.Project == null)
+            return;
+
+        if(_state.CurrentDocument == null)
+            return;
+
+        _state.Project.RenameScene(
+            _state.CurrentDocument.Scene.Id,
+            name
+        );
+
+        _toolbar.SetScenes(
+            _state.Project.SceneOptions
+        );
+
+        _toolbar.SetCurrentScene(
+            _state.CurrentDocument.Scene.Id
+        );
+    }
+
     private void DeleteCurrentScene()
     {
         if(_state.Project == null)
             return;
-    
+
         if(_state.CurrentDocument == null)
             return;
-    
+
         string sceneId =
             _state.CurrentDocument.Scene.Id;
-    
+
         string? previousSceneId =
             _previousSceneId;
-    
+
         _state.Project.DeleteScene(
             sceneId
         );
-    
+
         _toolbar.SetScenes(
             _state.Project.SceneOptions
         );
-    
+
         if(previousSceneId != null &&
            _state.Project.SceneIds.Contains(previousSceneId))
         {
             _state.OpenScene(
                 previousSceneId
             );
-    
+
             ResetSceneView();
-    
+
             LoadCurrentSceneAssets();
-    
+
             _toolbar.SetCurrentScene(
                 previousSceneId
             );
-    
+
             _previousSceneId = null;
-    
+
             return;
         }
-    
+
         string fallbackSceneId =
             _state.Project.SceneIds.First();
-    
+
         _state.OpenScene(
             fallbackSceneId
         );
-    
+
         ResetSceneView();
-    
+
         LoadCurrentSceneAssets();
-    
+
         _toolbar.SetCurrentScene(
             fallbackSceneId
         );
-    
+
         _previousSceneId = null;
     }
 
@@ -296,18 +319,21 @@ public class Editor
         if(result != PopupResult.Confirmed)
             return;
     
-        string sceneId =
-            _sceneCreationPopup.SceneId;
-    
-        string sceneName =
-            _sceneCreationPopup.SceneName;
-    
         try
         {
-            CreateNewScene(
-                sceneId,
-                sceneName
-            );
+            if(_sceneCreationPopup.Mode == ScenePopupMode.Create)
+            {
+                CreateNewScene(
+                    _sceneCreationPopup.SceneId,
+                    _sceneCreationPopup.SceneName
+                );
+            }
+            else if(_sceneCreationPopup.Mode == ScenePopupMode.Rename)
+            {
+                RenameCurrentScene(
+                    _sceneCreationPopup.SceneName
+                );
+            }
     
             _sceneCreationPopup.Close();
         }
@@ -667,6 +693,16 @@ public class Editor
 
             case ToolbarAction.NewScene:
                 OpenNewScenePopup();
+                break;
+
+            case ToolbarAction.RenameScene:
+                if(_state.CurrentDocument != null)
+                {
+                    _sceneCreationPopup.OpenForRename(
+                        _state.CurrentDocument.Scene.Name
+                    );
+                }
+
                 break;
 
             case ToolbarAction.DeleteScene:

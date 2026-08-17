@@ -8,6 +8,7 @@ public enum ToolbarAction
     Create,
     Scene,
     NewScene,
+    RenameScene,
     DeleteScene,
     SaveProject
 }

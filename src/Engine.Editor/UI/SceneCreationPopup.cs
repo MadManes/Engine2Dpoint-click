@@ -2,8 +2,16 @@ using Raylib_cs;
 
 namespace Engine.Editor.UI;
 
+public enum ScenePopupMode
+{
+    Create,
+    Rename
+}
+
 public class SceneCreationPopup
 {
+    private ScenePopupMode _mode;
+
     private bool _isOpen;
 
     private int _screenWidth;
@@ -19,12 +27,16 @@ public class SceneCreationPopup
 
     private string _sceneId;
     private string _sceneName;
+    private string _title;
 
     private bool _idFocused;
     private bool _nameFocused;
 
     private string _errorMessage;
 
+    public ScenePopupMode Mode =>
+        _mode;
+        
     public bool IsOpen =>
         _isOpen;
 
@@ -36,8 +48,12 @@ public class SceneCreationPopup
 
     public SceneCreationPopup()
     {
+        _mode = ScenePopupMode.Create;
+
         _sceneId = "";
         _sceneName = "";
+
+        _title = "";
 
         _errorMessage = "";
 
@@ -103,10 +119,32 @@ public class SceneCreationPopup
         _sceneId = sceneId;
         _sceneName = sceneName;
 
+        _title = "New Scene";
+
         _errorMessage = "";
 
         _idFocused = true;
         _nameFocused = false;
+
+        _mode = ScenePopupMode.Create;
+
+        _isOpen = true;
+    }
+
+    public void OpenForRename(
+        string sceneName)
+    {
+        _sceneId = "";
+        _sceneName = sceneName;
+
+        _title = "Rename Scene";
+
+        _errorMessage = "";
+
+        _idFocused = false;
+        _nameFocused = true;
+
+        _mode = ScenePopupMode.Rename;
 
         _isOpen = true;
     }
@@ -140,7 +178,8 @@ public class SceneCreationPopup
         if(Raylib.IsMouseButtonPressed(
             MouseButton.Left))
         {
-            if(Raylib.CheckCollisionPointRec(
+            if(_mode == ScenePopupMode.Create &&
+                Raylib.CheckCollisionPointRec(
                 mouse,
                 _idField))
             {
@@ -250,18 +289,21 @@ public class SceneCreationPopup
         );
 
         Raylib.DrawText(
-            "New Scene",
+            _title,
             (int)_window.X + 30,
             (int)_window.Y + 20,
             24,
             Color.White
         );
 
-        DrawField(
-            _idField,
-            "Scene ID",
-            _sceneId
-        );
+        if(_mode == ScenePopupMode.Create)
+        {
+            DrawField(
+                _idField,
+                "Scene ID",
+                _sceneId
+            );
+        }
 
         DrawField(
             _nameField,
@@ -287,7 +329,9 @@ public class SceneCreationPopup
 
         DrawButton(
             _confirmButton,
-            "Create"
+            _mode == ScenePopupMode.Create
+                ? "Create"
+                : "Rename"
         );
     }
 
