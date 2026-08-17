@@ -1,6 +1,6 @@
 {
   "id": "scene_5",
-  "name": "Scene 5",
+  "name": "New Scene prueba",
   "navigation": {
     "vertices": [
       {
@@ -25,21 +25,7 @@
     "assetName": ""
   },
   "entityCollection": {
-    "entities": [
-      {
-        "id": "71e6ec09-3fbe-42e0-8434-9ad02172781d",
-        "name": "Entity",
-        "position": {
-          "x": 548,
-          "y": 217
-        },
-        "sprite": {
-          "assetName": ""
-        },
-        "type": "Generic",
-        "isInteractable": false
-      }
-    ]
+    "entities": []
   },
   "spawnPoints": [
     {

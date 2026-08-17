@@ -1,0 +1,105 @@
+{
+  "id": "scene_6",
+  "name": "Lalalal",
+  "navigation": {
+    "vertices": [
+      {
+        "x": 0,
+        "y": 0
+      },
+      {
+        "x": 1280,
+        "y": 0
+      },
+      {
+        "x": 1280,
+        "y": 640
+      },
+      {
+        "x": 0,
+        "y": 640
+      }
+    ]
+  },
+  "background": {
+    "assetName": ""
+  },
+  "entityCollection": {
+    "entities": [
+      {
+        "id": "0898957f-a323-44cf-93f3-eb31a31f2dce",
+        "name": "Entity",
+        "position": {
+          "x": 222,
+          "y": 280
+        },
+        "sprite": {
+          "assetName": ""
+        },
+        "type": "Generic",
+        "isInteractable": false
+      },
+      {
+        "id": "a085bedc-4b00-48fb-8a39-0cfc5aba7c65",
+        "name": "Entity",
+        "position": {
+          "x": 223,
+          "y": 318
+        },
+        "sprite": {
+          "assetName": ""
+        },
+        "type": "Generic",
+        "isInteractable": false
+      },
+      {
+        "id": "613c234f-e7c7-4eb3-9812-04e8a9556d37",
+        "name": "Entity",
+        "position": {
+          "x": 223,
+          "y": 250
+        },
+        "sprite": {
+          "assetName": ""
+        },
+        "type": "Generic",
+        "isInteractable": false
+      },
+      {
+        "id": "6b6a4588-35c5-4646-a044-55101cb7e94c",
+        "name": "Entity",
+        "position": {
+          "x": 218,
+          "y": 388
+        },
+        "sprite": {
+          "assetName": ""
+        },
+        "type": "Generic",
+        "isInteractable": false
+      },
+      {
+        "id": "34169c26-7448-4ea7-b177-d1772a9f4007",
+        "name": "Entity",
+        "position": {
+          "x": 222,
+          "y": 359
+        },
+        "sprite": {
+          "assetName": ""
+        },
+        "type": "Generic",
+        "isInteractable": false
+      }
+    ]
+  },
+  "spawnPoints": [
+    {
+      "id": "Default",
+      "position": {
+        "x": 640,
+        "y": 320
+      }
+    }
+  ]
+}

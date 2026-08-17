@@ -5,31 +5,34 @@ namespace Engine.Editor.Loading;
 
 public class EditorProjectSaver
 {
-    private readonly EditorSceneSaver _sceneSaver;
     private readonly EditorProjectFileSaver _projectFileSaver;
 
 
     public EditorProjectSaver(
-        EditorSceneSaver sceneSaver,
         EditorProjectFileSaver projectFileSaver)
     {
-        _sceneSaver = sceneSaver;
         _projectFileSaver = projectFileSaver;
     }
-    
+
 
     public bool Save(
         EditorProject project)
     {
         try
         {
+            EditorSceneSaver sceneSaver =
+                new(
+                    project.SceneDirectory
+                );
+
+
             foreach(var document in project.Documents)
             {
                 if(!document.IsDirty)
                     continue;
 
                 ValidationResult result =
-                    _sceneSaver.Validate(
+                    sceneSaver.Validate(
                         document
                     );
 
@@ -47,7 +50,7 @@ public class EditorProjectSaver
                 if(!document.IsDirty)
                     continue;
 
-                _sceneSaver.Save(
+                sceneSaver.Save(
                     document
                 );
 
@@ -57,10 +60,18 @@ public class EditorProjectSaver
 
             if(project.IsProjectDirty)
             {
+                if(project.FilePath == null)
+                {
+                    throw new InvalidOperationException(
+                        "Cannot save project without a file path."
+                    );
+                }
+            
                 _projectFileSaver.Save(
-                    project.Data
+                    project.Data,
+                    project.FilePath
                 );
-
+            
                 project.SaveProjectCompleted();
             }
 

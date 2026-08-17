@@ -5,7 +5,9 @@
     "test_room",
     "wide_room",
     "forest",
-    "secret_garden"
+    "secret_garden",
+    "scene_5",
+    "scene_6"
   ],
   "startupSceneId": "test_room"
 }

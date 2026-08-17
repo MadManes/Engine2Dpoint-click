@@ -5,20 +5,18 @@ namespace Engine.Editor.Loading;
 
 public class EditorProjectFileSaver
 {
-    private readonly string _filePath;
     private readonly ProjectSerializer _serializer;
 
 
-    public EditorProjectFileSaver(
-        string filePath)
+    public EditorProjectFileSaver()
     {
-        _filePath = filePath;
         _serializer = new ProjectSerializer();
     }
 
 
     public void Save(
-        ProjectData data)
+        ProjectData data,
+        string filePath)
     {
         string json =
             _serializer.Serialize(
@@ -26,7 +24,7 @@ public class EditorProjectFileSaver
             );
 
         File.WriteAllText(
-            _filePath,
+            filePath,
             json
         );
     }

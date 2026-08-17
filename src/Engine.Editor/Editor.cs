@@ -30,6 +30,7 @@ public class Editor
     private readonly EditorViewport _viewport;
     private readonly EditorLayout _layout;
     private readonly EditorState _state;
+    private readonly EditorProjectFactory _projectFactory;
     private readonly EditorProjectSaver _projectSaver;
     private readonly EditorRenderer _renderer;
     private readonly EditorCamera _camera;
@@ -79,18 +80,14 @@ public class Editor
         
         _assetManager = new AssetManager("assets");
 
-        EditorSceneSaver sceneSaver =
-            new EditorSceneSaver(
-                "assets/scenes"
-            );
+        _projectFactory =
+            new EditorProjectFactory();
+
         EditorProjectFileSaver projectFileSaver =
-            new EditorProjectFileSaver(
-                "assets/Project.sfp"
-            );
+            new EditorProjectFileSaver();
 
         _projectSaver =
-            new EditorProjectSaver(
-                sceneSaver,
+            new EditorProjectSaver(                
                 projectFileSaver
             );
 
@@ -136,10 +133,17 @@ public class Editor
         _confirmationDeletesScene = false;
 
         
-    }
+    }    
 
     private void LoadCurrentSceneAssets()
     {
+        if(_state.CurrentDocument == null)
+        {
+            _state.ClearAssets();
+
+            return;
+        }
+
         EditorAssetLoader assetLoader =
             new(
                 _assetManager,
@@ -148,7 +152,7 @@ public class Editor
 
         _state.SetAssets(
             assetLoader.Load(
-                _state.CurrentDocument!
+                _state.CurrentDocument
             )
         );
 
@@ -309,16 +313,16 @@ public class Editor
     {
         if(!_sceneCreationPopup.IsOpen)
             return;
-    
+
         PopupResult result =
             _sceneCreationPopup.Update();
-    
+
         if(result == PopupResult.Cancelled)
             return;
-    
+
         if(result != PopupResult.Confirmed)
             return;
-    
+
         try
         {
             if(_sceneCreationPopup.Mode == ScenePopupMode.Create)
@@ -334,7 +338,7 @@ public class Editor
                     _sceneCreationPopup.SceneName
                 );
             }
-    
+
             _sceneCreationPopup.Close();
         }
         catch(Exception exception)
@@ -346,76 +350,111 @@ public class Editor
     }
 
 
+    //private void InitializeContent()
+    //{
+    //    string projectFilePath =
+    //        "assets/Project.sfp";
+//
+    //    ProjectLoader projectLoader =
+    //        new(
+    //            projectFilePath,
+    //            new ProjectSerializer()
+    //        );
+//
+    //    ProjectData projectData =
+    //        projectLoader.Load();        
+    //    
+    //    EditorProjectLoader loader =
+    //        new(
+    //            Path.Combine(
+    //                Path.GetDirectoryName(projectFilePath)!,
+    //                "scenes"
+    //            )
+    //        );
+//
+    //    SceneProject project =
+    //        loader.Load(
+    //            projectData
+    //        );
+//
+    //    EditorProject editorProject =
+    //        new(
+    //            projectData,
+    //            project,
+    //            projectFilePath
+    //        );
+    //    
+    //    
+    //    
+    //    
+    //    foreach(SceneData scene in project.Scenes)
+    //    {
+    //        SceneDocument document =
+    //            new(
+    //                scene,
+    //                $"{scene.Id}.json",
+    //                false
+    //            );
+    //            editorProject.AddDocument(
+    //                document
+    //            );
+    //    }
+//
+    //    editorProject.OpenDocument(
+    //        editorProject.Data.StartupSceneId
+    //    );        
+    //    
+//
+    //    _state.OpenProject(
+    //        editorProject
+    //    );
+//
+    //    _inspector.SetProject(
+    //        editorProject
+    //    );
+//
+    //    _toolbar.SetScenes(
+    //        editorProject.SceneOptions
+    //    );
+//
+    //    _toolbar.SetCurrentScene(
+    //        editorProject.CurrentDocument!.Scene.Id
+    //    );
+//
+    //    LoadCurrentSceneAssets();
+//
+    //    _context = new EditorContext(
+    //        _state,
+    //        _input,
+    //        _viewport            
+    //    );
+    //    
+    //}
+
     private void InitializeContent()
     {
-        ProjectLoader projectLoader =
-            new(
-                "assets/Project.sfp",
-                new ProjectSerializer()
-            );
-
-        ProjectData projectData =
-            projectLoader.Load();
-        
-        EditorProjectLoader loader = new(
-            "assets/scenes"
-        );
-
-        SceneProject project =
-            loader.Load(
-                projectData
-            );
-
         EditorProject editorProject =
-            new(
-                projectData,
-                project
-            );
-        
-        
-        
-        foreach(SceneData scene in project.Scenes)
-        {
-            SceneDocument document =
-                new(
-                    scene,
-                    $"{scene.Id}.json",
-                    false
-                );
-                editorProject.AddDocument(
-                    document
-                );
-        }
-
-        editorProject.OpenDocument(
-            editorProject.Data.StartupSceneId
-        );        
-        
-
+            _projectFactory.CreateEmpty();
+    
         _state.OpenProject(
             editorProject
         );
-
+    
         _inspector.SetProject(
             editorProject
         );
-
+    
         _toolbar.SetScenes(
             editorProject.SceneOptions
         );
-
-        _toolbar.SetCurrentScene(
-            editorProject.CurrentDocument!.Scene.Id
-        );
-
+    
         LoadCurrentSceneAssets();
-
+    
         _context = new EditorContext(
             _state,
             _input,
-            _viewport            
+            _viewport
         );
-        
     }
 
     private void OpenNewScenePopup()

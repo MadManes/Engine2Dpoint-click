@@ -56,6 +56,11 @@ public class EditorState
         Assets = assets;
     }
 
+    public void ClearAssets()
+    {
+        Assets = null;
+    }
+
     public void MarkCurrentDocumentDirty()
     {
         if(CurrentDocument == null)

@@ -22,10 +22,19 @@ public class EditorAssetLoader
     public EditorAssets Load(
         SceneDocument document)
     {
-        Texture2D background =
-            _assetManager.LoadBackground(
-                document.Scene.Background.AssetName + ".png"
-            );
+        Texture2D background = default;
+
+        string backgroundAssetName =
+            document.Scene.Background.AssetName;
+        
+        if(!string.IsNullOrWhiteSpace(
+            backgroundAssetName))
+        {
+            background =
+                _assetManager.LoadBackground(
+                    backgroundAssetName + ".png"
+                );
+        }
 
 
         Dictionary<string, Texture2D> sprites =

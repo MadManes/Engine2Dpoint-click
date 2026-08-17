@@ -15,6 +15,26 @@ public class EditorProject
     public ProjectData Data { get; }
     public SceneProject Source { get; }
 
+    public string? FilePath { get; private set; }
+
+    public string ProjectDirectory =>
+        FilePath == null
+            ? throw new InvalidOperationException(
+                "Project does not have a file path."
+            )
+            : Path.GetDirectoryName(FilePath)
+                ?? throw new InvalidOperationException(
+                    "Project file path is invalid."
+                );
+    
+    public string SceneDirectory =>
+        Path.Combine(
+            ProjectDirectory,
+            "scenes"
+        );
+
+    //public string? FilePath { get; private set; }
+
     public bool IsProjectDirty { get; private set; }
 
     public IReadOnlyCollection<SceneDocument> Documents =>
@@ -47,15 +67,29 @@ public class EditorProject
 
     public EditorProject(
         ProjectData data,
-        SceneProject source)
+        SceneProject source,
+        string? filePath = null)
     {
         Data = data;
         Source = source;
+        FilePath = filePath;
 
         _documents = new Dictionary<string, SceneDocument>();
         _sceneFactory = new EditorSceneFactory();
     }
 
+
+    public void SetFilePath(
+        string filePath)
+    {
+        if(string.IsNullOrWhiteSpace(filePath))
+            throw new ArgumentException(
+                "Project file path cannot be empty.",
+                nameof(filePath)
+            );
+
+        FilePath = filePath;
+    }
 
     public void AddDocument(
         SceneDocument document)
