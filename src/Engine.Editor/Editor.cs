@@ -42,9 +42,12 @@ public class Editor
     private readonly ToolManager _toolManager;
     private readonly EditorToolbar _toolbar;
     private readonly EditorContextMenu _contextMenu;
-    private readonly EditorPopupManager _popupManager;
-    private readonly EditorPopup _popup;
+    
+    
     private readonly SceneCreationPopup _sceneCreationPopup;
+    private string? _previousSceneId;
+    private bool _confirmationDeletesScene;
+    private readonly ConfirmationPopup _confirmationPopup;
 
     private readonly EditorEntityPicker _entityPicker;
 
@@ -122,12 +125,15 @@ public class Editor
         _toolbar = new EditorToolbar();
 
         _contextMenu = new EditorContextMenu();
-
-        _popupManager = new EditorPopupManager();
-        _popup = new EditorPopup();
+        
 
         _sceneCreationPopup = 
             new SceneCreationPopup();
+
+        _confirmationPopup =
+            new ConfirmationPopup();
+
+        _confirmationDeletesScene = false;
 
         
     }
@@ -154,9 +160,19 @@ public class Editor
     private void OpenScene(
         string sceneId)
     {
+        string? currentSceneId =
+            _state.CurrentDocument?.Scene.Id;
+
         _state.OpenScene(
             sceneId
         );
+
+        if(currentSceneId != null &&
+           currentSceneId != sceneId)
+        {
+            _previousSceneId =
+                currentSceneId;
+        }
 
         ResetSceneView();
 
@@ -167,40 +183,12 @@ public class Editor
         );
     }
 
-    private bool CreateNewScene(
+    private void CreateNewScene(
         string id,
-        string name
-    )
+        string name)
     {
         if(_state.Project == null)
-            return false;
-
-        if(string.IsNullOrWhiteSpace(id))
-        {
-            _sceneCreationPopup.SetError(
-                "Scene ID cannot be empty."
-            );
-
-            return false;
-        }
-        
-        if(string.IsNullOrWhiteSpace(name))
-        {
-            _sceneCreationPopup.SetError(
-                "Scene name cannot empty."
-            );
-
-            return false;
-        }
-
-        if(_state.Project.SceneIds.Contains(id))
-        {
-            _sceneCreationPopup.SetError(
-                $"Scene ID '{id}' already exists."
-            );
-
-            return false;
-        }
+            return;
 
         SceneDocument document =
             _state.Project.CreateScene(
@@ -224,9 +212,67 @@ public class Editor
             document.Scene.Id
         );
 
-        _sceneCreationPopup.Close();
+        return;
+    }
 
-        return true;
+    private void DeleteCurrentScene()
+    {
+        if(_state.Project == null)
+            return;
+    
+        if(_state.CurrentDocument == null)
+            return;
+    
+        string sceneId =
+            _state.CurrentDocument.Scene.Id;
+    
+        string? previousSceneId =
+            _previousSceneId;
+    
+        _state.Project.DeleteScene(
+            sceneId
+        );
+    
+        _toolbar.SetScenes(
+            _state.Project.SceneOptions
+        );
+    
+        if(previousSceneId != null &&
+           _state.Project.SceneIds.Contains(previousSceneId))
+        {
+            _state.OpenScene(
+                previousSceneId
+            );
+    
+            ResetSceneView();
+    
+            LoadCurrentSceneAssets();
+    
+            _toolbar.SetCurrentScene(
+                previousSceneId
+            );
+    
+            _previousSceneId = null;
+    
+            return;
+        }
+    
+        string fallbackSceneId =
+            _state.Project.SceneIds.First();
+    
+        _state.OpenScene(
+            fallbackSceneId
+        );
+    
+        ResetSceneView();
+    
+        LoadCurrentSceneAssets();
+    
+        _toolbar.SetCurrentScene(
+            fallbackSceneId
+        );
+    
+        _previousSceneId = null;
     }
 
     private void ResetSceneView()
@@ -234,6 +280,45 @@ public class Editor
         _contextMenu.Close();
         _inspector.Close();
     }
+
+
+    private void ProcessSceneCreationPopup()
+    {
+        if(!_sceneCreationPopup.IsOpen)
+            return;
+    
+        PopupResult result =
+            _sceneCreationPopup.Update();
+    
+        if(result == PopupResult.Cancelled)
+            return;
+    
+        if(result != PopupResult.Confirmed)
+            return;
+    
+        string sceneId =
+            _sceneCreationPopup.SceneId;
+    
+        string sceneName =
+            _sceneCreationPopup.SceneName;
+    
+        try
+        {
+            CreateNewScene(
+                sceneId,
+                sceneName
+            );
+    
+            _sceneCreationPopup.Close();
+        }
+        catch(Exception exception)
+        {
+            _sceneCreationPopup.SetError(
+                exception.Message
+            );
+        }
+    }
+
 
     private void InitializeContent()
     {
@@ -364,16 +449,15 @@ public class Editor
             Raylib.GetScreenHeight()
         );
 
-        _popup.UpdateLayout(
-            Raylib.GetScreenWidth(),
-            Raylib.GetScreenHeight()
-        );
-
         _toolbar.SetWidth(
             _layout.ToolbarWidth
         );
 
         _sceneCreationPopup.UpdateLayout(
+            Raylib.GetScreenWidth(),
+            Raylib.GetScreenHeight()
+        );
+        _confirmationPopup.UpdateLayout(
             Raylib.GetScreenWidth(),
             Raylib.GetScreenHeight()
         );
@@ -405,12 +489,11 @@ public class Editor
             height
         );
 
-        _popup.UpdateLayout(
+        _sceneCreationPopup.UpdateLayout(
             width,
             height
         );
-
-        _sceneCreationPopup.UpdateLayout(
+        _confirmationPopup.UpdateLayout(
             width,
             height
         );
@@ -454,52 +537,43 @@ public class Editor
     {        
         UpdateDisplay();
 
-
-        /// PRUEBA
-        if(Raylib.IsKeyPressed(
-            KeyboardKey.P))
-        {
-            _popup.Open(
-                "Test Popup (aca iria el titulo)",
-                ""
-            );
-        }
-        // FIN PRUEBA
-
-        if(_popup.IsOpen)
-        {
-            PopupResult popupResult =
-                _popup.Update();
-            
-            if(popupResult == PopupResult.Confirmed)
-            {
-                Console.WriteLine(
-                    $"Popup confirmed: {_popup.Text}"
-                );
-            }
-
-            _input.EndFrame();
-
-            return;
-        }
-
         if(_sceneCreationPopup.IsOpen)
         {
-            PopupResult popupResult =
-                _sceneCreationPopup.Update();
+            ProcessSceneCreationPopup();
 
-            if(popupResult == PopupResult.Confirmed)
+            _input.EndFrame();
+
+            return;
+        }
+        
+        if(_confirmationPopup.IsOpen)
+        {
+            PopupResult result =
+                _confirmationPopup.Update();
+
+            if(result == PopupResult.Confirmed)
             {
-                CreateNewScene(
-                    _sceneCreationPopup.SceneId,
-                    _sceneCreationPopup.SceneName
-                );
+                if(_confirmationDeletesScene)
+                {
+                    _confirmationDeletesScene = false;
+                    try
+                    {
+                        DeleteCurrentScene();
+                    }
+                    catch(Exception exception)
+                    {
+                        Console.WriteLine(
+                            $"Error deleting scene: {exception.Message}"
+                        );
+                    }
+                }
             }
 
             _input.EndFrame();
 
             return;
         }
+
 
         _toolbar.SetDocumentState(
             _state.Project?.IsDirty ?? false
@@ -595,6 +669,19 @@ public class Editor
                 OpenNewScenePopup();
                 break;
 
+            case ToolbarAction.DeleteScene:
+                if(_state.CurrentDocument != null)
+                {
+                    _confirmationDeletesScene = true;
+
+                    _confirmationPopup.Open(
+                        "Delete Scene",
+                        $"Delete scene '{_state.CurrentDocument.Scene.Name}'?"
+                    );
+                }
+
+                break;
+
             case ToolbarAction.SaveProject:
                 SaveProject();
                 break;
@@ -678,8 +765,9 @@ public class Editor
         _toolbar.Draw();        
         _inspector.Draw();
         _contextMenu.Draw();
-        _popup.Draw();
+        
         _sceneCreationPopup.Draw();
+        _confirmationPopup.Draw();
 
         Raylib.EndDrawing();
     }

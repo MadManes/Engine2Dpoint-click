@@ -218,34 +218,44 @@ public class EditorToolbar
 
     private void DrawSceneMenu()
     {
-        Rectangle option = new Rectangle(
-            _sceneButton.X,
-            _sceneButton.Y +
-                _sceneButton.Height,
-            120,
-            30
-        );
-
-        Raylib.DrawRectangleRec(
-            option,
-            Color.DarkGray
-        );
-
-        Raylib.DrawRectangleLines(
-            (int)option.X,
-            (int)option.Y,
-            (int)option.Width,
-            (int)option.Height,
-            Color.White
-        );
-
-        Raylib.DrawText(
+        string[] options =
+        {
             "New Scene",
-            (int)option.X + 8,
-            (int)option.Y + 6,
-            18,
-            Color.White
-        );
+            "Delete Scene"
+        };
+
+        for(int index = 0; index < options.Length; index++)
+        {
+            Rectangle option = new Rectangle(
+                _sceneButton.X,
+                _sceneButton.Y +
+                    _sceneButton.Height +
+                    index * 30,
+                150,
+                30
+            );
+
+            Raylib.DrawRectangleRec(
+                option,
+                Color.DarkGray
+            );
+
+            Raylib.DrawRectangleLines(
+                (int)option.X,
+                (int)option.Y,
+                (int)option.Width,
+                (int)option.Height,
+                Color.White
+            );
+
+            Raylib.DrawText(
+                options[index],
+                (int)option.X + 8,
+                (int)option.Y + 6,
+                18,
+                Color.White
+            );
+        }
     }
 
     private void DrawEntityDropdown()
@@ -637,21 +647,39 @@ public class EditorToolbar
 
         if(pressed && _sceneMenuOpen)
         {
-            Rectangle option = new Rectangle(
+            Rectangle newSceneOption = new Rectangle(
                 _sceneButton.X,
                 _sceneButton.Y +
                     _sceneButton.Height,
-                120,
+                150,
+                30
+            );
+
+            Rectangle deleteSceneOption = new Rectangle(
+                _sceneButton.X,
+                _sceneButton.Y +
+                    _sceneButton.Height +
+                    30,
+                150,
                 30
             );
 
             if(Raylib.CheckCollisionPointRec(
                 mouse,
-                option))
+                newSceneOption))
             {
                 _sceneMenuOpen = false;
 
                 return ToolbarAction.NewScene;
+            }
+
+            if(Raylib.CheckCollisionPointRec(
+                mouse,
+                deleteSceneOption))
+            {
+                _sceneMenuOpen = false;
+
+                return ToolbarAction.DeleteScene;
             }
 
             _sceneMenuOpen = false;
